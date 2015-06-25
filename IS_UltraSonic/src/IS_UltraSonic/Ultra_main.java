@@ -30,24 +30,24 @@ public class Ultra_main extends JFrame
 	}
 	Ultra_main()
 	{
-		    setSize(800,640);
-		    setTitle("Inter_Haptics_GSOC");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    private void configure() 
+	   setSize(800,640);
+	   setTitle("Inter_Haptics_GSOC");
+           setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
+        private void configure() 
 	{
-    	tabs=new JTabbedPane();
-    	virtual=new Ultra_virtual();
-    	d1=new JDesktopPane();
-    	d2=new JDesktopPane();
-    	real=new Ultra_real(virtual);
-    	d1.add(virtual);
-    	d2.add(real);
-    	tabs.add("Virtual",d1);
-    	tabs.add("Real",d2);
-		add(tabs);
-		setVisible(true);
-    }
+    	   tabs=new JTabbedPane();
+    	   virtual=new Ultra_virtual();
+    	   d1=new JDesktopPane();
+    	   d2=new JDesktopPane();
+    	   real=new Ultra_real(virtual);
+    	   d1.add(virtual);
+    	   d2.add(real);
+    	   tabs.add("Virtual",d1);
+    	   tabs.add("Real",d2);
+	   add(tabs);
+	   setVisible(true);
+	}
 }
 class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager
 {
@@ -71,11 +71,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static double l,va=22/7,vh=-38,vds,vhds,vs=0,vc=-1;
 	static PixelGrabber p;
 	static boolean dr,dc,ds,set=true,check=false;
-	/* static data to arduino ,code still buggy
+	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
 	}
-	public sttaic native blink(String h);
+	public static native blink(String h);
 	*/
     Ultra_virtual()
     {
@@ -140,9 +140,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		buf1  = new float[gxy];
 		buf2 = new float[gxy];
 		damp = new float[gxy];
-
 		surface = new int[gxy];
-        l=0;
+        	l=0;
 		int i, j;
 		for (i = 0; i<gxy; i++)
 		{
@@ -213,16 +212,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	public void setResolution() 
 	{
 		ww = wh =Resolution.getValue();
-	    wox = woy =(ww/9)<20?20:(ww/9);
+	    	wox = woy =(ww/9)<20?20:(ww/9);
 		gx = ww + wox*2;
 		gy = wh + woy*2;
 	}
-    public void setResolution(int x)
-    {
-    	Resolution.setValue(x);
-    	setResolution();
-    	settings();
-    }
+    	public void setResolution(int x)
+    	{
+	    	Resolution.setValue(x);
+	    	setResolution();
+	    	settings();
+    	}
 	public void actionPerformed(ActionEvent arg0) 
 	{
 		
@@ -298,7 +297,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			text.append("Position = "+loc.get(j).x+"  "+loc.get(j).y+" is ="+phase_del.get(j)+"\n");
 			check=true;
 		}
-		/*for(int i=0;i<transmitters;i++)   for transmitting data to arduino ,still buggy
+		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
 			String h="";
 			h=h+phase_del.get(i)+","+loc.get(i).x;
@@ -369,16 +368,17 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		
 	}
 
-    public void mousePressed(MouseEvent arg0) 
+    	public void mousePressed(MouseEvent arg0) 
 	{
 		
-    }
+    	}
 
 	public void mouseReleased(MouseEvent arg0) 
-    {
+    	{
 	
 	}
-	public void addLayoutComponent(String arg0, Component arg1) {
+	public void addLayoutComponent(String arg0, Component arg1) 
+	{
 		
 		
 	}
@@ -387,16 +387,19 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int arg0w = arg0.getSize().width;
 		int cw = arg0w* 7/10;
 		int arg0h = arg0.getSize().height;
-	    arg0.getComponent(0).setSize(cw, arg0h);
+	    	arg0.getComponent(0).setSize(cw, arg0h);
 		int barwidth = arg0w - cw;
 		int h=0;
 		for (int i = 1; i < arg0.getComponentCount(); i++) 
 		{
-		    Component m = arg0.getComponent(i);
+		    	Component m = arg0.getComponent(i);
 		  	Dimension d = m.getPreferredSize();
 			if (arg0.getComponent(i) instanceof JScrollBar)
+			{
 			    d.width = barwidth;
-			if (arg0.getComponent(i) instanceof JLabel) {
+			}
+			if (arg0.getComponent(i) instanceof JLabel)
+			{
 			    h += d.height/5;
 			    d.width = barwidth;
 			}
@@ -413,7 +416,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		return new Dimension(500, 500);
 	}
-	public void removeLayoutComponent(Component arg0) {
+	public void removeLayoutComponent(Component arg0) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
@@ -423,15 +427,15 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int mxy = gy-1;
 		for (int i = 0;i<1; i++) 
 		{
-				int js, je, ji;
-				if (md) 
-				{
-			    	js = 1; je = mxy; ji = 1; md = false;
-				}
-			    else 
-			    {
-			    	js = mxy-1; je = 0; ji = -1; md = true;
-				}
+			int js, je, ji;
+			if (md) 
+			{
+			    js = 1; je = mxy; ji = 1; md = false;
+			}
+			else 
+			{
+			    js = mxy-1; je = 0; ji = -1; md = true;
+			}
 			mr = md;
 			
 			for (int j = js; j != je; j += ji) 
@@ -457,20 +461,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    	float y=(float)(Math.cos(0.25)*buf2[gi]-Math.sin(0.25)*buf1[gi]);
 			    	buf1[gi]=x;
 			    	buf2[gi]=y;
-				}
+			    }
 			}
 			l += 0.25;
 			if (transmitters> 0) 
 			{
 			    double w = frequency.getValue()*l*0.0233;
-			    double w2 = w;
 			    double v = 0;
-			    double v2 = 0;
 			    v = Math.cos(w);
-				if (transmitters >0)
-				    v2 = Math.cos(w2);
-
-			
 			    for (int j = 0; j<transmitters; j++)
 			    {
 			    	if(!check)
@@ -483,17 +481,17 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    	}
 			    }
 			    for (i = 0; i<transmitters; i++) 
-				{
+			    {
 				    buf1[loc.get(i).x+gy*loc.get(i).y] =loc.get(i).v;
 				    buf2[loc.get(i).x+gy*loc.get(i).y] = 0;
-				}
+		            }
 			}
 		}
 		
 
 		if (view_phase_plane.getState()&&(!viewreal.getState()))
 		{
-			set=true;
+		    set=true;
 		    surfacev();
 		}
 		else if(viewreal.getState()&&(!view_phase_plane.getState()))
@@ -502,7 +500,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		else
 		{
-			set=true;
+		    set=true;
 		    planarv();
 		}
 
@@ -532,11 +530,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		    int y2 = (j+1)*can.getHeight()/wh;
 		    for (i = 0; i != ww; i++, gi++) 
 		    {
-				int x = i*can.getWidth()/ww;
-				int x2 = (i+1)*can.getWidth()/ww;
-				int i2 = i+wox;
-				double dy = buf1[gi]*5;
-				if (dy < -1)
+			int x = i*can.getWidth()/ww;
+			int x2 = (i+1)*can.getWidth()/ww;
+			int i2 = i+wox;
+			double dy = buf1[gi]*5;
+			if (dy < -1)
 			     dy = -1;
 		        if (dy > 1)
 			     dy = 1;
@@ -544,24 +542,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		        int R = 0, G = 0, B = 0;
 		        double d1 = dy;
 		        double d3 =(1/255.01);
-			    double a1 = d1*(1-d3); 
-			    double a2 = (1-d1)*(1-d3);
-			    double a3 = d1*d3; 
-			    double a4 = (1-d1)*d3;
-			    R = (int) (med2[1]. getRed()*a1 +med2[3].getRed()*a2 + med2[4].getRed()*a3 +med2[6].getRed()*a4);
-			    G = (int) (med2[1]. getGreen()*a1 +med2[3].getGreen()*a2 +med2[4].getGreen()*a3 +med2[6].getGreen()*a4);
-			    B = (int) (med2[1]. getBlue()*a1 +med2[3].getBlue()*a2+med2[4].getBlue()*a3 +med2[6].getBlue()*a4);
-			    col = (255<<24) | (R<<16) | (G<<8) | (B);
-			    for (k = 0; k != x2-x; k++, ix++)
+			double a1 = d1*(1-d3); 
+			double a2 = (1-d1)*(1-d3);
+			double a3 = d1*d3; 
+			double a4 = (1-d1)*d3;
+			R = (int) (med2[1]. getRed()*a1 +med2[3].getRed()*a2 + med2[4].getRed()*a3 +med2[6].getRed()*a4);
+			G = (int) (med2[1]. getGreen()*a1 +med2[3].getGreen()*a2 +med2[4].getGreen()*a3 +med2[6].getGreen()*a4);
+			B = (int) (med2[1]. getBlue()*a1 +med2[3].getBlue()*a2+med2[4].getBlue()*a3 +med2[6].getBlue()*a4);
+			col = (255<<24) | (R<<16) | (G<<8) | (B);
+			for (k = 0; k != x2-x; k++, ix++)
+			{
+			   for (l = 0; l != y2-y; l++)
 			    {
-			    	for (l = 0; l != y2-y; l++)
-			    	{
-			    		pixels[ix+l*can.getWidth()] = col;
-			    	}
+			    	pixels[ix+l*can.getWidth()] = col;
 			    }
-		   }
+			}
+		     }
 		}
-		int intf = (gy/2-woy)*can.getHeight()/wh;
 		for (i = 0; i<transmitters; i++) 
 		{
 		    int xx = loc.get(i).getx();
@@ -574,11 +571,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	public void emitter(int i, int xx, int yy) 
 	{
 		int j;
-		int col = (med2[7].getRed()<<16)|
-		    (med2[7].getGreen()<<8)|
-		    (med2[7].getBlue())| 0xFF000000;
+		int col = (med2[7].getRed()<<16)|(med2[7].getGreen()<<8)|(med2[7].getBlue())| 0xFF000000;
 		if (i == selemitter)
+		{
 		  col ^= 0xFFFFFF;
+		}
 		for (j = 0; j <= em_size.getValue(); j++) 
 		{
 		    int k = (int) (Math.sqrt(em_size.getValue()-j*j)+.5);
@@ -602,7 +599,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		if (i < 0 || i>= can.getWidth())
 		    return;
-		try { pixels[i+j*can.getWidth()] =col; } catch (Exception e) {}
+		try 
+		{ 
+			pixels[i+j*can.getWidth()] =col; 
+			
+		} catch (Exception e) {}
 	
 		
 	}
