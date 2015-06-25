@@ -71,6 +71,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static double l,va=22/7,vh=-38,vds,vhds,vs=0,vc=-1;
 	static PixelGrabber p;
 	static boolean dr,dc,ds,set=true,check=false;
+	/* static data to arduino ,code still buggy
+	{
+		System.loadLibrary("blink");
+	}
+	public sttaic native blink(String h);
+	*/
     Ultra_virtual()
     {
 	   can=new Ultra_canvas(this);
@@ -292,6 +298,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			text.append("Position = "+loc.get(j).x+"  "+loc.get(j).y+" is ="+phase_del.get(j)+"\n");
 			check=true;
 		}
+		/*for(int i=0;i<transmitters;i++)   for transmitting data to arduino ,still buggy
+		{
+			String h="";
+			h=h+phase_del.get(i)+","+loc.get(i).x;
+			blink(h);
+		}*/
 	}
 	public void removeEmitters(int x,int y) 
 	{
