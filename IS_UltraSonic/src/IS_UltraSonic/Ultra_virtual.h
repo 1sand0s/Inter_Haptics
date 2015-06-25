@@ -1,0 +1,110 @@
+
+#include <jni.h>
+
+
+#ifndef _Included_Ultra_virtual
+#define _Included_Ultra_virtual
+#ifdef __cplusplus
+extern "C" {
+#endif
+#undef Ultra_virtual_FOCUS_TRAVERSABLE_UNKNOWN
+#define Ultra_virtual_FOCUS_TRAVERSABLE_UNKNOWN 0L
+#undef Ultra_virtual_FOCUS_TRAVERSABLE_DEFAULT
+#define Ultra_virtual_FOCUS_TRAVERSABLE_DEFAULT 1L
+#undef Ultra_virtual_FOCUS_TRAVERSABLE_SET
+#define Ultra_virtual_FOCUS_TRAVERSABLE_SET 2L
+#undef Ultra_virtual_TOP_ALIGNMENT
+#define Ultra_virtual_TOP_ALIGNMENT 0.0f
+#undef Ultra_virtual_CENTER_ALIGNMENT
+#define Ultra_virtual_CENTER_ALIGNMENT 0.5f
+#undef Ultra_virtual_BOTTOM_ALIGNMENT
+#define Ultra_virtual_BOTTOM_ALIGNMENT 1.0f
+#undef Ultra_virtual_LEFT_ALIGNMENT
+#define Ultra_virtual_LEFT_ALIGNMENT 0.0f
+#undef Ultra_virtual_RIGHT_ALIGNMENT
+#define Ultra_virtual_RIGHT_ALIGNMENT 1.0f
+#undef Ultra_virtual_serialVersionUID
+#define Ultra_virtual_serialVersionUID -7644114512714619750LL
+#undef Ultra_virtual_serialVersionUID
+#define Ultra_virtual_serialVersionUID 4613797578919906343LL
+#undef Ultra_virtual_INCLUDE_SELF
+#define Ultra_virtual_INCLUDE_SELF 1L
+#undef Ultra_virtual_SEARCH_HEAVYWEIGHTS
+#define Ultra_virtual_SEARCH_HEAVYWEIGHTS 1L
+#undef Ultra_virtual_NOT_OBSCURED
+#define Ultra_virtual_NOT_OBSCURED 0L
+#undef Ultra_virtual_PARTIALLY_OBSCURED
+#define Ultra_virtual_PARTIALLY_OBSCURED 1L
+#undef Ultra_virtual_COMPLETELY_OBSCURED
+#define Ultra_virtual_COMPLETELY_OBSCURED 2L
+#undef Ultra_virtual_WHEN_FOCUSED
+#define Ultra_virtual_WHEN_FOCUSED 0L
+#undef Ultra_virtual_WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+#define Ultra_virtual_WHEN_ANCESTOR_OF_FOCUSED_COMPONENT 1L
+#undef Ultra_virtual_WHEN_IN_FOCUSED_WINDOW
+#define Ultra_virtual_WHEN_IN_FOCUSED_WINDOW 2L
+#undef Ultra_virtual_UNDEFINED_CONDITION
+#define Ultra_virtual_UNDEFINED_CONDITION -1L
+#undef Ultra_virtual_IS_DOUBLE_BUFFERED
+#define Ultra_virtual_IS_DOUBLE_BUFFERED 0L
+#undef Ultra_virtual_ANCESTOR_USING_BUFFER
+#define Ultra_virtual_ANCESTOR_USING_BUFFER 1L
+#undef Ultra_virtual_IS_PAINTING_TILE
+#define Ultra_virtual_IS_PAINTING_TILE 2L
+#undef Ultra_virtual_IS_OPAQUE
+#define Ultra_virtual_IS_OPAQUE 3L
+#undef Ultra_virtual_KEY_EVENTS_ENABLED
+#define Ultra_virtual_KEY_EVENTS_ENABLED 4L
+#undef Ultra_virtual_FOCUS_INPUTMAP_CREATED
+#define Ultra_virtual_FOCUS_INPUTMAP_CREATED 5L
+#define Ultra_virtual_ANCESTOR_INPUTMAP_CREATED 6L
+#undef Ultra_virtual_WIF_INPUTMAP_CREATED
+#define Ultra_virtual_WIF_INPUTMAP_CREATED 7L
+#undef Ultra_virtual_ACTIONMAP_CREATED
+#define Ultra_virtual_ACTIONMAP_CREATED 8L
+#undef Ultra_virtual_CREATED_DOUBLE_BUFFER
+#define Ultra_virtual_CREATED_DOUBLE_BUFFER 9L
+#undef Ultra_virtual_IS_PRINTING
+#define Ultra_virtual_IS_PRINTING 11L
+#undef Ultra_virtual_IS_PRINTING_ALL
+#define Ultra_virtual_IS_PRINTING_ALL 12L
+#undef Ultra_virtual_IS_REPAINTING
+#define Ultra_virtual_IS_REPAINTING 13L
+#undef Ultra_virtual_WRITE_OBJ_COUNTER_FIRST
+#define Ultra_virtual_WRITE_OBJ_COUNTER_FIRST 14L
+#undef Ultra_virtual_RESERVED_1
+#define Ultra_virtual_RESERVED_1 15L
+#undef Ultra_virtual_RESERVED_2
+#define Ultra_virtual_RESERVED_2 16L
+#undef Ultra_virtual_RESERVED_3
+#define Ultra_virtual_RESERVED_3 17L
+#undef Ultra_virtual_RESERVED_4
+#define Ultra_virtual_RESERVED_4 18L
+#undef Ultra_virtual_RESERVED_5
+#define Ultra_virtual_RESERVED_5 19L
+#undef Ultra_virtual_RESERVED_6
+#define Ultra_virtual_RESERVED_6 20L
+#undef Ultra_virtual_WRITE_OBJ_COUNTER_LAST
+#define Ultra_virtual_WRITE_OBJ_COUNTER_LAST 21L
+#undef Ultra_virtual_REQUEST_FOCUS_DISABLED
+#define Ultra_virtual_REQUEST_FOCUS_DISABLED 22L
+#undef Ultra_virtual_INHERITS_POPUP_MENU
+#define Ultra_virtual_INHERITS_POPUP_MENU 23L
+#undef Ultra_virtual_OPAQUE_SET
+#define Ultra_virtual_OPAQUE_SET 24L
+#undef Ultra_virtual_AUTOSCROLLS_SET
+#define Ultra_virtual_AUTOSCROLLS_SET 25L
+#undef Ultra_virtual_FOCUS_TRAVERSAL_KEYS_FORWARD_SET
+#define Ultra_virtual_FOCUS_TRAVERSAL_KEYS_FORWARD_SET 26L
+#undef Ultra_virtual_FOCUS_TRAVERSAL_KEYS_BACKWARD_SET
+#define Ultra_virtual_FOCUS_TRAVERSAL_KEYS_BACKWARD_SET 27L
+#undef Ultra_virtual_REVALIDATE_RUNNABLE_SCHEDULED
+#define Ultra_virtual_REVALIDATE_RUNNABLE_SCHEDULED 28L
+
+JNIEXPORT void JNICALL Java_Ultra_1virtual_blink
+  (JNIEnv *, jclass, jstring);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
