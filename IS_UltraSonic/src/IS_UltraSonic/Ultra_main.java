@@ -51,21 +51,27 @@ public class Ultra_main extends JFrame
 }
 class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager
 {
-	static JScrollBar frequency,Resolution,em_size;
-	static Ultra_canvas can;
-	static int transmitters=0,dX, dY, dsX = -1, dsY,selemitter,add=0,accx=0,accy=0,tog;
-	static JButton AddSource,Clear,DeleteSource,PhaseCalc;
-	int ww,wh,wox,woy,gx,gy,gxy,wi,hi,si;
-	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"};
-	static Color med2[];
-	static Image im,im2,im3;
-	static Graphics g3;
-	static JTextArea text;
-	static int[] pixels,surface,pixel;
-	static float[] buf1,buf2,damp;
-	static boolean md,mr;
-	static ArrayList<Emitter_loc>loc;
-	static ArrayList<Double>phase_length,phase_del;
+	static JScrollBar frequency,Resolution,em_size; // For controlling Frequency,Resolution and emitter size
+	static Ultra_canvas can; // For drawing the ultrasonic waves
+	static int transmitters=0; // For Kepping count of number of transmitters
+	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
+	static int selemitter; // For checking if any transmitter has been selected to be dragged,deleted etc,occurs when mouse hovers over the emitter
+	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
+	static int accx=0,accy=0; // Points to the mid-value(x,y)of the linearly arranged transmitters
+	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
+	static JButton AddSource,DeleteSource; //For adding and deleting transmitters
+	static JButton Clear,PhaseCalc;  //For clearing the canvas and calculating the phase delay
+	int ww,wh,wox,woy,gx,gy,gxy,wi,hi,si;// window width,window height,window offset x, window offset y, 
+	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"}; //The color values to be drawn
+	static Color med2[]; // Color array soon to be instantiated with med[]
+	static Image im,im2,im3; // Images for updating the canvas with the modified pixels
+	static JTextArea text; // For displaying the Phase calculations for each individual transmitter 
+	static int[] pixels,surface,pixel; // pixels and pixel are used for grabbing the pixels or modifying the pixels of the images
+	//surface not yet implemented, for future use
+	static float[] buf1,buf2,damp; // buf1,buf2 hold the perturbed values after disturbance whereas damp holds the values to dampen the waves
+	static boolean md,mr; // To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
+	static ArrayList<Emitter_loc>loc; // Holds the x,y on canvas and on screen values of each individual transmitter
+	static ArrayList<Double>phase_length,phase_del; // holds the Lx(length from nth transmitter to focal point)and time delay to counteract (R-Lx)
 	static Checkbox view_phase_plane,viewreal;
 	static MemoryImageSource source;
 	static double l,va=22/7,vh=-38,vds,vhds,vs=0,vc=-1;
