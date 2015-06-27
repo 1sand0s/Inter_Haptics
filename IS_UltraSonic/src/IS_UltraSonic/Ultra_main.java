@@ -512,33 +512,37 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public void field(Graphics g1) 
 	{
-		int mxx = gx-1;
-		int mxy = gy-1;
-		for (int i = 0;i<1; i++) 
+		for (int i = 0;i<1; i++)
 		{
+			/* The above for loop is presently useless however should we ever feel the need to
+			   speed up the simulation it can be updated through a JScrollbar */
 			int js, je, ji;
 			if (md) 
 			{
-			    js = 1; je = mxy; ji = 1; md = false;
+			    js = 1; je = gy-1; ji = 1; md = false;
 			}
 			else 
 			{
-			    js = mxy-1; je = 0; ji = -1; md = true;
+			    js = gy-2; je = 0; ji = -1; md = true;
 			}
 			mr = md;
-			
+			/* As seen above each alternative rendering cycle sets and resets md,mr, this switches the 
+			   index values(js,je,ji) from starting index to end index meaning, the canvas gets rendered
+			   alternatively in up down to maintain uniformity*/
 			for (int j = js; j != je; j += ji) 
 			{
 			    int is, ie, ii;
 			    if (mr) 
 			    {
-					ii = 1; is = 1; ie = mxx; mr = false;
+					ii = 1; is = 1; ie =gx-1; mr = false;
 			    } 
 			    else 
 			    {
-					ii = -1; is = mxx-1; ie = 0; mr = true;
+					ii = -1; is = gx-2; ie = 0; mr = true;
 			    }
-			    int gi = j*gy+is;
+			    /* The same procedure is carried out for left right rendering to maintain uniformity and
+			       avoid any directional bias in rendering*/
+			    int gi = j*gy+is;//gives the absolute pixel location similar to (x-coor+y-coor*width)
 			    int gie = j*gy+ie;
 			    for (; gi != gie; gi += ii) 
 			    {
@@ -581,7 +585,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		if (view_phase_plane.getState()&&(!viewreal.getState()))
 		{
 		    set=true;
-		    surfacev();
+		    surfacev();//for future
 		}
 		else if(viewreal.getState()&&(!view_phase_plane.getState()))
 		{
@@ -594,11 +598,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 
 		if (source != null)
-		    source.newPixels();
+		    source.newPixels(); // Use the 'pixels' array to update the pixels of source
 
 		g1.drawImage(im, 0, 0, this);
-		int x=((((dsX*ww)-(can.getWidth()/2))/can.getWidth())+wox);
+		int x=((((dsX*ww)-(can.getWidth()/2))/can.getWidth())+wox); 
 		int y=((((dsY*ww)-(can.getHeight()/2))/can.getHeight())+woy);
+		// obtain the x,y co-ordinates of the mouse location on canvas 
 		String s = "(" + x + "," + y +")";
 		g1.setColor(Color.white);
 		g1.drawString(s,gy/18,gy/10);
@@ -612,7 +617,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int i, j, k, l;
 		for (j = 0; j != wh; j++) 
 		{
-			int y = j*can.getHeight()/wh;
+		    int y = j*can.getHeight()/wh;
 		    ix = can.getWidth()*(y);
 		    int j2 = j+woy;
 		    int gi = j2*gy+wox;
@@ -704,8 +709,6 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	 void loc_edit(MouseEvent e)
 	 {
-			if (view_phase_plane.getState())
-			    return;
 			int x = e.getX();
 			int y = e.getY();
 			if (selemitter != -1) 
@@ -717,18 +720,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    	loc.get(selemitter).x=x+wox;
 			    	loc.get(selemitter).y=y+woy;
 			    }
+			    // Update the position of the emitter if changed
 			    return;
 			}
 	}
 	class Emitter_loc
 	{
+		//Class, basically containing info about position of the emitters
 		int x,y;
 		float v;
 		Emitter_loc(int xx,int yy)
 		{
-			System.out.println(x+"   hi   "+y);
 			x=xx;
 			y=yy;
+			// locations on canvas conforming to the co-ordinate system used by the canvas
 		}
 		int getx()
 		{
@@ -738,6 +743,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			return ((y-woy) * can.getHeight()+can.getHeight()/2)/wh;
 		}
+		// returns the absolute x and y positions of the emitters relative to the container
 	}
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
@@ -751,32 +757,31 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		defineRaster();
 		can.repaint(100);
-		
 	}
 	public void componentShown(ComponentEvent arg0)
 	{
 		can.repaint();
-		
 	}
 
-    public void em_select(MouseEvent e) 
-    {
-    	int x = e.getX();
-    	int y = e.getY();
-    	int i;
-    	for (i = 0; i<transmitters; i++)
+    	public void em_select(MouseEvent e) 
     	{
-    		Emitter_loc f=loc.get(i);
-    		int x2 = f.getx();
-    		int y2 = f.gety();
-    		if (Math.pow(em_size.getValue(), 2)>( Math.pow((x2-x),2)*Math.pow(y2-y,2))) 
-    		{
-    			selemitter= i;
-    			return;
-    		}
-	    }
-        selemitter = -1;
-    }
+	    	int x = e.getX();
+	    	int y = e.getY();
+	    	int i;
+	    	for (i = 0; i<transmitters; i++)
+	    	{
+    			int x2=loc.get(i).getx();
+    			int y2=loc.get(i).gety();
+    			if (Math.pow(em_size.getValue(), 2)>( Math.pow((x2-x),2)*Math.pow(y2-y,2))) 
+    			{
+	    			selemitter= i;
+    				return;
+    				/* basically checks if the mouse which has been moved is hovering in the vicinity 
+    				   of the ith transmitter, if yes then update 'selemitter' with i and return*/
+    			}
+	    	}
+        	selemitter = -1;
+    	}
 }
 class Ultra_canvas extends Canvas
 {
@@ -807,6 +812,10 @@ class Ultra_real extends JInternalFrame
 }
 class canvas2 extends JPanel implements ActionListener,Runnable
 {
+	/* This class as of now is of no significance but will add functionality later
+	   This was added to shed more light on the working of the algorithm, as here we 
+	   are dealing with the pixels concerning an actual image hence demonstrating
+	   how the algorithm affects it*/
 	int wi=800,hi=640,hw=wi/2,hh=hi/2,fir=wi,sec=wi*(hi+3);
 	int [] pixel,pixelupdate,buf;
 	ArrayList<String>up=new ArrayList<String>();
@@ -818,8 +827,8 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 	JLabel l;
 	public Dimension getMinimumSize()
 	{
-        return new Dimension(100, 100);
-    }
+        	return new Dimension(100, 100);
+    	}
 
     canvas2(Ultra_virtual v)
     {
