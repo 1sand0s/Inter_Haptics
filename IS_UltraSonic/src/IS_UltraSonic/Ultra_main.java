@@ -49,6 +49,29 @@ public class Ultra_main extends JFrame
 	   setVisible(true);
 	}
 }
+/*                        ================= WORKING OF THE ALGORITHM ================	
+						      / /O|                                        
+                                           (Lx) /    /    |
+                                        |/        /       |(Parallel Focal Distance)
+                                        |      / R        |
+                                        |   /Sine_phi	  |
+                            (Emitters)  |/_ _ _ _ _ _ _ _ |	O=focal point
+                                        |  	          |	R= Phase_length from mid transmitter(at accx) to focal point 
+                                        |	          |	Sine_phi= Sine of the angle of inclination of 'R'
+                                        |	          |	Lx= Phase_length from nth transmitter to focal point
+                                        |	          |
+						          |
+
+ Therefore the nth transmitter will have to cover a distance Lx to reach 'O' in contrast to the transmitter at accx
+ which requires a distance of R to be travelled to reach 'O'.Therefore since the speed of the ultrasonic wave emitted
+ is the same for both the transmitters ,this causes a phase delay of abs(R-Lx)/speed, which may or may not result in
+ constructive interference. For constructive interference to take place the ultrasonic waves from nth and mid transmitters
+ must reach 'O' at the same time which implies the excitation of the nth transmitter in the above case must be set back
+ by a time factor abs(R-Lx)/speed, which counteracts the loss in time for the wave from mid transmitter to cover the extra
+ length R-Lx, however for transmitter below mid transmitter , Lx is greater than R hence these will have to excited in 
+ advance hence as given below ,we will use a variable 'tog' to account for both these variations
+========================================================================================================================== 
+*/
 class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager
 {
 	static JScrollBar frequency,Resolution,em_size; // For controlling Frequency,Resolution and emitter size
