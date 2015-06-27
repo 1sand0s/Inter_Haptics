@@ -195,7 +195,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		   using the inital value of 1f ,we calculate how far each grid element is from the boundary element
 		   and depending on that we update those elements of the damp array with lesser values
 		   and since these damp array values will at a later point be multiplied with the perturbed values,
-		   less than 1 damp value would cause a faster decay and hence simulate a real exponentially decay of 
+		   less than 1 damp value would cause a faster decay and hence simulate a real exponential decay of 
 		   the wave*/
 		for (i = 0; i<wox; i++)
 		{
@@ -255,7 +255,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	  
 	  if(arg0.getSource()==Resolution)
 	  {
-		  setResolution();
+		  setResolution(); 
+		  /* If resolution has been changed , then update the Frame parameters and reconfigure the
+		     the array elements by calling settings*/
 		  settings();
 	  }
 		
@@ -278,10 +280,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		
 		if(arg0.getSource()==Clear)
 		{
-			clearWave();
+			clearWave(); // Clear the waves or the medium 
 			check=false;
+			/* 'check' -> Clear the focal point and hence clearing all the phase differences
+			    between the transmitters*/
 			set=true;
-			can.repaint();
+			can.repaint();// repaint the canvas
 		}
 		else if(arg0.getSource()==AddSource)
 		{
@@ -295,6 +299,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			add=3;
 		}
+		/* 'add' -> we basically modify the add values ,since upon mouse click on the canvas
+		    we need to identify which action preceeded it,whether it was 'AddSource' or 'DeleteSource' etc*/
 	}
 
 	public void phase_delay_cal(MouseEvent e) 
@@ -306,10 +312,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		accx=accx/transmitters;
 		accy=accy/transmitters;
+		/* accx,accy -> since all the transmitters are equally spaced , this gives the median or mid value
+		   of the transmitter's x-coord,y-coord and therefore points to the mid transmitter*/
 		int u=((((e.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox);
 		int v=((((e.getY()*wh)-(can.getHeight()/2))/can.getHeight())+woy);
+		/* Mouse click events basically give the absolute value of the click with respect to either the
+		   container or the screen however, we previously defined a new co-ordinate system for the canvas
+		   and since all the transmitter locations are based on this co-ordinate system , we need to convert 
+		   the focal_point obtained through mouse click to the new co-ordinate system ,this is done in the 
+		   above lines with u and v , (u,v) give the (x,y) co-ordinates of the focal point*/
 		double R=Math.sqrt(Math.pow((accx-u),2)+Math.pow((accy-v),2));
+		// 'R' -> calculates the phase_length from the mid transmitter to the focal point
 		double sin_phi=Math.abs(accx-u)/R;
+		/* 'sin_phi' -> calculates the sine of the angle by which 'R' is inclined to the plane
+		    perpendicular to the plane of arrangement of the transmitters*/
 		text.append("Phase delay for transmitters\n At Position"+u+" , "+v+"\n");
 		if(u<accx)
 		{
@@ -319,6 +335,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			tog=-1;
 		}
+		/* The 'tog' part as explained in the "WORKING OF THE ALGORITHM" is required to account for the
+		   fact that the emitter as to be either advanced or set back depending on its location relative 
+		   to mid transmitter and the focal point*/
 		for(int i=0;i<loc.size();i++)
 		{
 			
@@ -340,13 +359,22 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				sm=phase_del.get(i);
 			}
 		}
+		/* Here we encounter another problem , since there are tramsitters both to left and right of mid-transmitter
+		   therefore any phase_delay causing an advance in excitation of the nth transmitter will be negative
+		   since (R-Lx)<0, therefore we find the smallest negative value (sm) in the phase_delay array  and subtract 
+		   it from each phase_delay array element , making the smallest one zero and everything else >0, this should
+		   make sense intuitively since after all we are dealing with continuum concepts and hence the phase itself
+		   has no significance ,its the phase delay that matters whcih remains unchanged by incrementing each
+		   element through the same value*/
 		for(int j=0;j<loc.size();j++)
 		{
 			double g=phase_del.get(j);
 			phase_del.remove(j);
-			phase_del.add(j,g-sm);
+			phase_del.add(j,g-sm);// Subtarcting sm(negative smallest value) from each phase_delay element
 			text.append("Position = "+loc.get(j).x+"  "+loc.get(j).y+" is ="+phase_del.get(j)+"\n");
 			check=true;
+			/* 'check' -> Guard that enables rendering the canvas accounting for the phase differences
+			   if not set to true, the canvas will be rendered assuming no phase difference*/
 		}
 		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
