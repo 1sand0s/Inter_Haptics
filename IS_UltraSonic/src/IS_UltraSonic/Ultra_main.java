@@ -14,7 +14,6 @@ import java.awt.image.MemoryImageSource;
 import java.awt.image.PixelGrabber;
 import java.io.PrintStream;
 import java.util.ArrayList;
-
 import javax.swing.*;
 
 public class Ultra_main extends JFrame
@@ -49,13 +48,15 @@ public class Ultra_main extends JFrame
 	   setVisible(true);
 	}
 }
-/*                        ================= WORKING OF THE ALGORITHM ================	
+/*                        ================= WORKING OF THE ALGORITHM ================
+
+
 						      / /O|                                        
                                            (Lx) /    /    |
-                                        |/        /       |(Parallel Focal Distance)
+                          (Emitters)    |/        /       |(Parallel Focal Distance)
                                         |      / R        |
                                         |   /Sine_phi	  |
-                            (Emitters)  |/_ _ _ _ _ _ _ _ |	O=focal point
+              mid-transmitter (at accx) |/_ _ _ _ _ _ _ _ |	O=focal point
                                         |  	          |	R= Phase_length from mid transmitter(at accx) to focal point 
                                         |	          |	Sine_phi= Sine of the angle of inclination of 'R'
                                         |	          |	Lx= Phase_length from nth transmitter to focal point
@@ -95,11 +96,13 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static boolean md,mr; // To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
 	static ArrayList<Emitter_loc>loc; // Holds the x,y on canvas and on screen values of each individual transmitter
 	static ArrayList<Double>phase_length,phase_del; // holds the Lx(length from nth transmitter to focal point)and time delay to counteract (R-Lx)
-	static Checkbox view_phase_plane,viewreal;
-	static MemoryImageSource source;
-	static double l,va=22/7,vh=-38,vds,vhds,vs=0,vc=-1;
-	static PixelGrabber p;
-	static boolean dr,dc,ds,set=true,check=false;
+	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
+	static MemoryImageSource source; // Acts as source for Image 'im', we modify the pixels and then update the image with the modified pixels
+	static double l; // Multiplier to keep perturbing the medium
+	static PixelGrabber p; // object to grab the pixels of 'source' modify it,update it and create Image 'im' with it
+	static boolean set=true; //Yet to be implemented
+	static boolean check=false; // To check if focal point has been selected , if yes then change the phase accordingly
+	static boolean light=true; // To send the data,stil buggy, requires more efficient implementation
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -108,6 +111,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	*/
     Ultra_virtual()
     {
+    	// Instantiate the variables
 	   can=new Ultra_canvas(this);
 	   AddSource=new JButton("Add Emitters");
 	   PhaseCalc=new JButton("Phase Calculation");
@@ -156,11 +160,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   can.setForeground(Color.lightGray);
 	   for(int i=0;i<med.length;i++)
 	   {
-		   med2[i]=Color.decode(med[i]);
+		   med2[i]=Color.decode(med[i]); // Convert the elements held by the string array to color and store
 	   }
-	   settings();
-	   setSize(800,640);
-	   defineRaster();
+	   setResolution(); // Calculate all the Frame parameters and update it 
+	   settings(); // Clear the canvas
+	   setSize(800,640); //Set the preferred size
+	   defineRaster(); // Make 'pixels[]' the defining array(handle) for the pixels of 'source'
 	   setVisible(true);
 	}
 	public void settings() 
