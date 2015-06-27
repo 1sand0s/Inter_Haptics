@@ -79,25 +79,35 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static Ultra_canvas can; // For drawing the ultrasonic waves
 	static int transmitters=0; // For Kepping count of number of transmitters
 	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
-	static int selemitter; // For checking if any transmitter has been selected to be dragged,deleted etc,occurs when mouse hovers over the emitter
+	static int selemitter; 
+	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs when mouse hovers over
+	the emitter */
 	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
 	static int accx=0,accy=0; // Points to the mid-value(x,y)of the linearly arranged transmitters
 	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
 	static JButton AddSource,DeleteSource; //For adding and deleting transmitters
 	static JButton Clear,PhaseCalc;  //For clearing the canvas and calculating the phase delay
 	int ww,wh,wox,woy,gx,gy,gxy,wi,hi,si;// window width,window height,window offset x, window offset y, 
-	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"}; //The color values to be drawn
+	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"}; 
+	// Store the color values in med[] and then instantiate the color array with these values
 	static Color med2[]; // Color array soon to be instantiated with med[]
-	static Image im,im2,im3; // Images for updating the canvas with the modified pixels
+	static Image im; // 'im' -> Images created using the 'source' ,used for updating the canvas with the ultrasonic wave
 	static JTextArea text; // For displaying the Phase calculations for each individual transmitter 
-	static int[] pixels,surface,pixel; // pixels and pixel are used for grabbing the pixels or modifying the pixels of the images
-	//surface not yet implemented, for future use
-	static float[] buf1,buf2,damp; // buf1,buf2 hold the perturbed values after disturbance whereas damp holds the values to dampen the waves
-	static boolean md,mr; // To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
+	static int[] pixels,surface,pixel; 
+	/* 'pixels' and 'pixel' are used for grabbing the pixels or modifying the pixels of the images
+	'surface' not yet implemented, for future use */
+	static float[] buf1,buf2,damp; 
+	/* 'buf1,buf2' -> hold the perturbed values after disturbance 
+	   'damp' -> holds the values to dampen the waves as they propogate away from the source */
+	static boolean md,mr; 
+	// To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
 	static ArrayList<Emitter_loc>loc; // Holds the x,y on canvas and on screen values of each individual transmitter
-	static ArrayList<Double>phase_length,phase_del; // holds the Lx(length from nth transmitter to focal point)and time delay to counteract (R-Lx)
+	static ArrayList<Double>phase_length,phase_del; 
+	/* 'phase_length' -> Lx(length from nth transmitter to focal point)
+	   'phase_del'    -> Time delay to counteract (R-Lx) */
 	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
-	static MemoryImageSource source; // Acts as source for Image 'im', we modify the pixels and then update the image with the modified pixels
+	static MemoryImageSource source; 
+	// 'source' -> Acts as source for Image 'im', we modify the pixels and then update the image with the modified pixels
 	static double l; // Multiplier to keep perturbing the medium
 	static PixelGrabber p; // object to grab the pixels of 'source' modify it,update it and create Image 'im' with it
 	static boolean set=true; //Yet to be implemented
