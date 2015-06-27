@@ -80,8 +80,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static int transmitters=0; // For Kepping count of number of transmitters
 	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
 	static int selemitter; 
-	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs when mouse hovers over
-	the emitter */
+	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs 
+	when mouse hovers over the emitter */
 	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
 	static int accx=0,accy=0; // Points to the mid-value(x,y)of the linearly arranged transmitters
 	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
