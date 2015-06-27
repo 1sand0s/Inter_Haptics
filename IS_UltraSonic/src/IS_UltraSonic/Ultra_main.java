@@ -173,24 +173,30 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		   med2[i]=Color.decode(med[i]); // Convert the elements held by the string array to color and store
 	   }
 	   setResolution(); // Calculate all the Frame parameters and update it 
-	   settings(); // Clear the canvas
+	   settings(); // Use the parameters calculated in 'setResolution' and instantiate arrays
 	   setSize(800,640); //Set the preferred size
 	   defineRaster(); // Make 'pixels[]' the defining array(handle) for the pixels of 'source'
 	   setVisible(true);
 	}
 	public void settings() 
 	{
-		gxy = gx*gy;
+		gxy = gx*gy; 
 		buf1  = new float[gxy];
 		buf2 = new float[gxy];
 		damp = new float[gxy];
-		surface = new int[gxy];
-        	l=0;
+		surface = new int[gxy]; // not implemented yet
+        	l=0; // set perturbed factor to 0
 		int i, j;
 		for (i = 0; i<gxy; i++)
 		{
-		    damp[i] = 1f;
+		    damp[i] = 1f; // Inintailly set the damp factor to 1
 		}
+		/* However since the damping exponentially increases as the wave propogates from the source
+		   using the inital value of 1f ,we calculate how far each grid element is from the boundary element
+		   and depending on that we update those elements of the damp array with lesser values
+		   and since these damp array values will at a later point be multiplied with the perturbed values,
+		   less than 1 damp value would cause a faster decay and hence simulate a real exponentially decay of 
+		   the wave*/
 		for (i = 0; i<wox; i++)
 		{
 		    for (j = 0; j<gx; j++)
@@ -198,19 +204,22 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    damp[i+j*gy] = damp[gx-1-i+gy*j] =damp[j+gy*i] = damp[j+(gy-1-i)*gy] =(float) (1-(wox-i) * .002);
 		    }
 		}
+		/* Resolution is basically used for magnifying the canvas ,therefore if it is set too low
+		   the rendering becomes too slow and hence don't permit it to drop below a certain value*/
 		if(Resolution.getValue()<32)
 		{
 			Resolution.setValue(32);
 			setResolution();
 			settings();
 		}
-		clearWave();
+		clearWave(); // Clear the canvas
 	}
 	public void clearWave() 
 	{
 		for(int i=0;i<gxy;i++)
 		{
 			buf1[i]=buf2[i]=0;
+			// Set perturbed values to 0 hence clearing the medium of all disturbances
 		}
 	}
 
@@ -219,27 +228,25 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		 int w,h;
 		 w=can.getWidth();
 		 h=can.getHeight();
-		 pixels = new int[w*h];
-		 System.out.println(w+"h"+h);
-		 source = new MemoryImageSource(w,h, pixels, 0,w);
+		 pixels = new int[w*h]; //Instantiate 'pixels' to be of size spanning the entire canvas
+		 source = new MemoryImageSource(w,h, pixels, 0,w); // Make 'pixels' the handle to pixels of source
 		 source.setAnimated(true);
 		 source.setFullBufferUpdates(true);
-		 im = can.createImage(source);
+		 im = can.createImage(source); //Make 'source' the defining element of Image 'im' 
 	}
 
 	public void mouseDragged(MouseEvent arg0) 
 	{
-		dr= true;
 		loc_edit(arg0);
+		/* If mouse is dragged over an emitter than update the emitter element with the new 
+	           location and repaint the canvas*/
 		can.repaint();
 	}
 
 	public void mouseMoved(MouseEvent arg0) 
 	{
-		int x = arg0.getX();
-		int y = arg0.getY();
-		dsX=x;
-		dsY=y;
+		dsX= arg0.getX();
+		dsY = arg0.getY();
 		em_select(arg0);
 	}
 
