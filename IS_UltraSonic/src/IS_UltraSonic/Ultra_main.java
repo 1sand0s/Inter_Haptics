@@ -396,6 +396,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					transmitters--;
 				}
 			}
+			/* Check if the differences in the (x,y) co-ordinates of the mouse click value 
+			   intending to delete an emitter and the (x,y) co-ordinates of the emitter is < 4
+			   This implies that, that is the emitter being referred to hence delete it*/
 		}
 		
 	}
@@ -406,7 +409,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public void addEmitters(int x,int y) 
 	{
-		transmitters++;
+	    transmitters++;
 	    loc.add(new Emitter_loc(x,y));
 	}
 
@@ -414,23 +417,29 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		if(arg0.getSource()==can)
 		{
-			switch(add)
+			switch(add) // As we can see, we switch the earlier add value here 
 			{
 				case 1:
 					int x=(((arg0.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox;
 					int y=(((arg0.getY()*wh)-(can.getHeight()/2))/can.getHeight())+woy;
-					System.out.println(x+"  hoi");
-					addEmitters(x,y);
+					/* The same process here as well, the click is converted to the co-ordinate
+					   system corresponding to the canvas and then added*/
+					addEmitters(x,y);// add the emitters at the newly calculated locations
 					add=0;
+					/* reset 'add' to prevent anyother accidental mouse clicks from being
+					   processed as an intention to add emitters unless and until the actionListener
+					   on 'AddSource' as been invoked*/
+						
 					break;
 					
 				case 2:
 					removeEmitters(arg0.getX(),arg0.getY());
-					add=0;
+					add=0;// Same 
 					break;
 				
 				case 3:
-					phase_delay_cal(arg0);
+					phase_delay_cal(arg0); // Calls phase_delay_cal with the mouseEvent
+					add=0;//Same
 					break;
 			}
 		}
@@ -461,13 +470,13 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		
 		
 	}
-	public void layoutContainer(Container arg0)
+	public void layoutContainer(Container arg0) //Sets the desired Layout
 	{
-		int arg0w = arg0.getSize().width;
-		int cw = arg0w* 7/10;
-		int arg0h = arg0.getSize().height;
-	    	arg0.getComponent(0).setSize(cw, arg0h);
-		int barwidth = arg0w - cw;
+		int w = arg0.getSize().width; // get the width of the container
+		int cw = w* 7/10; //set the limit for partition between the canvas and the other compoenents(JScrollbar etc)
+		int h = arg0.getSize().height;// get the height of the container
+	    	arg0.getComponent(0).setSize(cw, h);// Refers to the canvas which is set to width 'cw' and height 'h'
+		int barwidth = w - cw;//Width of the remaining part of container excluding the canvas
 		int h=0;
 		for (int i = 1; i < arg0.getComponentCount(); i++) 
 		{
@@ -485,6 +494,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			m.setLocation(cw,h);
 			m.setSize(d);
 			h += d.height;
+			//Basically set the width,height,location fro different components excluding the canvas
 		 }
 	}
 	public Dimension minimumLayoutSize(Container arg0) 
