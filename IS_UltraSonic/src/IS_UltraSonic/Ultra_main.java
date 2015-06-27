@@ -547,9 +547,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    for (; gi != gie; gi += ii) 
 			    {
 			    	float b =(buf1[gi-1]+buf1[gi+1]+buf1[gi-gy]+buf1[gi+gy])*0.25f;
+			    	/*With each passing index 'gi' this disturbance is transferred to the next group 
+			    	  of pixels, therefore eventually spreading the dirturbance across the entire
+			    	  medium*/
 			    	buf1[gi]*=damp[gi];
 			    	buf2[gi]*=damp[gi];
+			    	/* Since 'buf1' and 'buf2' basically hold the perturbed values or in other words the
+			    	   velocity information of the propogating waves, we multiply it with damping factor
+			    	   to simulate exponential decay*/
 			    	buf1[gi]-=b;
+			    	// We update 'buf1' with the distrubance propogating through 'b' 
 			    	float x=(float)(Math.sin(0.25)*buf2[gi]+Math.cos(0.25)*buf1[gi]+b);
 			    	float y=(float)(Math.cos(0.25)*buf2[gi]-Math.sin(0.25)*buf1[gi]);
 			    	buf1[gi]=x;
@@ -560,10 +567,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			if (transmitters> 0) 
 			{
 			    double w = frequency.getValue()*l*0.0233;
-			    double v = 0;
-			    v = Math.cos(w);
+			    double v = Math.cos(w);
 			    for (int j = 0; j<transmitters; j++)
 			    {
+			    	// If check is not set to true then render without phase difference 
 			    	if(!check)
 			    	{
 			    		loc.get(j).v = (float) (v);
