@@ -140,7 +140,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   med2=new Color[8];
 	   view_phase_plane=new Checkbox("Phase Plane Plot");
 	   viewreal=new Checkbox("view Real mode");
-	   loc=new ArrayList();
+	   loc=new ArrayList<Emitter_loc>();
 	   can.addComponentListener(this);
 	   can.addMouseMotionListener(this);
 	   can.addMouseListener(this);
