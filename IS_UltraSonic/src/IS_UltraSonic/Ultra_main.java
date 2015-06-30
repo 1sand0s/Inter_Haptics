@@ -117,7 +117,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		System.loadLibrary("blink");
 	}
-	public static native blink(String h);
+	public static native void blink(String h);
 	*/
     Ultra_virtual()
     {
@@ -379,7 +379,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
 			String h="";
-			h=h+phase_del.get(i)+","+loc.get(i).x;
+			h=h+phase_del.get(i)+","+loc.get(i).x+"\n";
 			blink(h);
 		}*/
 	}
