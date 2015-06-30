@@ -477,7 +477,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int h = arg0.getSize().height;// get the height of the container
 	    	arg0.getComponent(0).setSize(cw, h);// Refers to the canvas which is set to width 'cw' and height 'h'
 		int barwidth = w - cw;//Width of the remaining part of container excluding the canvas
-		int h=0;
+		h=0;
 		for (int i = 1; i < arg0.getComponentCount(); i++) 
 		{
 		    	Component m = arg0.getComponent(i);
