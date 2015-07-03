@@ -479,7 +479,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			try
 			{
-				System.load(path_to_jar1+"/jSSC-2.8.dll");
+				System.load(path_to_jar+"/jSSC-2.8.dll");
 				PApplet=papplet.newInstance();
 				com=(String[])List.invoke(serial);
 				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
