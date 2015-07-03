@@ -31,8 +31,58 @@ public class Ultra_main extends JFrame
 	{
 	   setSize(800,640);
 	   setTitle("Inter_Haptics_GSOC");
-           setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
+           addWindowListener(this);
+	}
+	public void windowActivated(WindowEvent arg0) 
+	{
+			
+	}
+	public void windowClosed(WindowEvent arg0) 
+	{
+					
+	}
+	public void windowClosing(WindowEvent arg0)
+	{
+		try
+		{
+			if(!Ultra_virtual.OS_Check)
+			{
+				Method Close=Ultra_virtual.serial.getMethod("stop");
+				JOptionPane.showMessageDialog(this, "Closing Port on "+Ultra_virtual.com[0]);
+				Close.invoke(Ultra_virtual.Serial);
+				System.exit(0);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+					
+	}
+	public void windowDeactivated(WindowEvent arg0) 
+	{
+					// TODO Auto-generated method stub
+					
+	}
+
+	public void windowDeiconified(WindowEvent arg0) 
+	{
+					// TODO Auto-generated method stub
+					
+	}
+
+	public void windowIconified(WindowEvent arg0) 
+	{
+					// TODO Auto-generated method stub
+					
+	}
+
+	public void windowOpened(WindowEvent arg0) 
+        {
+					// TODO Auto-generated method stub
+					
+	}
+        
         private void configure() 
 	{
     	   tabs=new JTabbedPane();
@@ -79,9 +129,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static Ultra_canvas can; // For drawing the ultrasonic waves
 	static int transmitters=0; // For Kepping count of number of transmitters
 	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
-	Method Setup,Draw,Write,Available,List;
-	Object PApplet,Serial;
-	Class papplet,serial;
+	static Method Setup,Draw,Write,Available,List;
+	static Object PApplet,Serial;
+	static Class papplet,serial;
 	static int selemitter; 
 	static String path_to_jar;
 	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs 
