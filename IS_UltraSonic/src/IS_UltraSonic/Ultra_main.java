@@ -79,7 +79,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static Ultra_canvas can; // For drawing the ultrasonic waves
 	static int transmitters=0; // For Kepping count of number of transmitters
 	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
+	Method Setup,Draw,Write,Available,List;
+	Object PApplet,Serial;
+	Class papplet,serial;
 	static int selemitter; 
+	static String path_to_jar;
 	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs 
 	when mouse hovers over the emitter */
 	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
@@ -178,15 +182,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		 * Therefore import all required classes and methods*/
 		try
 		{
-			//Import Processing classes 
-			Class papplet=Class.forName("processing.core.PApplet");
-			Class serial=Class.forName("processing.serial.Serial");
+			path_to_jar=JOptionPane.showInputDialog(this,"Enter path to \"jars\" folder in the directory
+			                                               where this project has been downloaded");
+			URL[] url={new URL("jar:file:" + path_to_jar+"!/")};
+			URLClassLoader c=new URLClassLoader(url);
+			for(int i=0;i<url.length;i++)
+			{
+				System.out.println(url[i]);				
+			}
+			papplet=Class.forName("processing.core.PApplet");
+			serial=Class.forName("processing.serial.Serial");
 			//Import methods
-			Method setup=papplet.getMethod("setup",null);
-			Method draw=papplet.getMethod("draw",null);
-			Method write=serial.getMethod("write",null);
-			Method available=serial.getMethod("available",null);
-			Method list=serial.getMethod("list",null);
+			Setup=papplet.getMethod("setup");
+			Draw=papplet.getMethod("draw");
+			Write=serial.getMethod("write",String.class);
+			Available=serial.getMethod("available");
+			List=serial.getMethod("list");
+			OS_Check=false;
 		}
 		catch(ClassNotFoundException e)
 		{
