@@ -47,9 +47,8 @@ public class Ultra_main extends JFrame
 		{
 			if((!Ultra_virtual.OS_Check) && Ultra_virtual.connect)
 			{
-				Method Close=Ultra_virtual.serial.getMethod("stop");
 				JOptionPane.showMessageDialog(this, "Closing Port on "+Ultra_virtual.com[0]);
-				Close.invoke(Ultra_virtual.Serial);
+				Ultra_virtual.disconnect_serial();
 				System.exit(0);
 			}
 		}
@@ -519,7 +518,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				PApplet=papplet.newInstance();
 				com=(String[])List.invoke(serial);
 				baudrate=Integer.parseInt(JOptionPane.showInputDialog(this,"Enter Baud-Rate"));
-				boolean connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
+				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
 				if(connect)
 				{
 					Serial=serial.getDeclaredConstructor(PApplet.getClass(),String.class,int.class).newInstance(PApplet,com[0],baudrate);
@@ -530,6 +529,19 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				e1.printStackTrace();
 			}
 		}
+	}
+	public static void disconnect_serial()
+	{
+		try
+		{
+			Method Close=serial.getMethod("stop");
+			Close.invoke(Serial);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 	}
 	public void paintComponent(Graphics g)
 	{
