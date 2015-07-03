@@ -820,6 +820,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		for (j = 0; j <= em_size.getValue(); j++) 
 		{
 		    int k = (int) (Math.sqrt(em_size.getValue()-j*j)+.5);
+		    /* Since the frame is refreshed pixel by pixel that is by updating
+		     * the pixel handle to the canvas ,therefore the transmitters need 
+		     * to be drawn pixel by pixel rather tahn using built in methods like
+		     * fillOval etc*/
 		    plotPixel(xx+j, yy+k, col);
 		    plotPixel(xx+k, yy+j, col);
 		    plotPixel(xx+j, yy-k, col);
@@ -844,7 +848,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{ 
 			pixels[i+j*can.getWidth()] =col; 
 			
-		} catch (Exception e) {}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 	
 		
 	}
