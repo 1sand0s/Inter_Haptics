@@ -168,6 +168,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static boolean check=false; // To check if focal point has been selected , if yes then change the phase accordingly
 	static boolean light=true; // To send the data,stil buggy, requires more efficient implementation
 	static boolean connect=false; //To check whether serial communication has been established with arduino
+	static int baudrate=9600; //Set default baud rate to 9600
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -480,21 +481,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		if(!OS_Check)
 		{
-			try
-			{
-				System.load(path_to_jar+"/jSSC-2.8.dll");
-				PApplet=papplet.newInstance();
-				com=(String[])List.invoke(serial);
-				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
-				if(connect)
-				{
-					Serial=serial.getDeclaredConstructor(PApplet.getClass(),String.class,int.class).newInstance(PApplet,com[0],9600);
-				}
-			}
-			catch(Exception e1)
-			{
-				e1.printStackTrace();
-			}
+			connect_serial();
 		}
 		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
@@ -522,7 +509,28 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		
 	}
-	
+	public void connect_serial()
+	{
+		if(!OS_Check)
+		{
+			try
+			{
+				System.load(path_to_jar+"/jSSC-2.8.dll");
+				PApplet=papplet.newInstance();
+				com=(String[])List.invoke(serial);
+				baudrate=Integer.parseInt(JOptionPane.showInputDialog(this,"Enter Baud-Rate"));
+				boolean connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
+				if(connect)
+				{
+					Serial=serial.getDeclaredConstructor(PApplet.getClass(),String.class,int.class).newInstance(PApplet,com[0],baudrate);
+				}
+			}
+			catch(Exception e1)
+			{
+				e1.printStackTrace();
+			}
+		}
+	}
 	public void paintComponent(Graphics g)
 	{
 		can.repaint();
