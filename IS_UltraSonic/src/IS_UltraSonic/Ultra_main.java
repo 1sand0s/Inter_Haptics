@@ -182,11 +182,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			Class papplet=Class.forName("processing.core.PApplet");
 			Class serial=Class.forName("processing.serial.Serial");
 			//Import methods
-			Method setup=papplet.getMethod("setup",papplet);
-			Method draw=papplet.getMethod("draw",papplet);
-			Method write=serial.getMethod("write",serial);
-			Method available=serial.getMethod("available",serial);
-			Method list=serial.getMethod("list",serial);
+			Method setup=papplet.getMethod("setup",null);
+			Method draw=papplet.getMethod("draw",null);
+			Method write=serial.getMethod("write",null);
+			Method available=serial.getMethod("available",null);
+			Method list=serial.getMethod("list",null);
 		}
 		catch(ClassNotFoundException e)
 		{
