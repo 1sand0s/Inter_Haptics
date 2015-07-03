@@ -198,6 +198,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 			
 	   }
+	   else
+	   {
+		/* If OS is any Linux derivatives,then use JNI and C to 
+		 * interface the serial device, this improves speed
+		 * and efficiency,since most IOT devices are based on
+		 * linux and having low RAM and clock speeds are incapable
+		 * of working with packages like processing
+		 */
+		System.loadLibrary("libcom");
+	   }
 	   setResolution(); // Calculate all the Frame parameters and update it 
 	   settings(); // Use the parameters calculated in 'setResolution' and instantiate arrays
 	   setSize(800,640); //Set the preferred size
