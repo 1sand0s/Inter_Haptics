@@ -49,9 +49,9 @@ public class Ultra_main extends JFrame
 	}
 }
 /*                        ================= WORKING OF THE ALGORITHM ================
-
-
-						      / /O|                                        
+ 
+ 
+ 						      / /O|                                        
                                            (Lx) /    /    |
                           (Emitters)    |/        /       |(Parallel Focal Distance)
                                         |      / R        |
@@ -171,6 +171,32 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   for(int i=0;i<med.length;i++)
 	   {
 		   med2[i]=Color.decode(med[i]); // Convert the elements held by the string array to color and store
+	   }
+	   if(System.getProperty("os.name").startsWith("Windows"))
+	   {
+		/* If OS is windows , use processing to communicate with serial device 
+		 * Therefore import all required classes and methods*/
+		try
+		{
+			//Import Processing classes 
+			Class papplet=Class.forName("processing.core.PApplet");
+			Class serial=Class.forName("processing.serial.Serial");
+			//Import methods
+			Method setup=papplet.getMethod("setup",papplet);
+			Method draw=papplet.getMethod("draw",papplet);
+			Method write=serial.getMethod("write",serial);
+			Method available=serial.getMethod("available",serial);
+			Method list=serial.getMethod("list",serial);
+		}
+		catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch(NoSuchMethodException e)
+		{
+			e.printStackTrace();
+		}
+			
 	   }
 	   setResolution(); // Calculate all the Frame parameters and update it 
 	   settings(); // Use the parameters calculated in 'setResolution' and instantiate arrays
