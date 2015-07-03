@@ -45,7 +45,7 @@ public class Ultra_main extends JFrame
 	{
 		try
 		{
-			if(!Ultra_virtual.OS_Check)
+			if((!Ultra_virtual.OS_Check) && Ultra_virtual.connect)
 			{
 				Method Close=Ultra_virtual.serial.getMethod("stop");
 				JOptionPane.showMessageDialog(this, "Closing Port on "+Ultra_virtual.com[0]);
@@ -167,6 +167,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static boolean set=true; //Yet to be implemented
 	static boolean check=false; // To check if focal point has been selected , if yes then change the phase accordingly
 	static boolean light=true; // To send the data,stil buggy, requires more efficient implementation
+	static boolean connect=false; //To check whether serial communication has been established with arduino
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -473,6 +474,24 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			check=true;
 			/* 'check' -> Guard that enables rendering the canvas accounting for the phase differences
 			   if not set to true, the canvas will be rendered assuming no phase difference*/
+		}
+		if(!OS_Check)
+		{
+			try
+			{
+				System.load(path_to_jar1+"/jSSC-2.8.dll");
+				PApplet=papplet.newInstance();
+				com=(String[])List.invoke(serial);
+				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
+				if(connect)
+				{
+					Serial=serial.getDeclaredConstructor(PApplet.getClass(),String.class,int.class).newInstance(PApplet,com[0],9600);
+				}
+			}
+			catch(Exception e1)
+			{
+				e1.printStackTrace();
+			}
 		}
 		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
