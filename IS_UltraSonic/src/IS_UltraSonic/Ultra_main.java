@@ -489,6 +489,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			blink(h);
 		}*/
 	}
+	public void time_millis(double del)
+	{
+		long t=System.currentTimeMillis();
+		while((System.currentTimeMillis()-t)<=del)
+		{
+			//do nothing
+		}
+	}
 	public void removeEmitters(int x,int y) 
 	{
 		for(int i=0;i<loc.size();i++)
@@ -522,6 +530,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				if(connect)
 				{
 					Serial=serial.getDeclaredConstructor(PApplet.getClass(),String.class,int.class).newInstance(PApplet,com[0],baudrate);
+					time_millis(2000);
 				}
 			}
 			catch(Exception e1)
