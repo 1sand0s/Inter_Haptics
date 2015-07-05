@@ -47,8 +47,13 @@ public class Ultra_main extends JFrame
 		{
 			if((!Ultra_virtual.OS_Check) && Ultra_virtual.connect)
 			{
+				check2=true;
 				JOptionPane.showMessageDialog(this, "Closing Port on "+Ultra_virtual.com[0]);
 				Ultra_virtual.disconnect_serial();
+				System.exit(0);
+			}
+			else
+			{
 				System.exit(0);
 			}
 		}
@@ -171,6 +176,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static boolean check=false; // To check if focal point has been selected , if yes then change the phase accordingly
 	static boolean light=true; // To send the data,stil buggy, requires more efficient implementation
 	static boolean connect=false; //To check whether serial communication has been established with arduino
+	static boolean check2=false; //To disable serial communication before closing the port
 	static int baudrate=9600; //Set default baud rate to 9600
 	/* static     //data to arduino ,code still buggy
 	{
@@ -515,6 +521,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public void time_millis(double del)
 	{
+		if(del<0)
+		{
+			return;
+		}
 		long t=System.currentTimeMillis();
 		while((System.currentTimeMillis()-t)<=del)
 		{
@@ -934,14 +944,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	class Serial_Handler
 	{
+		Thread t;
+		double time=0.0;
+		Node point;
 	        Serial_Handler()
 		{
-			new list();//.display();
+			new list();
+			t=new Thread(this);
+			t.start();
 		}
 		class Node
 		{
 			double delay;
 			Node emitter;
+			int count;
 			Node()
 			{
 				delay=0.0;
@@ -959,6 +975,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			void setEmitter(Node e)
 			{
 				emitter=e;
+			}
+			void setCount(int c)
+			{
+				count =c;
 			}
 			Node getEmitter()
 			{
@@ -980,10 +1000,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					if(i<loc.size()-1)
 					{
 						Node n=new Node(phase_del.get(order[i+1]),null);
+						n.setCount(i);
 						if(iterator==null)
 						{
 							iterator=n;
 							begin=n;
+							point =n;
 						}
 						else
 						{
@@ -995,6 +1017,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					else
 					{
 						Node n=new Node(phase_del.get(order[0]),null);
+						n.setCount(i);
 						n.setEmitter(begin);
 						System.out.println(i+"  g  "+n.getDelay());
 					}
@@ -1012,6 +1035,29 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			
 				
 			}	
+		}
+		public void run()
+		{
+			while(!check2)
+			{
+				time=point.getDelay()-time;
+				System.out.println(point.getDelay()+"   "+point.getEmitter()+"  "+time+"  "+point.getCount());
+				if(t.isInterrupted())
+				{
+					break;
+				}
+				try
+				{
+					Write.invoke(Serial,point.getCount()+"");
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+				time_millis(time);
+				time=point.getDelay();
+				point=point.getEmitter();
+			}
 		}
 	}
 	public void componentHidden(ComponentEvent arg0) {
