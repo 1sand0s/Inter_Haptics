@@ -140,6 +140,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
 	static JButton AddSource,DeleteSource; //For adding and deleting transmitters
 	static JButton Clear,PhaseCalc;  //For clearing the canvas and calculating the phase delay
+        static JButton Set_Baud_Rate,Connect_serial,Execute;
+        /* Set_Baud_Rate-> setting baud rate for serial communication
+         * Connect_serial->establish serial communication
+         * Exceute -> Send data to serial port */
 	int ww,wh,wox,woy,gx,gy,gxy,wi,hi,si;// window width,window height,window offset x, window offset y, 
 	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"}; 
 	// Store the color values in med[] and then instantiate the color array with these values
