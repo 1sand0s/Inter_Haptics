@@ -190,6 +190,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   md=mr=true;
 	   Clear=new JButton("Clear");
 	   DeleteSource=new JButton("Delete Emitters");
+	   Set_Baud_Rate=new JButton("Baudrate");
+	   Connect_serial=new JButton("Connect to Serial");
+	   Execute=new JButton("Send Data");
 	   JLabel L=new JLabel("Frequency",JLabel.CENTER);
 	   JLabel L1=new JLabel("Resolution",JLabel.CENTER);
 	   JLabel L2=new JLabel("Emitter Size");
@@ -207,6 +210,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   PhaseCalc.addActionListener(this);
 	   Clear.addActionListener(this);
 	   DeleteSource.addActionListener(this);
+	   Set_Baud_Rate.addActionListener(this);
+	   Connect_serial.addActionListener(this);
+	   Execute.addActionListener(this);
 	   frequency.addAdjustmentListener(this);
 	   Resolution.addAdjustmentListener(this);
 	   em_size.addAdjustmentListener(this);
@@ -216,6 +222,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   add(PhaseCalc);
 	   add(Clear);
 	   add(DeleteSource);
+	   add(Set_Baud_Rate);
+	   add(Connect_serial);
+	   add(Execute);
 	   add(view_phase_plane);
 	   add(viewreal);
 	   add(L);
@@ -407,8 +416,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		/* 'add' -> we basically modify the add values ,since upon mouse click on the canvas
 		    we need to identify which action preceeded it,whether it was 'AddSource' or 'DeleteSource' etc*/
+		else if(arg0.getSource()==Set_Baud_Rate)
+		{
+			setRate();
+		}
+		else if(arg0.getSource()==Connect_serial)
+		{
+			connect_serial();
+		}
+		else if(arg0.getSource()==Execute)
+		{
+			new Serial_Handler();
+		}
 	}
-
+        private void setRate() 
+	{
+		baudrate=Integer.parseInt(JOptionPane.showInputDialog(this,"Enter Baud-Rate"));
+	}
 	public void phase_delay_cal(MouseEvent e) 
 	{
 		for(int i=0;i<loc.size();i++)
@@ -482,10 +506,6 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			/* 'check' -> Guard that enables rendering the canvas accounting for the phase differences
 			   if not set to true, the canvas will be rendered assuming no phase difference*/
 		}
-		if(!OS_Check)
-		{
-			connect_serial();
-		}
 		/*for(int i=0;i<transmitters;i++)   //for transmitting data to arduino ,still buggy
 		{
 			String h="";
@@ -529,7 +549,6 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				System.load(path_to_jar+"/jSSC-2.8.dll");
 				PApplet=papplet.newInstance();
 				com=(String[])List.invoke(serial);
-				baudrate=Integer.parseInt(JOptionPane.showInputDialog(this,"Enter Baud-Rate"));
 				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
 				if(connect)
 				{
@@ -912,6 +931,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			return ((y-woy) * can.getHeight()+can.getHeight()/2)/wh;
 		}
 		// returns the absolute x and y positions of the emitters relative to the container
+	}
+	class Serial_Handler
+	{
+		
 	}
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
