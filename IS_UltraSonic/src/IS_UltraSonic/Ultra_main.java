@@ -934,7 +934,85 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	class Serial_Handler
 	{
-		
+	        Serial_Handler()
+		{
+			new list();//.display();
+		}
+		class Node
+		{
+			double delay;
+			Node emitter;
+			Node()
+			{
+				delay=0.0;
+				emitter=null;
+			}
+			Node(double del,Node e)
+			{
+				delay=del;
+				emitter=e;
+			}
+			void setDelay(double del)
+			{
+				delay=del;
+			}
+			void setEmitter(Node e)
+			{
+				emitter=e;
+			}
+			Node getEmitter()
+			{
+				return emitter;
+			}
+			double getDelay()
+			{
+				return delay;
+			}
+		}
+		class list
+		{
+			Node iterator=null;
+			Node begin=null;
+			list()
+			{
+				for(int i=0;i<loc.size();i++)
+				{
+					if(i<loc.size()-1)
+					{
+						Node n=new Node(phase_del.get(order[i+1]),null);
+						if(iterator==null)
+						{
+							iterator=n;
+							begin=n;
+						}
+						else
+						{
+							iterator.setEmitter(n);
+							iterator=n;
+						}
+						System.out.println(i+" h "+n.getDelay());
+					}
+					else
+					{
+						Node n=new Node(phase_del.get(order[0]),null);
+						n.setEmitter(begin);
+						System.out.println(i+"  g  "+n.getDelay());
+					}
+					
+				}
+			}
+			void display()
+			{
+				Node counter=begin;
+				for(int i=0;i<loc.size();i++)
+				{
+					System.out.println(i+"   "+counter.getDelay());
+					counter=counter.getEmitter();
+				}
+			
+				
+			}	
+		}
 	}
 	public void componentHidden(ComponentEvent arg0) {
 		// TODO Auto-generated method stub
