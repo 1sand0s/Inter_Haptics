@@ -172,9 +172,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	static Color med2[]; // Color array soon to be instantiated with med[]
 	static Image im; // 'im' -> Images created using the 'source' ,used for updating the canvas with the ultrasonic wave
 	static JTextArea text; // For displaying the Phase calculations for each individual transmitter 
-	static int[] pixels,surface,pixel; 
+	static int[] pixels,surface,pixel,order; 
 	/* 'pixels' and 'pixel' are used for grabbing the pixels or modifying the pixels of the images
-	'surface' not yet implemented, for future use */
+	 * 'surface'-> not yet implemented, for future use
+	 * 'order'-> Required for holding the indices of the transmitters in ascending order of phase_delay*/
 	static float[] buf1,buf2,damp; 
 	/* 'buf1,buf2' -> hold the perturbed values after disturbance 
 	   'damp' -> holds the values to dampen the waves as they propogate away from the source */
@@ -512,14 +513,30 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			}
 			phase_del.add(i,(R-phase_length.get(i))*frequency.getValue());
 		}
-		double sm=phase_del.get(0);
-		for(int i=1;i<loc.size();i++)
+		order=new int[loc.size()];//instantiate order with number of transmitters
+		for(int i=0;i<loc.size();i++)
 		{
-			if(phase_del.get(i)<sm)
+			order[i]=i;
+		}
+		
+		for(int i=0;i<loc.size()-1;i++)
+		{
+			/* Bubble sort the contents of order depending 
+			 * on the contents of phase_del in ascending order
+			 * ,therefore order now holds the index of the 
+			 * transmitters whose phase delays are in 
+			 * ascending order*/
+			for(int j=0;j<loc.size()-1-i;j++)
 			{
-				sm=phase_del.get(i);
+				if(phase_del.get(j)>phase_del.get(j+1))
+				{
+					int t=order[j];
+					order[j]=order[j+1];
+					order[j+1]=t;
+				}
 			}
 		}
+		double sm=phase_del.get(order[0]);
 		/* Here we encounter another problem , since there are tramsitters both to left and right of mid-transmitter
 		   therefore any phase_delay causing an advance in excitation of the nth transmitter will be negative
 		   since (R-Lx)<0, therefore we find the smallest negative value (sm) in the phase_delay array  and subtract 
