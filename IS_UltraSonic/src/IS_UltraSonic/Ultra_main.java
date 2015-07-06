@@ -1165,12 +1165,14 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		p=new PixelGrabber(im,0,0,wi,hi,pixel,0,wi);
 		try
 		{
-			p.grabPixels();
-		}catch(InterruptedException e)
+			p.grabPixels(); //Grab the pixels from the image for modification
+		}
+		catch(InterruptedException e)
 		{
-			
+			e.printStackTrace();	
 		}
 		s=new MemoryImageSource(wi,hi,pixelupdate,0,wi);
+		/* Make the array pixelupdate the handle to the pixels of 's'*/
 		s.setAnimated(true);
 		s.setFullBufferUpdates(true);
 		im2=createImage(s);
@@ -1180,6 +1182,7 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		}
 		engine.start();
 		Timer t=new Timer(100,this);
+		/* For triggering ActionListener to cause disturbance */ 
 		t.start();
     }
     public Dimension getPreferredSize()
@@ -1217,6 +1220,8 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		fir=fir-sec;
 		int ind=fir;
 		int c=0;
+		/* Swap the indices pointing to the two halves of the array rather than 
+		 * swap the arrays themselves*/
 	    for (int y=1;y<hi;y++) 
 	    {
 	       for (int x=1;x<wi;x++) 
