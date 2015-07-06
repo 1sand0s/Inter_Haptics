@@ -278,15 +278,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		 * Therefore import all required classes and methods*/
 		try
 		{
-			path_to_jar=JOptionPane.showInputDialog(this,"Enter path to \"jars\" folder in the directory
-			                                               where this project has been downloaded");
-			for(int i=0;i<path_to_jar.length();i++)
-			{
-				if(path_to_jar.charAt(i)=='\\')
-				{
-					path_to_jar.replace('\\','/');
-				}
-			}                                           
+			URL url1=getClass().getResource("Ultra_main.class");
+			path_to_jar1=url1.toString();
+			path_to_jar1=path_to_jar1.replaceAll("/bin/IS_UltraSonic/Ultra_main.class","/jars");
+			path_to_jar1=path_to_jar1.replaceAll("file:","");
 			URL[] url={new URL("jar:file:" + path_to_jar+"!/")};
 			URLClassLoader c=new URLClassLoader(url);
 			papplet=Class.forName("processing.core.PApplet");
