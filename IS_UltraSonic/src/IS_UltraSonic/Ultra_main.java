@@ -154,9 +154,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	 * when mouse hovers over the emitter */
 	static String path_to_jar;
 	/* To hold the path to processing jars*/
-	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
-	static int accx=0,accy=0; // Points to the mid-value(x,y)of the linearly arranged transmitters
-	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
+	static int add=0; 
+	/* For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas*/
+	static int accx=0,accy=0; 
+	// Points to the mid-value(x,y)of the linearly arranged transmitters
+	static int tog; 
+	//Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
 	static JButton AddSource,DeleteSource; //For adding and deleting transmitters
 	static JButton Clear,PhaseCalc;  //For clearing the canvas and calculating the phase delay
         static JButton Set_Baud_Rate,Connect_serial,Execute;
@@ -177,21 +180,29 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   'damp' -> holds the values to dampen the waves as they propogate away from the source */
 	static boolean md,mr; 
 	// To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
-	static ArrayList<Emitter_loc>loc; // Holds the x,y on canvas and on screen values of each individual transmitter
+	static ArrayList<Emitter_loc>loc; 
+	/* loc->Holds the x,y on canvas and on screen values of each individual transmitter*/
 	static ArrayList<Double>phase_length,phase_del; 
 	/* 'phase_length' -> Lx(length from nth transmitter to focal point)
-	   'phase_del'    -> Time delay to counteract (R-Lx) */
+	 * 'phase_del'    -> Time delay to counteract (R-Lx) */
 	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
 	static MemoryImageSource source; 
-	// 'source' -> Acts as source for Image 'im', we modify the pixels and then update the image with the modified pixels
-	static double l; // Multiplier to keep perturbing the medium
-	static PixelGrabber p; // object to grab the pixels of 'source' modify it,update it and create Image 'im' with it
+	/* 'source' -> Acts as source for Image 'im', we modify the pixels and then update the 
+	 *  image with the modified pixels*/
+	static double l;
+	// Multiplier to keep perturbing the medium
+	static PixelGrabber p; 
+	/* object to grab the pixels of 'source' modify it,update it and create Image 'im' with it*/
 	static boolean set=true; //Yet to be implemented
-	static boolean check=false; // To check if focal point has been selected , if yes then change the phase accordingly
+	static boolean check=false; 
+	/* check-> To check if focal point has been selected , if yes then change the phase accordingly*/
 	static boolean light=true; // To send the data,stil buggy, requires more efficient implementation
-	static boolean connect=false; //To check whether serial communication has been established with arduino
-	static boolean check2=false; //To disable serial communication before closing the port
-	static int baudrate=9600; //Set default baud rate to 9600
+	static boolean connect=false; 
+	/* connect-> To check whether serial communication has been established with arduino*/
+	static boolean check2=false;
+	/* check2-> To disable serial communication before closing the port */
+	static int baudrate=9600; 
+	/* baudrate-> Set default baud rate to 9600 */
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -958,20 +969,31 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	class Serial_Handler
 	{
+		/* Bifuricate the painting of canvas and porting data to prevent hanging of the program.
+		 * This class handles the job of sorting the order in which the transmitters should be
+		 * excited and also takes care of sending the data to arduino */
 		Thread t;
+		/* t->  Make the process of sending data run along its own thread*/
 		double time=0.0;
+		/* time-> required for holding phase difference values*/
 		Node point;
+		/* point-> Required for initiating the start of the list while sending data*/
 	        Serial_Handler()
 		{
 			new list();
+			/* create the singularly linked circular list which will contain the order
+			 * in which the transmitters should be excited*/
 			t=new Thread(this);
 			t.start();
+			/* Instantiate the thread and start it*/
 		}
 		class Node
 		{
+			/* This class defines the fundamental parameters possessed by each transmitter
+			 * and helps in setting appropriate values to these parameters */
 			double delay;
 			Node emitter;
-			int count;
+			int count;// index count 
 			Node()
 			{
 				delay=0.0;
@@ -1002,10 +1024,18 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			{
 				return delay;
 			}
+			int getCount()
+			{
+				return count;
+			}
 		}
 		class list
 		{
+			/* This class handles the process of populating the list int he order
+			 * defined by the array 'order' which has been sorted bearing the indices 
+			 * of each transmitter in ascending order of Phase_delays*/
 			Node iterator=null;
+			/* Required to iterate through the list*/
 			Node begin=null;
 			list()
 			{
@@ -1013,6 +1043,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				{
 					if(i<loc.size()-1)
 					{
+						/* The if condition makes sure that every node or 
+						 * transmitter holds the address to the next until
+						 * it encounters the last one */
 						Node n=new Node(phase_del.get(order[i+1]),null);
 						n.setCount(i);
 						if(iterator==null)
@@ -1020,6 +1053,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 							iterator=n;
 							begin=n;
 							point =n;
+							/* Make point hold the address of the beginning
+							 * transmitter*/
+							
 						}
 						else
 						{
@@ -1030,6 +1066,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					}
 					else
 					{
+						/* The last transmitter or node is made to hold the address
+						 * of the first one thereby making the list circular*/
 						Node n=new Node(phase_del.get(order[0]),null);
 						n.setCount(i);
 						n.setEmitter(begin);
@@ -1054,7 +1092,13 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			while(!check2)
 			{
+				/* check2 makes sure to stop any serial communication thereby suspending the 
+				 * thread before the serial port is closed */
 				time=point.getDelay()-time;
+				/* The phase differences calculated are relative to the transmitter with lowest
+				 * delay value i.e 0.0, Therefore since the transmitters are being excited in
+				 * sequential manner ,to prevent any added delay, we subtract them from the delay
+				 * value he;d by previous node to offset the relation*/
 				System.out.println(point.getDelay()+"   "+point.getEmitter()+"  "+time+"  "+point.getCount());
 				if(t.isInterrupted())
 				{
@@ -1076,8 +1120,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					e.printStackTrace();
 				}
 				time_millis(time);
-				time=point.getDelay();
-				point=point.getEmitter();
+				/* generate the delay , could have used sleep but would have sacrificed accuracy
+				 * since it only accepts long*/
+				time=point.getDelay(); // get the old delay required for subtraction
+				point=point.getEmitter(); //get the new transmitter
 			}
 		}
 	}
