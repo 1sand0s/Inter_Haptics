@@ -129,17 +129,31 @@ public class Ultra_main extends JFrame
 */
 class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager
 {
-	static JScrollBar frequency,Resolution,em_size; // For controlling Frequency,Resolution and emitter size
-	static Ultra_canvas can; // For drawing the ultrasonic waves
-	static int transmitters=0; // For Kepping count of number of transmitters
-	static int dsX = -1, dsY; // For keeping track of x and y co-ordinates of Mouse click on the canvas
+	static JScrollBar frequency,Resolution,em_size; 
+	/* frequency-> Controls the frequency of the emitted ultrasonic wave
+	 * Resolution-> Controls the relative grid size allowing magnification of the canvas
+	 * em_size-> Controls the diameter of the emitter */
+	static Ultra_canvas can; 
+	/* For drawing the ultrasonic waves, the canvas is differentiated from the frame to facilitate easy paint job */
+	static int transmitters=-1; 
+	// For Keeping count of number of transmitters
+	static int dsX = -1, dsY;
+	// For keeping track of x and y co-ordinates of Mouse click on the canvas
 	static Method Setup,Draw,Write,Available,List;
 	static Object PApplet,Serial;
 	static Class papplet,serial;
+	/* Setup-> To dynamically load processing 'setup' method = Configure all parameters
+	 * Draw-> "                             " 'draw' method = repeated loop
+	 * Write->"				" 'write' method = part of Serial class to write to port
+	 * Available->"				" 'available' method = to check is serial data is available
+	 * List->"				" 'list' method = to list all COM ports in usage
+	 * PApplet-> To hold new instance of processing's PApplet class
+	 * Serial->"					" Serial class*/
 	static int selemitter; 
-	static String path_to_jar;
 	/* 'selemitter' -> For checking if any transmitter has been selected to be dragged,deleted etc,occurs 
-	when mouse hovers over the emitter */
+	 * when mouse hovers over the emitter */
+	static String path_to_jar;
+	/* To hold the path to processing jars*/
 	static int add=0; // For switching between clear,add emitter,delete emitter blocks on mouse clicks in the canvas
 	static int accx=0,accy=0; // Points to the mid-value(x,y)of the linearly arranged transmitters
 	static int tog; //Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
@@ -183,7 +197,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		System.loadLibrary("blink");
 	}*/
 	public static native void write(String h);
-	
+	/* native method to send data to C which in turn sends it to arduino*/
     Ultra_virtual()
     {
     	// Instantiate the variables
