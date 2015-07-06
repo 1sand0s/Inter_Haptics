@@ -240,9 +240,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   can.addMouseListener(this);
 	   AddSource.addActionListener(this);
 	   PhaseCalc.addActionListener(this);
+	   AddSource.setActionCommand("ADD_SRC");
+	   DeleteSource.setActionCommand("DEL_SRC");
+	   Clear.setActionCommand("CLEAR");
+	   PhaseCalc.setActionCommand("PHASE");
+	   Connect_serial.setActionCommand("CONNECT");
+	   Execute.setActionCommand("SEND");
 	   Clear.addActionListener(this);
 	   DeleteSource.addActionListener(this);
 	   Set_Baud_Rate.addActionListener(this);
+	   Set_Baud_Rate.setActionCommand("BAUD");
 	   Connect_serial.addActionListener(this);
 	   Execute.addActionListener(this);
 	   frequency.addAdjustmentListener(this);
@@ -320,6 +327,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   defineRaster(); // Make 'pixels[]' the defining array(handle) for the pixels of 'source'
 	   setVisible(true);
 	}
+	public enum BTN_SRC{ADD_SRC,DEL_SRC,CLEAR,PHASE,CONNECT,SEND,BAUD}
 	public void settings() 
 	{
 		gxy = gx*gy; 
@@ -419,41 +427,43 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	}
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		
-		if(arg0.getSource()==Clear)
+		BTN_SRC btn=BTN_SRC.valueOf(arg0.getActionCommand());
+		switch(btn)
 		{
+			case CLEAR:
 			clearWave(); // Clear the waves or the medium 
 			check=false;
 			/* 'check' -> Clear the focal point and hence clearing all the phase differences
 			    between the transmitters*/
 			set=true;
 			can.repaint();// repaint the canvas
-		}
-		else if(arg0.getSource()==AddSource)
-		{
+			break;
+		
+			case ADD_SRC:
 			add=1;
-		}
-		else if(arg0.getSource()==DeleteSource)
-		{
+			break;
+		
+			case DEL_SRC:
 			add=2;
-		}
-		else if(arg0.getSource()==PhaseCalc)
-		{
+			break;
+			
+			case PHASE:
 			add=3;
-		}
-		/* 'add' -> we basically modify the add values ,since upon mouse click on the canvas
-		    we need to identify which action preceeded it,whether it was 'AddSource' or 'DeleteSource' etc*/
-		else if(arg0.getSource()==Set_Baud_Rate)
-		{
+			break;
+			/* 'add' -> we basically modify the add values ,since upon mouse click on the canvas
+		    	 *  we need to identify which action preceeded it,whether it was 'AddSource' or 'DeleteSource' etc*/
+			case BAUD:
 			setRate();
-		}
-		else if(arg0.getSource()==Connect_serial)
-		{
+			break;
+			
+			case CONNECT:
 			connect_serial();
-		}
-		else if(arg0.getSource()==Execute)
-		{
+			break;
+			
+			case SEND:
 			new Serial_Handler();
+			break;
+		
 		}
 	}
         private void setRate() 
