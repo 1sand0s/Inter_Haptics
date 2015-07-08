@@ -35,7 +35,9 @@ public class Ultra_main extends JFrame
 	}
 	public void windowActivated(WindowEvent arg0) 
 	{
-			
+		Ultra_virtual.stop.setState(false);
+		/* If the window is activated, that is if the mouse has been clicked inside the container(Frame)
+		 * Then uncheck 'stop' cehckbox and resume the rendering process*/
 	}
 	public void windowClosed(WindowEvent arg0) 
 	{
@@ -65,19 +67,25 @@ public class Ultra_main extends JFrame
 	}
 	public void windowDeactivated(WindowEvent arg0) 
 	{
-					// TODO Auto-generated method stub
+		Ultra_virtual.stop.setState(true);
+		/* If the mouse has been clicked outside the container , check the 'stop' checkbox 
+		 * and stop the rendering process until the container is made active again*/
 					
 	}
 
 	public void windowDeiconified(WindowEvent arg0) 
 	{
-					// TODO Auto-generated method stub
+		Ultra_virtual.stop.setState(false);
+		/* If the container has been maximized ,then uncheck the 'stop' checkbox and resume
+		 * the rendering process*/
 					
 	}
 
 	public void windowIconified(WindowEvent arg0) 
 	{
-					// TODO Auto-generated method stub
+		Ultra_virtual.stop.setState(true);
+		/* If the container(Frame) has been minimized or iconified ,check the 'stop' checkbox
+		 * and stop the rendering process to prevent wastage of system resource*/
 					
 	}
 
