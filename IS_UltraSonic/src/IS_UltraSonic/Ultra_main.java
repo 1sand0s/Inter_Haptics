@@ -639,7 +639,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	public void addEmitters(int x,int y) 
 	{
 	    transmitters++;
-	    loc.add(new Emitter_loc(x,y));
+	    Emitter_loc E=new Emitter_loc();
+	    E.setx(x);
+	    E.sety(y);
+	    loc.add(E);
 	}
 
 	public void mouseClicked(MouseEvent arg0) 
@@ -968,16 +971,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    return;
 			}
 	}
-	class Emitter_loc
+	class Emitter_loc implements java.io.Serializable
 	{
 		//Class, basically containing info about position of the emitters
 		int x,y;
 		float v;
-		Emitter_loc(int xx,int yy)
+		/* We use java Beans structure to construct this class ,since if at a later
+		 * point we require to use this data in servlets or send them through a 
+		 * network, it makes things easier and cleaner*/
+		void setx(int xx)
 		{
 			x=xx;
+			/* set x position of the transmitter relative to canvas and not container(Frame)*/
+		}
+		void sety(int yy)
+		{
 			y=yy;
-			// locations on canvas conforming to the co-ordinate system used by the canvas
+			/* set y position of the transmitter relative to canvas and not container(Frame)*/
 		}
 		int getx()
 		{
@@ -987,7 +997,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			return ((y-woy) * can.getHeight()+can.getHeight()/2)/wh;
 		}
-		// returns the absolute x and y positions of the emitters relative to the container
+		// returns the absolute x and y positions of the emitters relative to the container(Frame)
 	}
 	class Serial_Handler
 	{
