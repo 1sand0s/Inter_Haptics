@@ -187,6 +187,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	/* 'phase_length' -> Lx(length from nth transmitter to focal point)
 	 * 'phase_del'    -> Time delay to counteract (R-Lx) */
 	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
+	static Checkbox stop;
+	/* stop->Stop the simulation */
 	static MemoryImageSource source; 
 	/* 'source' -> Acts as source for Image 'im', we modify the pixels and then update the 
 	 *  image with the modified pixels*/
@@ -217,6 +219,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   AddSource=new JButton("Add Emitters");
 	   PhaseCalc=new JButton("Phase Calculation");
 	   text=new JTextArea(5,10);
+	   stop=new Checkbox("Stop");
 	   phase_length=new ArrayList<Double>();
 	   phase_del=new ArrayList<Double>();
 	   md=mr=true;
@@ -264,6 +267,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   add(Set_Baud_Rate);
 	   add(Connect_serial);
 	   add(Execute);
+	   add(stop);
 	   add(view_phase_plane);
 	   add(viewreal);
 	   add(L);
@@ -744,10 +748,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public void field(Graphics g1) 
 	{
-		for (int i = 0;i<1; i++)
+		for (int i = 0;i<1 && !stop.getState();; i++)
 		{
 			/* The above for loop is presently useless however should we ever feel the need to
-			   speed up the simulation it can be updated through a JScrollbar */
+			 * speed up the simulation it can be updated through a JScrollbar, stop the simulation
+			 * if the check box is selected */
 			int js, je, ji;
 			if (md) 
 			{
@@ -759,8 +764,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			}
 			mr = md;
 			/* As seen above each alternative rendering cycle sets and resets md,mr, this switches the 
-			   index values(js,je,ji) from starting index to end index meaning, the canvas gets rendered
-			   alternatively in up down to maintain uniformity*/
+			 * index values(js,je,ji) from starting index to end index meaning, the canvas gets rendered
+			 * alternatively in up down to maintain uniformity*/
 			for (int j = js; j != je; j += ji) 
 			{
 			    int is, ie, ii;
@@ -773,20 +778,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					ii = -1; is = gx-2; ie = 0; mr = true;
 			    }
 			    /* The same procedure is carried out for left right rendering to maintain uniformity and
-			       avoid any directional bias in rendering*/
+			     * avoid any directional bias in rendering*/
 			    int gi = j*gy+is;//gives the absolute pixel location similar to (x-coor+y-coor*width)
 			    int gie = j*gy+ie;
 			    for (; gi != gie; gi += ii) 
 			    {
 			    	float b =(buf1[gi-1]+buf1[gi+1]+buf1[gi-gy]+buf1[gi+gy])*0.25f;
-			    	/*With each passing index 'gi' this disturbance is transferred to the next group 
-			    	  of pixels, therefore eventually spreading the dirturbance across the entire
-			    	  medium*/
+			    	/* With each passing index 'gi' this disturbance is transferred to the next group 
+			    	 * of pixels, therefore eventually spreading the dirturbance across the entire
+			    	 * medium*/
 			    	buf1[gi]*=damp[gi];
 			    	buf2[gi]*=damp[gi];
 			    	/* Since 'buf1' and 'buf2' basically hold the perturbed values or in other words the
-			    	   velocity information of the propogating waves, we multiply it with damping factor
-			    	   to simulate exponential decay*/
+			    	 * velocity information of the propogating waves, we multiply it with damping factor
+			    	 * to simulate exponential decay*/
 			    	buf1[gi]-=b;
 			    	// We update 'buf1' with the distrubance propogating through 'b' 
 			    	float x=(float)(Math.sin(0.25)*buf2[gi]+Math.cos(0.25)*buf1[gi]+b);
