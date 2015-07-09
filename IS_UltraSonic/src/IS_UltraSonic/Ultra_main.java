@@ -1209,6 +1209,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    	}
         	selemitter = -1;
     	}
+    	class Integral_Rayleigh_Sommerfeld
+    	{
+    		
+    	}
+    	class Simpson_Series_Integral
+    	{
+    		
+    	}
 }
 class Ultra_canvas extends Canvas
 {
