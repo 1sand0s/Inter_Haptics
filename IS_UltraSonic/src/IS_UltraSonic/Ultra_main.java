@@ -1219,10 +1219,24 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	}
     	class Numerical_Integration
     	{
+    		/* This class performs the task of computing the Rayleigh Sommerfeld Integral through
+    		 * numerical integration.It acheives this through either the trapezoidal,simpson's 1/3
+    		 * and simpson's 3/8 depending on the number of terms,accuracy,efficiency and performance
+    		 * required. For certain features of the integrand certain methods converge faster thereby
+    		 * making them the preferred choice*/
+    		 
+    		/* 'n'-> Step Count
+    		 * 'a'-> Lower Limit of Integration
+    		 * 'b'-> Upper Limit of Integration */
     		public double Trapezoidal(int n,int a,int b)
     		{
+    			/* This method of numerical integration uses trapezoids to approximate the function
+    			 * curve. It is most preferred when the step count is small.*/
     			double del_x=(b-a)/n;
     			double res=0.0;
+    			
+    			/* 'del_x'-> The width of the trapezoid
+    			 * 'res'-> The accumulator to store the result after each iteration*/
     			for(int i=0;i<=n;i++)
     			{
 	    			double para=a+i*del_x;
