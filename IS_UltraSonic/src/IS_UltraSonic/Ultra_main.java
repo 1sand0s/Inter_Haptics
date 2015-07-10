@@ -1297,18 +1297,46 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			res*=(del_x/3);
     			/* Multiply result by del_x and divide by '3' and return*/
 	    		return res;
+	    		
+	    		/* Code Logic
+	    		 * The expression for any parabola is 'y=ax^2+bx+c' and given three points each to determine
+	    		 * 'a','b'and 'c' constants we can find the parabola that passes through those points,therefore
+	    		 * the code works by finding the regions of many such parabolas computed which best fit the given 
+	    		 * curve*/
 	    	}
 	    	public double Simpsons_Three_Eighth(int n,int a,int b)
     		{
+    			/* This method employs cubic polynomials to approximate the function curve. It is the 
+    			 * most preferred method when the number of terms or step count is multiple of 3*/
 	    		double del_x=(b-a)/n;
     			double res=0.0;
     			for(int i=0;i<=n;i++)
     			{
 	    			double para=a+i*del_x;
     				res+=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(para)):(i%3==0?(2*Integral_Rayleigh_Sommerfeld.func(para)):(3*Integral_Rayleigh_Sommerfeld.func(para)));
+    				/* I have execute the condition using ternary operator for compactness and efficiency
+    				 * but the logic is as follows
+    				 *  
+    				 *  if(i==0||i==n)
+    				 *  {
+    				 *  	res+=Integral_Rayleigh_Sommerfeld(para);
+    				 *  }
+    				 *  else if(i%3==0)
+    				 *  {
+    				 *  	res+=(2*Integral_Rayleigh_Sommerfeld(para));
+    				 *  }
+    				 *  else
+    				 *  {
+    				 *	res+=(3*Integral_Rayleigh_Sommerfeld(para));
+    				 *  }
+    				 * Basically if the term corressponding to the iterator is either the first or last
+    				 * term then add as it is, if they are multiples of 3 excluding the first and last then 
+    				 * multiply by '2' and add or else if they are non-multiples of 3 excluding the first and last
+    				 * multiply by '3' and add */
     			}
     			res*=((del_x*3)/8);
 	    		return res;
+	    		/* Fairly the same logic as Simpson's 1/3 rule but instead employs cubic polynomials*/
     			
     		}
     	}
