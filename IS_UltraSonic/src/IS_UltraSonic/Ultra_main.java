@@ -1241,9 +1241,28 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			{
 	    			double para=a+i*del_x;
     				res+=i==0||i==n?Integral_Rayleigh_Sommerfeld.func(para)/2:Integral_Rayleigh_Sommerfeld.func(para);
+    				/* I have execute the condition using ternary operator for compactness and efficiency
+    				 * but the logic is as follows
+    				 *  
+    				 *  if(i==0||i==n)
+    				 *  {
+    				 *  	res+=Integral_Rayleigh_Sommerfeld(para)/2;
+    				 *  }
+    				 *  else
+    				 *  {
+    				 *  	res+=Integral_Rayleigh_Sommerfeld(para);
+    				 *  }
+    				 * Basically if the term corressponding to the iterator is either the first or last
+    				 * term then divide it by two and add or else add it as it is*/
 	    		}
     			res=res*del_x;
+    			/* Multiply the result with del_x and return*/ 
     			return res;
+    			
+    			/* Code Logic: 
+    			 * The area of trapezoid is ((sum of parallel sides)*distance between the parallel sides)/2
+    			 * The result returned by the 'func' corressponds to the parallel sides of the trapezoid
+    			 * The del_x corresponds to the width */
     		}	
     		public double Simpsons_one_third(int n,int a,int b)
     		{
