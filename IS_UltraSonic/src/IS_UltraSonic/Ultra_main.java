@@ -1266,7 +1266,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		}	
     		public double Simpsons_one_third(int n,int a,int b)
     		{
-    			/* This method employs quadratic curves to approximate the function curve. It is 
+    			/* This method employs quadratic curves(parabolas) to approximate the function curve. It is 
     			 * the most preferred method when the number of terms is even */
 	    		double del_x=(b-a)/n;
     			double res=0.0;
