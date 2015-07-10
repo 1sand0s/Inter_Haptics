@@ -1209,13 +1209,28 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    	}
         	selemitter = -1;
     	}
-    	class Integral_Rayleigh_Sommerfeld
+    	static class Integral_Rayleigh_Sommerfeld
     	{
-    		
+    		 public static double func(double para)
+    		{
+	    		return para;
+	    	}
+    	
     	}
     	class Numerical_Integration
     	{
-    		
+    		public double Trapezoidal(int n,int a,int b)
+    		{
+    			double del_x=(b-a)/n;
+    			double res=0.0;
+    			for(int i=0;i<=n;i++)
+    			{
+	    			double para=a+i*del_x;
+    				res+=i==0||i==n?Integral_Rayleigh_Sommerfeld.func(para)/2:Integral_Rayleigh_Sommerfeld.func(para);
+	    		}
+    			res=res*del_x;
+    			return res;
+    		}	
     	}
 }
 class Ultra_canvas extends Canvas
