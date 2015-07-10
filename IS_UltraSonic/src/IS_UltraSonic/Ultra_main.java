@@ -1243,6 +1243,19 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			res*=(del_x/3);
 	    		return res;
 	    	}
+	    	public double Simpsons_Three_Eighth(int n,int a,int b)
+    		{
+	    		double del_x=(b-a)/n;
+    			double res=0.0;
+    			for(int i=0;i<=n;i++)
+    			{
+	    			double para=a+i*del_x;
+    				res+=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(para)):(i%3==0?(2*Integral_Rayleigh_Sommerfeld.func(para)):(3*Integral_Rayleigh_Sommerfeld.func(para)));
+    			}
+    			res*=((del_x*3)/8);
+	    		return res;
+    			
+    		}
     	}
 }
 class Ultra_canvas extends Canvas
