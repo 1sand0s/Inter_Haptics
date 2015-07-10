@@ -1213,7 +1213,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	{
     		
     	}
-    	class Simpson_Series_Integral
+    	class Numerical_Integration
     	{
     		
     	}
