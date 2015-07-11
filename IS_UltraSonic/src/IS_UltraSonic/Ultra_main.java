@@ -1212,8 +1212,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	public double Field_Length()
     	{
     		/* Calculates the length of the near field and returns it*/
-    		double N=(Math.pow(em_size.getValue(),2)*frequency.getValue())/(4*330000);
+    		double N=(Math.pow(em_size.getValue(),2)*frequency.getValue())/(4*330);
     		return N;
+    	}
+    	public double Beam_Angle()
+    	{
+    		/* Calculates the angle of inlcination of the beam relative to the principle normal*/
+    		double a=Math.asin(0.514*330)/(frequency.getValue()*em_size.getValue());
+    		return a;
     	}
     	static class Integral_Rayleigh_Sommerfeld
     	{
