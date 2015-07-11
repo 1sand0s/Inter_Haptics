@@ -857,12 +857,32 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int y=((((dsY*ww)-(can.getHeight()/2))/can.getHeight())+woy);
 		// obtain the x,y co-ordinates of the mouse location on canvas 
 		String s = "(" + x + "," + y +")";
+		String f=Static_Pressure_Compute(x,y);
+		String s1="Force : "+f.substring(0,f.indexOf(","));
+		String s2="Pressure : "+f.substring(f.indexOf(",")+1,f.length());
 		g1.setColor(Color.white);
 		g1.drawString(s,gy/18,gy/10);
-	
+		g1.drawString(s1,gy/18,(gy/10)+10);
+		g1.drawString(s2,gy/18,(gy/10)+20);
 		
 	}
-	
+	public String Static_Pressure_Compute(int x, int y) 
+	{
+		double wave_length=330000/(frequency.getValue()*1000);
+		double midy;
+		double SPL=0.02;
+		midy=0;
+		for(int i=0;i<loc.size();i++)
+		{
+			midy+=loc.get(i).y;
+		}
+		midy=midy/loc.size();
+		double z=y-midy;
+		double W=(Math.pow(wave_length, 2)*Math.pow(z, 2)*Math.pow(SPL, 2)*(10^6))/(2*Math.PI*1.2*330000*Math.pow(em_size.getValue(),2));
+		double F=(2*loc.size()*W)/(330000);
+		return F+","+W;
+		
+	}
 	private void planarv() 
 	{
 		int ix = 0;
