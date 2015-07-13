@@ -1243,13 +1243,55 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	}
     	static class Integral_Rayleigh_Sommerfeld
     	{
-    		 public static double func(double para)
+    		static double k=(2*Math.PI*frequency.getValue()*1000)/(330000);
+        	static double alpha=0.00656;
+        	static double rho=1.22*Math.pow(10,-6);
+        	static double r;
+        	static Complex p;
+    		public static Complex func(double x,int div,int mul)
     		{
-	    		return para;
+	    		double dist=Math.abs(x-r);
+    			double cos=Math.cos(Math.toRadians(k*dist));
+    			double sin=Math.sin(Math.toRadians(k*dist));
+    			double deno=dist*Math.exp(alpha*dist);
+    			Complex comp=new Complex(cos,sin);
+    			comp.div(deno*div);
+    			comp.mul(mul*dist);
+	    		return comp;
 	    	}
     	
     	}
-    	class Numerical_Integration
+    	static class Complex
+	 {
+	    	double real;
+	    	double imag;
+	    	Complex(double r,double i)
+	    	{
+    			real=r;
+	    		imag=i;
+    		}	
+    		void div(double i)
+    		{
+	    		real/=i;
+    			imag/=i;
+    		}
+    		void mul(double m)
+    		{
+	    		real*=m;
+    			imag*=m;
+    		}
+    		void mul(String h)
+    		{
+	    		double t=real;
+    			real=-imag;
+    			imag=t;
+	    	}
+	    	double abs()
+    		{	
+	    		return Math.sqrt(Math.pow(real,2)+Math.pow(imag,2));
+	    	}
+    	}
+    	static class Numerical_Integration
     	{
     		/* This class performs the task of computing the Rayleigh Sommerfeld Integral through
     		 * numerical integration.It acheives this through either the trapezoidal,simpson's 1/3
@@ -1260,12 +1302,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		/* 'n'-> Step Count
     		 * 'a'-> Lower Limit of Integration
     		 * 'b'-> Upper Limit of Integration */
+    		Complex res[];
+    		double r,im;
     		public double Trapezoidal(int n,int a,int b)
     		{
     			/* This method of numerical integration uses trapezoids to approximate the function
     			 * curve. It is most preferred when the step count is small.*/
     			double del_x=(b-a)/n;
-    			double res=0.0;
+    			res=new Complex[n];
+    			r=0.0;
+    			im=0.0;
     			
     			/* 'del_x'-> The width of the trapezoid
     			 * 'res'-> The accumulator to store the result after each iteration*/
