@@ -1345,16 +1345,19 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			 * The result returned by the 'func' corressponds to the parallel sides of the trapezoid
     			 * The del_x corresponds to the width */
     		}	
-    		public double Simpsons_one_third(int n,int a,int b)
+    		public static Complex Simpsons_one_third(int n,int a,int b)
     		{
     			/* This method employs quadratic curves(parabolas) to approximate the function curve. It is 
     			 * the most preferred method when the number of terms is even */
 	    		double del_x=(b-a)/n;
-    			double res=0.0;
-    			for(int i=0;i<=n;i++)
+    			res=new Complex[n+1];
+	    		r=0.0;
+    			im=0.0;
     			{
-	    			double para=a+i*del_x;
-    				res+=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(para)):(i%2==0?(2*Integral_Rayleigh_Sommerfeld.func(para)):(4*Integral_Rayleigh_Sommerfeld.func(para)));
+	    			double x=a+i*del_x;
+    				res[i]=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(x,1,1)):(i%2==0?(Integral_Rayleigh_Sommerfeld.func(x,1,2)):(Integral_Rayleigh_Sommerfeld.func(x,1,4)));
+	    			r+=res[i].real;
+    				im+=res[i].imag;
     				/* I have execute the condition using ternary operator for compactness and efficiency
     				 * but the logic is as follows
     				 *  
@@ -1375,9 +1378,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 * multiply by '2' and add or else if they are odd terms excluding the first and last
     				 * multiply by '4' and add */
     			}
-    			res*=(del_x/3);
+    			r*=(del_x/3);
+    			im*=(del_x/3);
+    			return new Complex(r,im);
     			/* Multiply result by del_x and divide by '3' and return*/
-	    		return res;
+	    	
 	    		
 	    		/* Code Logic
 	    		 * The expression for any parabola is 'y=ax^2+bx+c' and given three points each to determine
