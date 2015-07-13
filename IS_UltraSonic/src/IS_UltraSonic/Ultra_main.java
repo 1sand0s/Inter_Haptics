@@ -1268,7 +1268,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			comp.div(deno*div);
     			comp.mul(mul*dist);
 	    		return comp;
-	    		/* 'dist'-> distance from the surface of transducer to the point in space*/
+	    		/* 'dist'-> distance from the surface of transducer to the point in space
+	    		 * 'cos'-> real part of complex number
+	    		 * 'sin'->imaginary part of complex number
+	    		 * 'deno'-> holds the denominator
+	    		 *
+	    		 *  function= (exp((jk-alpha)*mod(x-r))*x)/(mod(x-r)
+	    		 * For the sake of simplicity , we use euler's theorem to conver this
+	    		 * complex exponential into cosines and sines*/
 	    	}
     	
     	}
