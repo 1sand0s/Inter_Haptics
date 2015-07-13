@@ -1390,16 +1390,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    		 * the code works by finding the regions of many such parabolas computed which best fit the given 
 	    		 * curve*/
 	    	}
-	    	public double Simpsons_Three_Eighth(int n,int a,int b)
+	    	public static Complex Simpsons_Three_Eighth(int n,int a,int b)
     		{
     			/* This method employs cubic polynomials to approximate the function curve. It is the 
     			 * most preferred method when the number of terms or step count is multiple of 3*/
 	    		double del_x=(b-a)/n;
-    			double res=0.0;
+    			res=new Complex[n+1];
+    			r=0.0;
+    			im=0.0;
     			for(int i=0;i<=n;i++)
     			{
-	    			double para=a+i*del_x;
-    				res+=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(para)):(i%3==0?(2*Integral_Rayleigh_Sommerfeld.func(para)):(3*Integral_Rayleigh_Sommerfeld.func(para)));
+	    			double x=a+i*del_x;
+    				res[i]=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(x,1,1)):(i%3==0?(Integral_Rayleigh_Sommerfeld.func(x,1,2)):(Integral_Rayleigh_Sommerfeld.func(x,1,2)));
+    				r+=res[i].real;
+    				im+=res[i].imag;
     				/* I have execute the condition using ternary operator for compactness and efficiency
     				 * but the logic is as follows
     				 *  
@@ -1420,8 +1424,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 * multiply by '2' and add or else if they are non-multiples of 3 excluding the first and last
     				 * multiply by '3' and add */
     			}
-    			res*=((del_x*3)/8);
-	    		return res;
+    			r*=((del_x*3)/8);
+    			im*=((del_x*3)/8);
+    			return new Complex(r,im);
 	    		/* Fairly the same logic as Simpson's 1/3 rule but instead employs cubic polynomials*/
     			
     		}
