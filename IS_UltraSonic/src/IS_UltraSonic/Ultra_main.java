@@ -1326,11 +1326,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 *  
     				 *  if(i==0||i==n)
     				 *  {
-    				 *  	res+=Integral_Rayleigh_Sommerfeld(para)/2;
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,2,1);
     				 *  }
     				 *  else
     				 *  {
-    				 *  	res+=Integral_Rayleigh_Sommerfeld(para);
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,1);
     				 *  }
     				 * Basically if the term corressponding to the iterator is either the first or last
     				 * term then divide it by two and add or else add it as it is*/
@@ -1363,15 +1363,15 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 *  
     				 *  if(i==0||i==n)
     				 *  {
-    				 *  	res+=Integral_Rayleigh_Sommerfeld(para);
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,1);
     				 *  }
     				 *  else if(i%2==0)
     				 *  {
-    				 *  	res+=(2*Integral_Rayleigh_Sommerfeld(para));
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,2);
     				 *  }
     				 *  else
     				 *  {
-    				 *	res+=(4*Integral_Rayleigh_Sommerfeld(para));
+    				 *	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,4);
     				 *  }
     				 * Basically if the term corressponding to the iterator is either the first or last
     				 * term then add as it is, if they are even terms excluding the first and last then 
@@ -1409,15 +1409,15 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 *  
     				 *  if(i==0||i==n)
     				 *  {
-    				 *  	res+=Integral_Rayleigh_Sommerfeld(para);
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,1);
     				 *  }
     				 *  else if(i%3==0)
     				 *  {
-    				 *  	res+=(2*Integral_Rayleigh_Sommerfeld(para));
+    				 *  	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,2);
     				 *  }
     				 *  else
     				 *  {
-    				 *	res+=(3*Integral_Rayleigh_Sommerfeld(para));
+    				 *	res[i]=Integral_Rayleigh_Sommerfeld.func(x,1,3);
     				 *  }
     				 * Basically if the term corressponding to the iterator is either the first or last
     				 * term then add as it is, if they are multiples of 3 excluding the first and last then 
