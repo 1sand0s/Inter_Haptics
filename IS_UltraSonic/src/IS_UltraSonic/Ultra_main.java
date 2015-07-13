@@ -1260,6 +1260,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			 * Basically since the width is divided into smaller steps
     			 * x0,x1,x2..xn ,this method computes the corresponding 
     			 * y0,y1,y2..yn and returns it as a complex object*/
+    			/* 'x'->Step width
+    			 * 'div'->Divisor for the integral 'y' depending on the term 
+    			 * 'mul'->Multiplier for the integral 'y' depending on the term*/
 	    		double dist=Math.abs(x-r);
     			double cos=Math.cos(Math.toRadians(k*dist));
     			double sin=Math.sin(Math.toRadians(k*dist));
@@ -1274,7 +1277,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    		 * 'deno'-> holds the denominator
 	    		 *
 	    		 *  function= (exp((jk-alpha)*mod(x-r))*x)/(mod(x-r)
-	    		 * For the sake of simplicity , we use euler's theorem to conver this
+	    		 * For the sake of simplicity , we use euler's theorem to convert this
 	    		 * complex exponential into cosines and sines*/
 	    	}
     	
