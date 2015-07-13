@@ -50,7 +50,6 @@ public class Ultra_main extends JFrame
 			if((!Ultra_virtual.OS_Check) && Ultra_virtual.connect)
 			{
 				check2=true;
-				JOptionPane.showMessageDialog(this, "Closing Port on "+Ultra_virtual.com[0]);
 				Ultra_virtual.disconnect_serial();
 				System.exit(0);
 			}
@@ -448,6 +447,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			/* 'check' -> Clear the focal point and hence clearing all the phase differences
 			    between the transmitters*/
 			set=true;
+			light=true;
+			if(connect)
+			{
+				check2=true;
+				disconnect_serial();
+			}
 			can.repaint();// repaint the canvas
 			break;
 		
@@ -636,6 +641,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		try
 		{
 			Method Close=serial.getMethod("stop");
+			JOptionPane.showMessageDialog(can,"Closing Serial Communication on Port "+com[0]);
+			connect=false;
 			Close.invoke(Serial);
 		}
 		catch(Exception e)
@@ -1173,7 +1180,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				{
 					if(!OS_Check)
 					{
-						Write.invoke(Serial,point.getCount()+"");
+						Write_Serial(point.getCount()+"");
 					}
 					else
 					{
@@ -1189,6 +1196,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				 * since it only accepts long*/
 				time=point.getDelay(); // get the old delay required for subtraction
 				point=point.getEmitter(); //get the new transmitter
+			}
+		}
+	}
+	public static synchronized void Write_Serial(String h)
+	{
+		if(!OS_Check)
+		{
+			try
+			{
+				Write.invoke(Serial,h);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
