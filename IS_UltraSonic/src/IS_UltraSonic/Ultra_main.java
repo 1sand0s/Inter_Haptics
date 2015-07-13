@@ -1255,6 +1255,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
         	 * 'p'->complex to hold the integrated value*/
     		public static Complex func(double x,int div,int mul)
     		{
+    			/* Method to insert the step values into the function 
+    			 * and hence compute the respective integral values 
+    			 * Basically since the width is divided into smaller steps
+    			 * x0,x1,x2..xn ,this method computes the corresponding 
+    			 * y0,y1,y2..yn and returns it as a complex object*/
 	    		double dist=Math.abs(x-r);
     			double cos=Math.cos(Math.toRadians(k*dist));
     			double sin=Math.sin(Math.toRadians(k*dist));
@@ -1263,6 +1268,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			comp.div(deno*div);
     			comp.mul(mul*dist);
 	    		return comp;
+	    		/* 'dist'-> distance from the surface of transducer to the point in space*/
 	    	}
     	
     	}
