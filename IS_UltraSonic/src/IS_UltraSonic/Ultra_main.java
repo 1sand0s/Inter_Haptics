@@ -1248,6 +1248,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
         	static double rho=1.22*Math.pow(10,-6);
         	static double r;
         	static Complex p;
+        	/* 'k'-> wave number
+        	 * 'alpha'-> attenuation coefficient
+        	 * 'rho'->density of medium of propogation
+        	 * 'r'->point in space
+        	 * 'p'->complex to hold the integrated value*/
     		public static Complex func(double x,int div,int mul)
     		{
 	    		double dist=Math.abs(x-r);
@@ -1263,32 +1268,41 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	}
     	static class Complex
 	 {
+	 	/* Class used for creating and operating and executing complex operations
+	 	 * Allows easy manipulations of complex numbers and their maintainance */
 	    	double real;
 	    	double imag;
+	    	/* 'real'-> Real part of complex object
+	    	 * 'imag'-> Imaginary part of complex object */
 	    	Complex(double r,double i)
 	    	{
     			real=r;
 	    		imag=i;
+	    		/* Constructor to define the real and imaginary part of the complex number*/
     		}	
     		void div(double i)
     		{
 	    		real/=i;
     			imag/=i;
+    			/* Method to divide the complex number by certain real number*/
     		}
     		void mul(double m)
     		{
 	    		real*=m;
     			imag*=m;
+    			/* Method to multiply the complex number by real number*/
     		}
     		void mul(String h)
     		{
 	    		double t=real;
     			real=-imag;
     			imag=t;
+    			/* Method to multiply the complex number by complex value 'i'*/
 	    	}
 	    	double abs()
     		{	
 	    		return Math.sqrt(Math.pow(real,2)+Math.pow(imag,2));
+	    		/* Method to calculate and return the magnitude of the complex number*/
 	    	}
     	}
     	static class Numerical_Integration
@@ -1304,6 +1318,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		 * 'b'-> Upper Limit of Integration */
     		static Complex res[];
     		static double r,im;
+    		/* 'res'->The complex object which is used to store the complex numbers pertaining to each
+    		 *        iteration
+    		 * 'r'-> Accumulator to sum up the real part of 'res'
+    		 * 'im'->Accumulator to sum up the imaginary part of 'res'*/
     		public static Complex Trapezoidal(int n,int a,int b)
     		{
     			/* This method of numerical integration uses trapezoids to approximate the function
