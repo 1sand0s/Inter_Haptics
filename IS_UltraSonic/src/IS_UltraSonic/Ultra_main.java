@@ -1302,14 +1302,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		/* 'n'-> Step Count
     		 * 'a'-> Lower Limit of Integration
     		 * 'b'-> Upper Limit of Integration */
-    		Complex res[];
-    		double r,im;
-    		public double Trapezoidal(int n,int a,int b)
+    		static Complex res[];
+    		static double r,im;
+    		public static Complex Trapezoidal(int n,int a,int b)
     		{
     			/* This method of numerical integration uses trapezoids to approximate the function
     			 * curve. It is most preferred when the step count is small.*/
     			double del_x=(b-a)/n;
-    			res=new Complex[n];
+    			res=new Complex[n+1];
     			r=0.0;
     			im=0.0;
     			
@@ -1317,8 +1317,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			 * 'res'-> The accumulator to store the result after each iteration*/
     			for(int i=0;i<=n;i++)
     			{
-	    			double para=a+i*del_x;
-    				res+=i==0||i==n?Integral_Rayleigh_Sommerfeld.func(para)/2:Integral_Rayleigh_Sommerfeld.func(para);
+	    			double x=a+i*del_x;
+    				res[i]=i==0||i==n?Integral_Rayleigh_Sommerfeld.func(x,2,1):Integral_Rayleigh_Sommerfeld.func(x,1,1);
+	    			r+=res[i].real;
+    				im+=res[i].imag;
     				/* I have execute the condition using ternary operator for compactness and efficiency
     				 * but the logic is as follows
     				 *  
@@ -1333,9 +1335,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     				 * Basically if the term corressponding to the iterator is either the first or last
     				 * term then divide it by two and add or else add it as it is*/
 	    		}
-    			res=res*del_x;
+    			r*=del_x;
+    			im*=del_x;
     			/* Multiply the result with del_x and return*/ 
-    			return res;
+    			return new Complex(r,im);
     			
     			/* Code Logic: 
     			 * The area of trapezoid is ((sum of parallel sides)*distance between the parallel sides)/2
