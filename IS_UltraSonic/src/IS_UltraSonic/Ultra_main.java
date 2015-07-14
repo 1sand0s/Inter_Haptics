@@ -1292,7 +1292,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			if(!(deno==0||div==0))
     			{
     				comp.div(deno*div);
-    				comp.mul(mul*dist);
+    				comp.mul(mul*dist*x);
     			}
 	    		return comp;
 	    		/* 'dist'-> distance from the surface of transducer to the point in space
