@@ -456,6 +456,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    between the transmitters*/
 			set=true;
 			light=true;
+			canvas2.clear();
 			if(connect)
 			{
 				check2=true;
@@ -1562,23 +1563,30 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 	   This was added to shed more light on the working of the algorithm, as here we 
 	   are dealing with the pixels concerning an actual image hence demonstrating
 	   how the algorithm affects it*/
-	int wi=800,hi=640,hw=wi/2,hh=hi/2,fir=wi,sec=wi*(hi+3);
-	int [] pixel,pixelupdate,buf;
-	ArrayList<String>up=new ArrayList<String>();
-	PixelGrabber p;
-	Ultra_virtual v2;
-	Thread engine;
-	MemoryImageSource s;
-	Image im,im2;
-	JLabel l;
+	static int wi=800,hi=640,hw=wi/2,hh=hi/2,fir=wi,sec=wi*(hi+3);
+	static int [] pixel,pixelupdate,buf;
+	static ArrayList<String>up=new ArrayList<String>();
+	static PixelGrabber p;
+	static Ultra_virtual v2;
+	static Thread engine;
+	static MemoryImageSource s;
+	static Image im,im2;
+	static JLabel l;
+	static canvas2 c;
+	static boolean check3=true;
 	public Dimension getMinimumSize()
 	{
         	return new Dimension(100, 100);
     	}
 
-    canvas2(Ultra_virtual v)
-    {
-    	v2=v;
+	canvas2(Ultra_virtual v)
+    	{
+	    	v2=v;
+	    	c=this;
+	    	configure();
+    	}	
+    	public void configure()
+    	{
 		im=new ImageIcon("C:/Users/Public/Pictures/Sample Pictures/Koala.jpg").getImage();
 		l=new JLabel();
 		l.setIcon(new ImageIcon(im));
@@ -1600,28 +1608,27 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		s.setAnimated(true);
 		s.setFullBufferUpdates(true);
 		im2=createImage(s);
-		if(engine==null)
-		{
-			engine=new Thread(this);
-		}
+		engine=new Thread(this);
+		check3=true;
+		
 		engine.start();
 		Timer t=new Timer(100,this);
 		/* For triggering ActionListener to cause disturbance */ 
 		t.start();
-    }
-    public Dimension getPreferredSize()
-    {
-        return new Dimension(800, 640);
-    }
+    	}
+    	public Dimension getPreferredSize()
+    	{
+	        return new Dimension(800, 640);
+    	}
 
   
-    public Dimension getMaximumSize() 
-    {
-        return new Dimension(800, 640);
-    }
+    	public Dimension getMaximumSize() 
+    	{
+	        return new Dimension(800, 640);
+    	}
 	public void run() 
 	{
-		while(Thread.currentThread()==engine)
+		while(Thread.currentThread()==engine && check3)
 		{
 			updategrid();
 			s.newPixels();
@@ -1646,25 +1653,25 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		int c=0;
 		/* Swap the indices pointing to the two halves of the array rather than 
 		 * swap the arrays themselves*/
-	    for (int y=1;y<hi;y++) 
-	    {
-	       for (int x=1;x<wi;x++) 
-	       {
-	         short d = (short)(((buf[ind-wi]+buf[ind+wi]+buf[ind-1]+buf[ind+1])/2)-buf[sec+c]);
-	         d -= d/1024;
-	         buf[sec+c]=d;
-	         d= (short)(1024-d);
-	         int a=((x-hw)*d/1024)+hw;
-	         int b=((y-hh)*d/1024)+hh;
-	         if (a>=wi) a=wi-1;
-	         if (a<0) a=0;
-	         if (b>=hi) b=hi-1;
-	         if (b<0) b=0;
-	         pixelupdate[c]=pixel[a+(b*wi)];	         
-	         ind++;
-	         c++;
-	       }
-	     }
+		for (int y=1;y<hi;y++) 
+	        {
+	       		for (int x=1;x<wi;x++) 
+	       		{
+		         	short d = (short)(((buf[ind-wi]+buf[ind+wi]+buf[ind-1]+buf[ind+1])/2)-buf[sec+c]);
+		         	d -= d/1024;
+	         		buf[sec+c]=d;
+		         	d= (short)(1024-d);
+	         		int a=((x-hw)*d/1024)+hw;
+	         		int b=((y-hh)*d/1024)+hh;
+	         		if (a>=wi) a=wi-1;
+	         		if (a<0) a=0;
+	         		if (b>=hi) b=hi-1;
+	         		if (b<0) b=0;
+	         		pixelupdate[c]=pixel[a+(b*wi)];	         
+		         	ind++;
+	         		c++;		
+	       		}
+	     	}
 		
 	}
 	public void actionPerformed(ActionEvent arg0) 
@@ -1690,5 +1697,18 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		       } 
 		   }
 	    }
+	}
+	public static void clear()
+	{
+		check3=false;
+		try
+		{
+			engine.join();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		c.configure();
 	}
 }
