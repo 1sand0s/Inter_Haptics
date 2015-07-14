@@ -402,10 +402,13 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 
 	public void mouseDragged(MouseEvent arg0) 
 	{
-		loc_edit(arg0);
-		/* If mouse is dragged over an emitter than update the emitter element with the new 
-	           location and repaint the canvas*/
-		can.repaint();
+		if(loc.size()==0)
+		{
+			loc_edit(arg0);
+			/* If mouse is dragged over an emitter than update the emitter element with the new 
+	           	location and repaint the canvas*/
+			can.repaint();
+		}
 	}
 
 	public void mouseMoved(MouseEvent arg0) 
@@ -666,6 +669,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    E.setx(x);
 	    E.sety(y);
 	    loc.add(E);
+	    if(loc.size()==1)
+	    {
+	    	can.repaint();
+	    }
 	}
 
 	public void mouseClicked(MouseEvent arg0) 
@@ -872,6 +879,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		String s1="Force : "+f.substring(0,f.indexOf(","));
 		String s2="Pressure : "+f.substring(f.indexOf(",")+1,f.length());
 		g1.setColor(Color.white);
+		g1.setFont(new Font("TimesRoman",Font.PLAIN,12));
 		g1.drawString(s,gy/18,gy/10);
 		g1.drawString(s1,gy/18,(gy/10)+10);
 		g1.drawString(s2,gy/18,(gy/10)+20);
@@ -1266,6 +1274,15 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		double a=Math.asin(0.514*330)/(frequency.getValue()*em_size.getValue());
     		return a;
     	}
+    	public void field1(Graphics g)
+    	{
+    		g.setFont(new Font("Monotype Corsiva",Font.BOLD,64));
+    		g.setColor(new Color(0));
+    		g.fillRect(0,0,can.getWidth(),can.getHeight());
+    		g.setColor(new Color(255,255,255));
+    		g.drawString("1sand0s",gy,gy);
+    		g.drawString("Coding sets you free",gy-150,gy+100);
+    	}
     	static class Integral_Rayleigh_Sommerfeld
     	{
     		static double k=(2*Math.PI*frequency.getValue()*1000)/(330000);
@@ -1504,11 +1521,27 @@ class Ultra_canvas extends Canvas
 	}
 	public void paint(Graphics g)
 	{
-		m2.field(g);
+		
+		if(Ultra_virtual.loc.size()==0)
+		{
+			m2.field1(g);
+		}
+		else
+		{
+			m2.field(g);
+		}
 	}
 	public void update(Graphics g)
 	{
-		m2.field(g);
+		if(Ultra_virtual.loc.size()==0)
+		{
+			m2.field1(g);
+		}
+		else
+		{
+			m2.field(g);
+		}
+		
 	}
 }
 class Ultra_real extends JInternalFrame
