@@ -1289,8 +1289,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			double sin=Math.sin(Math.toRadians(k*dist));
     			double deno=dist*Math.exp(alpha*dist);
     			Complex comp=new Complex(cos,sin);
-    			comp.div(deno*div);
-    			comp.mul(mul*dist);
+    			if(!(deno==0||div==0))
+    			{
+    				comp.div(deno*div);
+    				comp.mul(mul*dist);
+    			}
 	    		return comp;
 	    		/* 'dist'-> distance from the surface of transducer to the point in space
 	    		 * 'cos'-> real part of complex number
