@@ -498,8 +498,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			accx+=loc.get(i).x;
 			accy+=loc.get(i).y;
 		}
-		accx=accx/transmitters;
-		accy=accy/transmitters;
+		accx=accx/loc.size();
+		accy=accy/loc.size();
 		/* accx,accy -> since all the transmitters are equally spaced , this gives the median or mid value
 		   of the transmitter's x-coord,y-coord and therefore points to the mid transmitter*/
 		int u=((((e.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox);
@@ -537,7 +537,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			{
 				phase_length.add(i,Math.sqrt(R*R+Math.pow((accx-loc.get(i).x),2)+2*R*Math.abs(accx-loc.get(i).x)*sin_phi*tog));
 			}
-			phase_del.add(i,(R-phase_length.get(i))*frequency.getValue());
+			phase_del.add(i,(R-phase_length.get(i))/330000);
 		}
 		order=new int[loc.size()];//instantiate order with number of transmitters
 		for(int i=0;i<loc.size();i++)
@@ -820,11 +820,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    }
 			}
 			l += 0.25;
-			if (transmitters> 0) 
+			if (loc.size()> 0) 
 			{
 			    double w = frequency.getValue()*l*0.0233;
 			    double v = Math.cos(w);
-			    for (int j = 0; j<transmitters; j++)
+			    for (int j = 0; j<loc.size(); j++)
 			    {
 			    	// If check is not set to true then render without phase difference 
 			    	if(!check)
@@ -833,10 +833,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    	}
 			    	else
 			    	{
-			    		loc.get(j).v=(float)Math.cos((2*Math.PI*frequency.getValue()*phase_del.get(j)+Math.PI*0.5)+w);
+			    		loc.get(j).v=(float)Math.cos(2*Math.PI*frequency.getValue()*phase_del.get(j)*1000+w);
 			    	}
 			    }
-			    for (i = 0; i<transmitters; i++) 
+			    for (i = 0; i<loc.size(); i++) 
 			    {
 				    buf1[loc.get(i).x+gy*loc.get(i).y] =loc.get(i).v;
 				    buf2[loc.get(i).x+gy*loc.get(i).y] = 0;
@@ -936,7 +936,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			}
 		     }
 		}
-		for (i = 0; i<transmitters; i++) 
+		for (i = 0; i<loc.size(); i++) 
 		{
 		    int xx = loc.get(i).getx();
 		    int yy = loc.get(i).gety();
@@ -978,7 +978,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 
 	private void plotPixel(int i, int j, int col) 
 	{
-		if (i < 0 || i>= can.getWidth())
+		if (i < 0 || i>= can.getWidth() || j<0 || j>can.getHeight())
 		    return;
 		try 
 		{ 
@@ -1240,7 +1240,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    	int x = e.getX();
 	    	int y = e.getY();
 	    	int i;
-	    	for (i = 0; i<transmitters; i++)
+	    	for (i = 0; i<loc.size(); i++)
 	    	{
     			int x2=loc.get(i).getx();
     			int y2=loc.get(i).gety();
