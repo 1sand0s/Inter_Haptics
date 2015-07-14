@@ -211,6 +211,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	/* connect-> To check whether serial communication has been established with arduino*/
 	static boolean check2=false;
 	/* check2-> To disable serial communication before closing the port */
+	static boolean OS_Check=true;
+	/* OS_Check-> To check whether the OS is Windows or Linux*/
 	static int baudrate=9600; 
 	/* baudrate-> Set default baud rate to 9600 */
 	/* static     //data to arduino ,code still buggy
