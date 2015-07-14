@@ -2,6 +2,7 @@ package IS_UltraSonic;
 
 import java.awt.Canvas;
 import java.awt.Checkbox;
+import java.awt.Font;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -402,7 +403,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 
 	public void mouseDragged(MouseEvent arg0) 
 	{
-		if(loc.size()==0)
+		if(loc.size()!=0)
 		{
 			loc_edit(arg0);
 			/* If mouse is dragged over an emitter than update the emitter element with the new 
@@ -845,7 +846,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			    }
 			    for (i = 0; i<loc.size(); i++) 
 			    {
-				    buf1[loc.get(i).x+gy*loc.get(i).y] =loc.get(i).v;
+				    buf1[loc.get(i).x+gy*loc.get(i).y] =loc.get(loc.size()-i-1).v;
 				    buf2[loc.get(i).x+gy*loc.get(i).y] = 0;
 		            }
 			}
