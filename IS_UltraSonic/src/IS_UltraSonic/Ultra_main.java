@@ -763,7 +763,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public void field(Graphics g1) 
 	{
-		for (int i = 0;i<1 && !stop.getState();; i++)
+		for (int i = 0;i<1 && !stop.getState(); i++)
 		{
 			/* The above for loop is presently useless however should we ever feel the need to
 			 * speed up the simulation it can be updated through a JScrollbar, stop the simulation
