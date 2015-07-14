@@ -1362,7 +1362,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     		 *        iteration
     		 * 'r'-> Accumulator to sum up the real part of 'res'
     		 * 'im'->Accumulator to sum up the imaginary part of 'res'*/
-    		public static Complex Trapezoidal(int n,int a,int b)
+    		public static Complex Trapezoidal(int n,double a,double b)
     		{
     			/* This method of numerical integration uses trapezoids to approximate the function
     			 * curve. It is most preferred when the step count is small.*/
@@ -1403,7 +1403,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			 * The result returned by the 'func' corressponds to the parallel sides of the trapezoid
     			 * The del_x corresponds to the width */
     		}	
-    		public static Complex Simpsons_one_third(int n,int a,int b)
+    		public static Complex Simpsons_one_third(int n,double a,double b)
     		{
     			/* This method employs quadratic curves(parabolas) to approximate the function curve. It is 
     			 * the most preferred method when the number of terms is even */
@@ -1448,7 +1448,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    		 * the code works by finding the regions of many such parabolas computed which best fit the given 
 	    		 * curve*/
 	    	}
-	    	public static Complex Simpsons_Three_Eighth(int n,int a,int b)
+	    	public static Complex Simpsons_Three_Eighth(int n,double a,double b)
     		{
     			/* This method employs cubic polynomials to approximate the function curve. It is the 
     			 * most preferred method when the number of terms or step count is multiple of 3*/
