@@ -16,6 +16,7 @@ Usage
    thats inside a folder called 'jars' which is also included in the folder 
    'Inter_Haptics-master/IS_UltraSonic'
 5. Run the java file Ultra_main.java
+6. For more details, see my video https://youtu.be/lzrv-VvoatU
 
 Queries
 =========================
