@@ -52,7 +52,7 @@ public class Ultra_main extends JFrame implements WindowListener
 		{
 			if((!Ultra_virtual.OS_Check) && Ultra_virtual.connect)
 			{
-				check2=true;
+				Ultra_virtual.check2=true;
 				Ultra_virtual.disconnect_serial();
 				System.exit(0);
 			}
@@ -218,6 +218,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	/* OS_Check-> To check whether the OS is Windows or Linux*/
 	static int baudrate=9600; 
 	/* baudrate-> Set default baud rate to 9600 */
+	static String com[];
+	/* com-> To hold the list of Ports connected to the PC*/
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -317,14 +319,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			List=serial.getMethod("list");
 			OS_Check=false;
 		}
-		catch(ClassNotFoundException e)
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-		catch(NoSuchMethodException e)
-		{
-			e.printStackTrace();
-		}
+		
 			
 	   }
 	   else
@@ -1044,7 +1043,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		// returns the absolute x and y positions of the emitters relative to the container(Frame)
 	}
-	class Serial_Handler
+	class Serial_Handler implements Runnable
 	{
 		/* Bifuricate the painting of canvas and porting data to prevent hanging of the program.
 		 * This class handles the job of sorting the order in which the transmitters should be
@@ -1416,6 +1415,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			res=new Complex[n+1];
 	    		r=0.0;
     			im=0.0;
+    			for(int i=0;i<=n;i++)
     			{
 	    			double x=a+i*del_x;
     				res[i]=i==0||i==n?(Integral_Rayleigh_Sommerfeld.func(x,1,1)):(i%2==0?(Integral_Rayleigh_Sommerfeld.func(x,1,2)):(Integral_Rayleigh_Sommerfeld.func(x,1,4)));
