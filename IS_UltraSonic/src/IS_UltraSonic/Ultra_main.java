@@ -138,7 +138,7 @@ public class Ultra_main extends JFrame implements WindowListener
  advance hence as given below ,we will use a variable 'tog' to account for both these variations
 ========================================================================================================================== 
 */
-class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager
+class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager,ItemListener
 {
 	static JScrollBar frequency,Resolution,em_size; 
 	/* frequency-> Controls the frequency of the emitted ultrasonic wave
@@ -267,6 +267,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   Clear.addActionListener(this);
 	   DeleteSource.addActionListener(this);
 	   Set_Baud_Rate.addActionListener(this);
+	   stop.addItemListener(this);
 	   Set_Baud_Rate.setActionCommand("BAUD");
 	   Connect_serial.addActionListener(this);
 	   Execute.addActionListener(this);
@@ -1513,6 +1514,17 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     			
     		}
     	}
+    	public void itemStateChanged(ItemEvent arg0) 
+	{
+		if(arg0.getSource()==stop)
+		{
+			if(!stop.getState())
+			{
+				canvas2.stopped();
+			}
+		}
+		
+	}
 }
 class Ultra_canvas extends Canvas
 {
@@ -1573,6 +1585,7 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 	static Image im,im2;
 	static JLabel l;
 	static canvas2 c;
+	static Object lock;
 	static boolean check3=true;
 	public Dimension getMinimumSize()
 	{
@@ -1610,7 +1623,7 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		im2=createImage(s);
 		engine=new Thread(this);
 		check3=true;
-		
+		lock=new Object();
 		engine.start();
 		Timer t=new Timer(100,this);
 		/* For triggering ActionListener to cause disturbance */ 
@@ -1628,11 +1641,26 @@ class canvas2 extends JPanel implements ActionListener,Runnable
     	}
 	public void run() 
 	{
-		while(Thread.currentThread()==engine && check3)
+		synchronized(lock)
 		{
-			updategrid();
-			s.newPixels();
-			repaint();
+			while(Thread.currentThread()==engine && check3)
+			{
+				try
+				{
+					
+					if(v2.stop.getState())
+					{
+						lock.wait();
+					}
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+				updategrid();
+				s.newPixels();
+				repaint();
+			}
 		}
 		
 	}
@@ -1710,5 +1738,12 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 			e.printStackTrace();
 		}
 		c.configure();
+	}
+	public static void stopped()
+	{
+		synchronized(lock)
+		{
+			lock.notify();
+		}
 	}
 }
