@@ -1759,3 +1759,29 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		}
 	}
 }
+abstract class Frequency
+{
+	abstract void set_value(int n);
+	abstract int get_value();
+	int Freq;
+}
+class Carrier extends Frequency
+{
+
+	static final int CAR_F1=20;
+	static final int CAR_F2=45;
+	static final int CAR_F3=75;
+	static final int CAR_F4=1000;
+	static final int CAR_F5=2000;
+	static final int CAR_F6=4000;
+	static final int CAR_F7=6000;
+	void set_value(int n) 
+	{
+		Freq=n;
+	}
+	int get_value()
+	{
+		return Freq;
+	}
+	
+}
