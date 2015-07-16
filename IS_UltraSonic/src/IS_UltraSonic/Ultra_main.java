@@ -1769,7 +1769,7 @@ class Carrier extends Frequency
 {
 
 	static final int CAR_F1=20;
-	static final int CAR_F2=45;
+	static final int CAR_F2=40;
 	static final int CAR_F3=75;
 	static final int CAR_F4=1000;
 	static final int CAR_F5=2000;
