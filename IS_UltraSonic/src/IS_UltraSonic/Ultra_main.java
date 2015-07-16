@@ -1785,3 +1785,28 @@ class Carrier extends Frequency
 	}
 	
 }
+class Modulated extends Frequency
+{
+
+	static final int MOD_F1=50;
+	static final int MOD_F2=70;
+	static final int MOD_F3=90;
+	static final int MOD_F4=100;
+	static final int MOD_F5=120;
+	static final int MOD_F6=140;
+	static final int MOD_F7=160;
+	static final int MOD_F8=180;
+	static final int MOD_F9=200;
+	
+	void set_value(int n) 
+	{
+		Freq=n;
+	}
+
+	int get_value() 
+	{
+		
+		return Freq;
+	}
+	
+}
