@@ -755,22 +755,46 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	    	arg0.getComponent(0).setSize(cw, h);// Refers to the canvas which is set to width 'cw' and height 'h'
 		int barwidth = w - cw;//Width of the remaining part of container excluding the canvas
 		h=0;
+		int c=0;
 		for (int i = 1; i < arg0.getComponentCount(); i++) 
 		{
 		    	Component m = arg0.getComponent(i);
 		  	Dimension d = m.getPreferredSize();
+		  	if(arg0.getComponent(i) instanceof JButton)
+			{
+				if(c%2==0)
+				{
+					d.width=barwidth/2;
+					m.setSize(d);
+					m.setLocation(cw, h);
+				
+				}
+				else
+				{
+					d.width=barwidth/2;
+					m.setSize(d);
+					m.setLocation(cw+d.width,h);
+					h+=d.height;
+				}
+				c++;
+			}
 			if (arg0.getComponent(i) instanceof JScrollBar)
 			{
-			    d.width = barwidth;
+			    	d.width = barwidth;
+			    	m.setLocation(cw,h+50);
+				m.setSize(d);
+			    	h += d.height;
 			}
 			if (arg0.getComponent(i) instanceof JLabel)
 			{
-			    h += d.height/5;
-			    d.width = barwidth;
+			    	h += d.height/5;
+			    	d.width = barwidth;
+			    	h += d.height;
+			    	m.setLocation(cw,h+50);
+				m.setSize(d);
+				h += d.height;
 			}
-			m.setLocation(cw,h);
-			m.setSize(d);
-			h += d.height;
+			
 			//Basically set the width,height,location fro different components excluding the canvas
 		 }
 	}
