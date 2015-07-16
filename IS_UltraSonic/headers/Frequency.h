@@ -19,7 +19,7 @@
 //Carrier Frequencies listed in KHz
 
 #define CAR_F1 20
-#define CAR_F2 45
+#define CAR_F2 40
 #define CAR_F3 75
 #define CAR_F4 1000
 #define CAR_F5 2000
