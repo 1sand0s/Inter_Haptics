@@ -18,6 +18,8 @@ ORG 0003H
 	
 		 CLR TR1
 		 CLR TR0
+		 CLR TL0
+		 CLR TL1
 		 MOV TH1,#0FDH
 		 SETB IE.4
 		 RETI
