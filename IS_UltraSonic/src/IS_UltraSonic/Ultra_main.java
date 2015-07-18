@@ -1804,13 +1804,13 @@ class Carrier extends Frequency
 	Carrier()
 	{
 		list=new String[7];
-		list[0]=CAR_F1+" : 20KHZ";
-		list[1]=CAR_F2+" : 40KHZ";
-		list[2]=CAR_F3+" : 75KHZ";
-		list[3]=CAR_F4+" : 1MHZ";
-		list[4]=CAR_F5+" : 2MHZ";
-		list[5]=CAR_F6+" : 4MHZ";
-		list[6]=CAR_F7+" : 6MHZ";
+		list[0]="CAR_F1 : 20KHZ";
+		list[1]="CAR_F2 : 40KHZ";
+		list[2]="CAR_F3 : 75KHZ";
+		list[3]="CAR_F4 : 1MHZ";
+		list[4]="CAR_F5 : 2MHZ";
+		list[5]="CAR_F6 : 4MHZ";
+		list[6]="CAR_F7 : 6MHZ";
 	}
 	void set_value(int n) 
 	{
@@ -1841,15 +1841,15 @@ class Modulated extends Frequency
 	Modulated()
 	{
 		list=new String[9];
-		list[0]=MOD_F1+" : 50HZ";
-		list[1]=MOD_F2+" : 70HZ";
-		list[2]=MOD_F3+" : 90HZ";
-		list[3]=MOD_F4+" : 100HZ";
-		list[4]=MOD_F5+" : 120HZ";
-		list[5]=MOD_F6+" : 140HZ";
-		list[6]=MOD_F7+" : 160HZ";
-		list[7]=MOD_F8+" : 180HZ";
-		list[8]=MOD_F9+" : 200HZ";
+		list[0]="MOD_F1 : 50HZ";
+		list[1]="MOD_F2 : 70HZ";
+		list[2]="MOD_F3 : 90HZ";
+		list[3]="MOD_F4 : 100HZ";
+		list[4]="MOD_F5 : 120HZ";
+		list[5]="MOD_F6 : 140HZ";
+		list[6]="MOD_F7 : 160HZ";
+		list[7]="MOD_F8 : 180HZ";
+		list[8]="MOD_F9 : 200HZ";
 	}
 	void set_value(int n) 
 	{
