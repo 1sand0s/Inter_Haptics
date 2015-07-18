@@ -1,3 +1,32 @@
+/* Copyright (C) 2015 ADITYA T 
+ * ORG: Interactive Spaces
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.*/
+ 
                                              8051 Signal Generator 
+          
+          
+The following link is to my PCB web account which contains the PCB LAYOUT for the 8051 Signal Generator
+http://www.pcbweb.com/projects/tzcshXaWRVyupbADNmpTBtbRMHqndq
+
+J1(Rectangular Header)
+======================
+
+The pin configuration is as follows for the Header
+
+2.  RX   -> To receive frequency data from Arduino or other MC
+4.  TX   -> Not actually required but for future use.
+6.  INT0 -> The interrupt pin which must be set low to enable Serial communication with the 8051
+8.  VCC  -> Power supply
+10. GND  -> Ground
+12. OUT1 -> Connect to X1 of AD633JN(Analog Multiplier).
+14. OUT2 -> Connect to Y1 of AD633JN(Analog Multiplier).
 
 
