@@ -28,7 +28,7 @@ ORG 0003H ; Vector Address for Harware Interrupt INT0
 		 RETI			;Return
 		 
 ORG 000BH ; Vector Address for Timer 0 Interrupt
-	
+
 		 CLR A 
 		 MOVC A,@A+DPTR
 		 INC DPTR
@@ -41,7 +41,8 @@ ORG 000BH ; Vector Address for Timer 0 Interrupt
 PROC3:	 	 RETI
 
 ORG 0023H ; Vector Address for Serial Interrupt
-		
+;Stores the frequency values sent through serial into address pointed to by 60H which is 03H(R3) , then increments to 04H(R4)
+;and stores the next frequency value
 		 MOV A,SBUF
 		 CLR RI
 		 MOV @60H,A
@@ -79,7 +80,7 @@ MAIN:	 	 MOV P3,#0FFH
 		 MOV R6,#18h
 		 MOV 60H,#03H
 
-LOCK:		 CJNE 60H,#05H,LOCK
+LOCK:		 CJNE 60H,#05H,LOCK ; Disables wave generation until both frequencies have been fed at which time 60H will contain 05H having stored values at 03H and 04H
 		 
 TRANS:	 	 CLR IE.4
 		 MOV 60H,#03H
