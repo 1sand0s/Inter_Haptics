@@ -1787,6 +1787,8 @@ abstract class Frequency
 {
 	abstract void set_value(int n);
 	abstract int get_value();
+	abstract String[] get_list();
+	String[] list;
 	int Freq;
 }
 class Carrier extends Frequency
@@ -1799,6 +1801,17 @@ class Carrier extends Frequency
 	static final int CAR_F5=2000;
 	static final int CAR_F6=4000;
 	static final int CAR_F7=6000;
+	Carrier()
+	{
+		list=new String[7];
+		list[0]=CAR_F1+" : 20KHZ";
+		list[1]=CAR_F2+" : 40KHZ";
+		list[2]=CAR_F3+" : 75KHZ";
+		list[3]=CAR_F4+" : 1MHZ";
+		list[4]=CAR_F5+" : 2MHZ";
+		list[5]=CAR_F6+" : 4MHZ";
+		list[6]=CAR_F7+" : 6MHZ";
+	}
 	void set_value(int n) 
 	{
 		Freq=n;
@@ -1806,6 +1819,10 @@ class Carrier extends Frequency
 	int get_value()
 	{
 		return Freq;
+	}
+	String[] get_list()
+	{
+		return list;
 	}
 	
 }
@@ -1821,7 +1838,19 @@ class Modulated extends Frequency
 	static final int MOD_F7=160;
 	static final int MOD_F8=180;
 	static final int MOD_F9=200;
-	
+	Modulated()
+	{
+		list=new String[9];
+		list[0]=MOD_F1+" : 50HZ";
+		list[1]=MOD_F2+" : 70HZ";
+		list[2]=MOD_F3+" : 90HZ";
+		list[3]=MOD_F4+" : 100HZ";
+		list[4]=MOD_F5+" : 120HZ";
+		list[5]=MOD_F6+" : 140HZ";
+		list[6]=MOD_F7+" : 160HZ";
+		list[7]=MOD_F8+" : 180HZ";
+		list[8]=MOD_F9+" : 200HZ";
+	}
 	void set_value(int n) 
 	{
 		Freq=n;
@@ -1832,5 +1861,8 @@ class Modulated extends Frequency
 		
 		return Freq;
 	}
-	
+	String[] get_list()
+	{
+		return list;
+	}
 }
