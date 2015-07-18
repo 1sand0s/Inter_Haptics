@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.*;
@@ -185,10 +186,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	//Required to toggle + or - depending on whether the phase_cal point is < or > accx respectively
 	static JButton AddSource,DeleteSource; //For adding and deleting transmitters
 	static JButton Clear,PhaseCalc;  //For clearing the canvas and calculating the phase delay
-        static JButton Set_Baud_Rate,Connect_serial,Execute;
+        static JButton Set_Baud_Rate,Connect_serial,Execute,Carrier_freq,Modulated_freq;
         /* Set_Baud_Rate-> setting baud rate for serial communication
          * Connect_serial->establish serial communication
-         * Exceute -> Send data to serial port */
+         * Exceute -> Send data to serial port
+         * Carrier_freq-> Set Carrier Frequency
+         * Modulated_freq-> Set Modulated Frequency*/
 	int ww,wh,wox,woy,gx,gy,gxy,wi,hi,si;// window width,window height,window offset x, window offset y, 
 	static String med[]={"#800000","#ffffff","#000000","#808080","#0000ff","#000000","#000080","#00ff00"}; 
 	// Store the color values in med[] and then instantiate the color array with these values
@@ -245,6 +248,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   can=new Ultra_canvas(this);
 	   AddSource=new JButton("Add Emitters");
 	   PhaseCalc=new JButton("Phase Calculation");
+	   Carrier_freq=new JButton("Set Carrier");
+	   Modulated_freq=new JButton("Set Modulated");
 	   text=new JTextArea(5,10);
 	   stop=new Checkbox("Stop");
 	   phase_length=new ArrayList<Double>();
@@ -276,6 +281,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   PhaseCalc.setActionCommand("PHASE");
 	   Connect_serial.setActionCommand("CONNECT");
 	   Execute.setActionCommand("SEND");
+	   Carrier_freq.setActionCommand("CAR_freq");
+	   Modulated_freq.setActionCommand("MOD_freq");
 	   Clear.addActionListener(this);
 	   DeleteSource.addActionListener(this);
 	   Set_Baud_Rate.addActionListener(this);
@@ -283,6 +290,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   Set_Baud_Rate.setActionCommand("BAUD");
 	   Connect_serial.addActionListener(this);
 	   Execute.addActionListener(this);
+	   Carrier_freq.addActionListener(this);
+	   Modulated_freq.addActionListener(this);
 	   frequency.addAdjustmentListener(this);
 	   Resolution.addAdjustmentListener(this);
 	   em_size.addAdjustmentListener(this);
@@ -295,6 +304,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   add(Set_Baud_Rate);
 	   add(Connect_serial);
 	   add(Execute);
+	   add(Carrier_freq);
+	   add(Modulated_freq);
 	   add(stop);
 	   add(view_phase_plane);
 	   add(viewreal);
@@ -356,7 +367,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   defineRaster(); // Make 'pixels[]' the defining array(handle) for the pixels of 'source'
 	   setVisible(true);
 	}
-	public enum BTN_SRC{ADD_SRC,DEL_SRC,CLEAR,PHASE,CONNECT,SEND,BAUD}
+	public enum BTN_SRC{ADD_SRC,DEL_SRC,CLEAR,PHASE,CONNECT,SEND,BAUD,CAR_freq,MOD_freq}
 	public void settings() 
 	{
 		gxy = gx*gy; 
@@ -501,6 +512,16 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			
 			case SEND:
 			new Serial_Handler();
+			break;
+			
+			case CAR_freq:
+			Frequency F=new Carrier();
+			F.select();
+			break;
+			
+			case MOD_freq:
+			Frequency F=new Modulated();
+			F.select();
 			break;
 		
 		}
@@ -1783,13 +1804,17 @@ class canvas2 extends JPanel implements ActionListener,Runnable
 		}
 	}
 }
-abstract class Frequency
+abstract class Frequency extends JFrame implements ActionListener
 {
 	abstract void set_value(int n);
 	abstract int get_value();
 	abstract String[] get_list();
+	abstract void select();
 	String[] list;
 	int Freq;
+	JList l;
+	JScrollPane p;
+	JButton Add;
 }
 class Carrier extends Frequency
 {
@@ -1803,6 +1828,7 @@ class Carrier extends Frequency
 	static final int CAR_F7=6000;
 	Carrier()
 	{
+		setSize(200,200);
 		list=new String[7];
 		list[0]="CAR_F1 : 20KHZ";
 		list[1]="CAR_F2 : 40KHZ";
@@ -1811,6 +1837,8 @@ class Carrier extends Frequency
 		list[4]="CAR_F5 : 2MHZ";
 		list[5]="CAR_F6 : 4MHZ";
 		list[6]="CAR_F7 : 6MHZ";
+		setLayout(new FlowLayout());
+		setVisible(true);
 	}
 	void set_value(int n) 
 	{
@@ -1823,6 +1851,27 @@ class Carrier extends Frequency
 	String[] get_list()
 	{
 		return list;
+	}
+	void select()
+	{
+		l=new JList(get_list());
+		l.setLayoutOrientation(JList.VERTICAL);
+		p=new JScrollPane(l);
+		Add=new JButton("ADD");
+		Add.addActionListener(this);
+		add(p);
+		add(Add);
+		
+	}
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		if(arg0.getSource()==Add)
+		{
+			Object c=l.getSelectedValue();
+			System.out.println(c);
+			setVisible(false);
+		}
+		
 	}
 	
 }
@@ -1840,6 +1889,7 @@ class Modulated extends Frequency
 	static final int MOD_F9=200;
 	Modulated()
 	{
+		setSize(200,200);
 		list=new String[9];
 		list[0]="MOD_F1 : 50HZ";
 		list[1]="MOD_F2 : 70HZ";
@@ -1850,6 +1900,8 @@ class Modulated extends Frequency
 		list[6]="MOD_F7 : 160HZ";
 		list[7]="MOD_F8 : 180HZ";
 		list[8]="MOD_F9 : 200HZ";
+		setLayout(new FlowLayout());
+		setVisible(true);
 	}
 	void set_value(int n) 
 	{
@@ -1864,5 +1916,26 @@ class Modulated extends Frequency
 	String[] get_list()
 	{
 		return list;
+	}
+	void select()
+	{
+		l=new JList(get_list());
+		l.setLayoutOrientation(JList.VERTICAL);
+		p=new JScrollPane(l);
+		Add=new JButton("ADD");
+		Add.addActionListener(this);
+		add(p);
+		add(Add);
+		
+	}
+	public void actionPerformed(ActionEvent arg0) 
+	{
+		if(arg0.getSource()==Add)
+		{
+			Object c=l.getSelectedValue();
+			System.out.println(c);
+			setVisible(false);
+		}
+		
 	}
 }
