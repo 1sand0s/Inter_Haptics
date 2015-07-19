@@ -68,59 +68,59 @@ char* CHECK_FREQ_type(FREQUENCY f)
 }
 int toFreq(char* p)
 {
-	if(strcmp(p,"CAR_F1"))
+	if(comp(p,"CAR_F1"))
 	{
 		return CAR_F1;
 	}
-	else if(strcmp(p,"CAR_F2"))
+	else if(comp(p,"CAR_F2"))
 	{
 		return CAR_F2;
 	}
-	else if(strcmp(p,"CAR_F3"))
+	else if(comp(p,"CAR_F3"))
 	{
 		return CAR_F3;
 	}
-	else if(strcmp(p,"CAR_F4"))
+	else if(comp(p,"CAR_F4"))
 	{
 		return CAR_F4;
 	}
-	else if(strcmp(p,"CAR_F5"))
+	else if(comp(p,"CAR_F5"))
 	{
 		return CAR_F5;
 	}
-	else if(strcmp(p,"CAR_F6"))
+	else if(comp(p,"CAR_F6"))
 	{
 		return CAR_F6;
 	}
-	else if(strcmp(p,"CAR_F7"))
+	else if(comp(p,"CAR_F7"))
 	{
 		return CAR_F7;
 	}
-	else if(strcmp(p,"MOD_F1"))
+	else if(comp(p,"MOD_F1"))
 	{
 		return MOD_F1;
 	}
-	else if(strcmp(p,"MOD_F2"))
+	else if(comp(p,"MOD_F2"))
 	{
 		return MOD_F2;
 	}
-	else if(strcmp(p,"MOD_F3"))
+	else if(comp(p,"MOD_F3"))
 	{
 		return MOD_F3;
 	}
-	else if(strcmp(p,"MOD_F4"))
+	else if(comp(p,"MOD_F4"))
 	{
 		return MOD_F4;
 	}
-	else if(strcmp(p,"MOD_F5"))
+	else if(comp(p,"MOD_F5"))
 	{
 		return MOD_F5;
 	}
-	else if(strcmp(p,"MOD_F6"))
+	else if(comp(p,"MOD_F6"))
 	{
 		return MOD_F6;
 	}
-	else if(strcmp(p,"MOD_F7"))
+	else if(comp(p,"MOD_F7"))
 	{
 		return MOD_F7;
 	}
