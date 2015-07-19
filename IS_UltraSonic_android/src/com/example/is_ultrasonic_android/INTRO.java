@@ -9,15 +9,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.view.View.OnClickListener;
 import android.os.Build;
 
 public class INTRO extends ActionBarActivity {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_intro);
+		Button Simulation=(Button)findViewById(R.id.button2);
+		Button Query=(Button)findViewById(R.id.button23);
+		Query.setOnClickListener(new OnClickListener()
+		{
 
+			public void onClick(View v) 
+			{
+				startActivity(new Intent(INTRO.this,Query.class));
+			}
+			
+		});
 		
 	}
 
@@ -25,7 +38,7 @@ public class INTRO extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.intro, menu);
+		
 		return true;
 	}
 
