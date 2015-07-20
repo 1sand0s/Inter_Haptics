@@ -1870,6 +1870,7 @@ class Carrier extends Frequency
 			Object c=l.getSelectedValue();
 			System.out.println(c);
 			setVisible(false);
+			Ultra_virtual.Write_Serial(c.toString());
 		}
 		
 	}
@@ -1935,6 +1936,7 @@ class Modulated extends Frequency
 			Object c=l.getSelectedValue();
 			System.out.println(c);
 			setVisible(false);
+			Ultra_virtual.Write_Serial(c.toString());
 		}
 		
 	}
