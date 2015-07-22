@@ -21,8 +21,6 @@ ORG 0003H ; Vector Address for Harware Interrupt INT0
 	
 		 CLR TR1		;Clear Timer 1 run bit
 		 CLR TR0		;Clear Timer 0 run bit
-		 MOV TL0,#0H		;Set TL0 to 0
-		 MOV TH0,#0H		;Set TL1 to 0
 		 MOV TH1,#0FDH		;Set TH1 to FDH to configure baud rate 9600 for serial communication
 		 SETB IE.4		;Enable Serial Interrupt to converse through UART
 		 RETI			;Return
@@ -45,8 +43,8 @@ ORG 0023H ; Vector Address for Serial Interrupt
 ;and stores the next frequency value
 		 MOV A,SBUF
 		 CLR RI
-		 MOV @60H,A
-		 INC 60H
+		 MOV @R1,A
+		 INC R1
 		 RETI
 		 
 SINE: 	 	 db 127,160,191,217,237,250,255,250,237,217,191,160,127,94,63,37,17,4,0,4,17,37,63,94,127 ; Define the byte sine values
@@ -78,12 +76,12 @@ MAIN:	 	 MOV P3,#0FFH
 		 MOV DPTR,#SINE
 		 MOV R0,#38h
 		 MOV R6,#18h
-		 MOV 60H,#03H
+		 MOV R1,#03H
 
 LOCK:		 CJNE 60H,#05H,LOCK ; Disables wave generation until both frequencies have been fed at which time 60H will contain 05H having stored values at 03H and 04H
 		 
 TRANS:	 	 CLR IE.4
-		 MOV 60H,#03H
+		 MOV R1,#03H
 		 MOV TL0,R4
 		 MOV TL1,R3
 		 MOV TH0,R4
