@@ -78,7 +78,7 @@ MAIN:	 	 MOV P3,#0FFH
 		 MOV R6,#18h
 		 MOV R1,#03H
 
-LOCK:		 CJNE 60H,#05H,LOCK ; Disables wave generation until both frequencies have been fed at which time 60H will contain 05H having stored values at 03H and 04H
+LOCK:		 CJNE R1,#05H,LOCK ; Disables wave generation until both frequencies have been fed at which time 60H will contain 05H having stored values at 03H and 04H
 		 
 TRANS:	 	 CLR IE.4
 		 MOV R1,#03H
