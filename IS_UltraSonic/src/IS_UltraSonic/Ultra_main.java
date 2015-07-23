@@ -236,6 +236,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	/* baudrate-> Set default baud rate to 9600 */
 	static String com[];
 	/* com-> To hold the list of Ports connected to the PC*/
+	static double speed=330000;
 	/* static     //data to arduino ,code still buggy
 	{
 		System.loadLibrary("blink");
@@ -576,7 +577,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			{
 				phase_length.add(i,Math.sqrt(R*R+Math.pow((accx-loc.get(i).x),2)+2*R*Math.abs(accx-loc.get(i).x)*sin_phi*tog));
 			}
-			phase_del.add(i,(R-phase_length.get(i))/330000);
+			phase_del.add(i,(R-phase_length.get(i))/speed);
 		}
 		order=new int[loc.size()];//instantiate order with number of transmitters
 		for(int i=0;i<loc.size();i++)
@@ -947,7 +948,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	public String Static_Pressure_Compute(int x, int y) 
 	{
-		double wave_length=330000/(frequency.getValue()*1000);
+		double wave_length=speed/(frequency.getValue()*1000);
 		double midy;
 		double SPL=0.02;
 		midy=0;
@@ -957,8 +958,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		midy=midy/loc.size();
 		double z=y-midy;
-		double W=(Math.pow(wave_length, 2)*Math.pow(z, 2)*Math.pow(SPL, 2)*(10^6))/(2*Math.PI*1.2*330000*Math.pow(em_size.getValue(),2));
-		double F=(2*loc.size()*W)/(330000);
+		double W=(Math.pow(wave_length, 2)*Math.pow(z, 2)*Math.pow(SPL, 2)*(10^6))/(2*Math.PI*1.2*speed*Math.pow(em_size.getValue(),2));
+		double F=(2*loc.size()*W)/(speed);
 		return F+","+W;
 		
 	}
@@ -1345,7 +1346,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
     	}
     	static class Integral_Rayleigh_Sommerfeld
     	{
-    		static double k=(2*Math.PI*frequency.getValue()*1000)/(330000);
+    		static double k=(2*Math.PI*frequency.getValue()*1000)/(speed);
         	static double alpha=0.00656;
         	static double rho=1.22*Math.pow(10,-6);
         	static double r;
@@ -1587,23 +1588,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		static double rho;
 		static double time_0(double y)
 		{
-			return (y/330000);
+			return (y/speed);
 		}
 		static double time_1(double x, double y)
 		{
-			return (Math.sqrt(Math.pow((em_size.getValue()-x),2)+Math.pow(y,2))/330000);
+			return (Math.sqrt(Math.pow((em_size.getValue()-x),2)+Math.pow(y,2))/speed);
 		}
 		static double time_2(double x, double y)
 		{
-			return (Math.sqrt(Math.pow((em_size.getValue()+x),2)+Math.pow(y,2))/330000);
+			return (Math.sqrt(Math.pow((em_size.getValue()+x),2)+Math.pow(y,2))/speed);
 		}
 		static double diff_1(double x, double y, double t)
 		{
-			return ((1/(Math.pow(330000*t,2)-Math.pow(y,2)))*((-(Math.pow(330000,2)*t*(Math.pow(330000*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(330000*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(330000*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)))))));
+			return ((1/(Math.pow(speed*t,2)-Math.pow(y,2)))*((-(Math.pow(speed,2)*t*(Math.pow(speed*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(speed*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(speed*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)))))));
 		}
 		static double diff_2(double y, double t)
 		{
-			return (-((Math.pow(330000,2)*t)/(Math.sqrt((Math.pow(330000*t,2)-Math.pow(y,2))*(Math.pow(2*em_size.getValue(),2)-(Math.pow(330000*t,2)-Math.pow(y,2)))))));
+			return (-((Math.pow(speed,2)*t)/(Math.sqrt((Math.pow(speed*t,2)-Math.pow(y,2))*(Math.pow(2*em_size.getValue(),2)-(Math.pow(speed*t,2)-Math.pow(y,2)))))));
 		}
 		
 		
