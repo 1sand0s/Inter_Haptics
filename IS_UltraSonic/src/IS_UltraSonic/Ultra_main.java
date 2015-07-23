@@ -1584,12 +1584,23 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	}
 	class Spatial_Impulse_Response
 	{
-		static double x;
-		static double y;
-		static double t0;
-		static double t1;
-		static double t2;
 		static double rho;
+		static double time_0(double y)
+		{
+			return (y/330000);
+		}
+		static double time_1(double x, double y)
+		{
+			return (Math.sqrt(Math.pow((em_size.getValue()-x),2)+Math.pow(y,2))/330000);
+		}
+		static double time_2(double x, double y)
+		{
+			return (Math.sqrt(Math.pow((em_size.getValue()+x),2)+Math.pow(y,2))/330000);
+		}
+		static double diff_1(double x, double y, double t)
+		{
+			return ((1/(Math.pow(330000*t,2)-Math.pow(y,2)))*((-(Math.pow(330000,2)*t*(Math.pow(330000*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(330000*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(330000*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)))))));
+		}
 		
 		
 	}
