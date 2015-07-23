@@ -1601,6 +1601,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			return ((1/(Math.pow(330000*t,2)-Math.pow(y,2)))*((-(Math.pow(330000,2)*t*(Math.pow(330000*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(330000*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(330000*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)))))));
 		}
+		static double diff_2(double y, double t)
+		{
+			return (-((Math.pow(330000,2)*t)/(Math.sqrt((Math.pow(330000*t,2)-Math.pow(y,2))*(Math.pow(2*em_size.getValue(),2)-(Math.pow(330000*t,2)-Math.pow(y,2)))))));
+		}
 		
 		
 	}
