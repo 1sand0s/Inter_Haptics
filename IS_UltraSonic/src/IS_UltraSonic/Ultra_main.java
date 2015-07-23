@@ -1582,6 +1582,17 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		
 	}
+	class Spatial_Impulse_Response
+	{
+		static double x;
+		static double y;
+		static double t0;
+		static double t1;
+		static double t2;
+		static double rho;
+		
+		
+	}
 }
 class Ultra_canvas extends Canvas
 {
