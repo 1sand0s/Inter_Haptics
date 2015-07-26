@@ -241,6 +241,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		System.loadLibrary("blink");
 	}*/
+	static double CAR_FREQ=Carrier.CAR_F2,MOD_FREQ=Modulated.MOD_F8;
 	public static native void write(String h);
 	/* native method to send data to C which in turn sends it to arduino*/
     Ultra_virtual()
@@ -1621,6 +1622,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				return -(rho*speed*(imp(time_0(y))+(diff_2(y,t)/Math.PI)));
 			}
 		}
+		static double func(double t)
+		{
+			return (Math.sin(Math.toRadians(2*Math.PI*CAR_FREQ*t))*Math.sin(Math.toRadians(2*Math.PI*MOD_FREQ)));
+		}
 		
 		
 	}
@@ -1857,6 +1862,7 @@ abstract class Frequency extends JFrame implements ActionListener
 	JList l;
 	JScrollPane p;
 	JButton Add;
+	Map<String,Integer>map;
 }
 class Carrier extends Frequency
 {
@@ -1880,6 +1886,14 @@ class Carrier extends Frequency
 		list[5]="CAR_F6 : 4MHZ";
 		list[6]="CAR_F7 : 6MHZ";
 		setLayout(new FlowLayout());
+		map=new HashMap<String,Integer>();
+		map.put(list[0],CAR_F1);
+		map.put(list[1],CAR_F2);
+		map.put(list[2],CAR_F3);
+		map.put(list[3],CAR_F4);
+		map.put(list[4],CAR_F5);
+		map.put(list[5],CAR_F6);
+		map.put(list[6],CAR_F7);
 		setVisible(true);
 	}
 	void set_value(int n) 
@@ -1913,6 +1927,8 @@ class Carrier extends Frequency
 			System.out.println(c);
 			setVisible(false);
 			Ultra_virtual.Write_Serial(c.toString());
+			Ultra_virtual.CAR_FREQ=map.get(c.toString());
+			System.out.println(Ultra_virtual.CAR_FREQ);
 		}
 		
 	}
@@ -1944,6 +1960,16 @@ class Modulated extends Frequency
 		list[7]="MOD_F8 : 180HZ";
 		list[8]="MOD_F9 : 200HZ";
 		setLayout(new FlowLayout());
+		map=new HashMap<String,Integer>();
+		map.put(list[0],MOD_F1);
+		map.put(list[1],MOD_F2);
+		map.put(list[2],MOD_F3);
+		map.put(list[3],MOD_F4);
+		map.put(list[4],MOD_F5);
+		map.put(list[5],MOD_F6);
+		map.put(list[6],MOD_F7);
+		map.put(list[7],MOD_F8);
+		map.put(list[8],MOD_F9);
 		setVisible(true);
 	}
 	void set_value(int n) 
@@ -1979,6 +2005,8 @@ class Modulated extends Frequency
 			System.out.println(c);
 			setVisible(false);
 			Ultra_virtual.Write_Serial(c.toString());
+			Ultra_virtual.MOD_FREQ=map.get(c.toString());
+			System.out.println(Ultra_virtual.MOD_FREQ);
 		}
 		
 	}
