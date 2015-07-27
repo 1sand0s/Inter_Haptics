@@ -29,4 +29,7 @@ The pin configuration is as follows for the Header
 12. OUT1 -> Connect to X1 of AD633JN(Analog Multiplier).
 14. OUT2 -> Connect to Y1 of AD633JN(Analog Multiplier).
 
-
+Since ATMEL's AT89C51 can work with a maximum crystal frequency of 24MHz the time per machine cycle will be around 
+0.5us(micro second) which implies that since a complete sine wave will take about 25 individual values to be loaded to the port and each loading step taking an average of 15 machine cycles(7.5 microseconds) , the max frequency that can be generated will be around 5.3KHz . Therefore this will have to be increased atleast 10 fold for which we employ PLL(Phase locked loop) with divide by 10 counter to latch the output frequency to 1/10th of the input(source) frequency. 
+             The same applies for the low frequency which again is limited to 300Hz therefore requiring another frequency
+division by atleast 10 fold.
