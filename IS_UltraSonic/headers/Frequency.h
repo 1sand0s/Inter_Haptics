@@ -18,8 +18,8 @@
 
 //Carrier Frequencies listed in KHz
 
-#define CAR_F1 20
-#define CAR_F2 40
+#define CAR_F1 0x0D6
+#define CAR_F2 0x0EB
 #define CAR_F3 75
 #define CAR_F4 1000
 #define CAR_F5 2000
@@ -35,7 +35,7 @@
 #define MOD_F6 140
 #define MOD_F7 160
 #define MOD_F8 180
-#define MOD_F9 200
+#define MOD_F9 0x0D6
 
 //Type of Signal
 
