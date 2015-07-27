@@ -25,16 +25,17 @@
 #define CAR_F5 2000
 #define CAR_F6 4000
 #define CAR_F7 6000
+
 //Modulated Frequencies listed in Hz
 
-#define MOD_F1 50
-#define MOD_F2 70
-#define MOD_F3 90
-#define MOD_F4 100
-#define MOD_F5 120
-#define MOD_F6 140
-#define MOD_F7 160
-#define MOD_F8 180
+#define MOD_F1 0x059
+#define MOD_F2 0x089
+#define MOD_F3 0x0A3
+#define MOD_F4 0x0AD
+#define MOD_F5 0x0BB
+#define MOD_F6 0x0C4
+#define MOD_F7 0x0CC
+#define MOD_F8 0x0D2
 #define MOD_F9 0x0D6
 
 //Type of Signal
