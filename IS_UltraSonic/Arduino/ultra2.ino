@@ -31,7 +31,7 @@ void loop()
     if(val.startsWith("MOD"))
     {
       char *q=a;
-      f=init(0,toFreq(q),MOD);
+      f=init(MODULATED_FREQUENCY,toFreq(q),MOD);
       Serial.println(CHECK_FREQ_VALUE(f));
       mySerial.begin(9600);
       digitalWrite(INT_PIN,HIGH);
@@ -43,7 +43,7 @@ void loop()
     else if(val.startsWith("CAR"))
     {
       char *q=a;
-      f=init(0,toFreq(q),CAR);
+      f=init(CARRIER_FREQUENCY,toFreq(q),CAR);
       Serial.println(CHECK_FREQ_VALUE(f));
       mySerial.begin(9600);
       digitalWrite(INT_PIN,HIGH);
