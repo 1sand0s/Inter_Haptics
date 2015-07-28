@@ -13,7 +13,7 @@
 #ifndef FREQUENCY_8051
 #define FREQUENCY_8051
 
-#define MODULATING_FREQUENCY 1
+#define CARRIER_FREQUENCY 1
 #define MODULATED_FREQUENCY 0
 
 //Carrier Frequencies listed in KHz
