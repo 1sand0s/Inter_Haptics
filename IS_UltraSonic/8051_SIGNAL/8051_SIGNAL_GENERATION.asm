@@ -40,7 +40,11 @@ PROC3:	 	 RETI
 
 ORG 0023H ; Vector Address for Serial Interrupt
 ;Stores the frequency values sent through serial into address pointed to by 60H which is 03H(R3) , then increments to 04H(R4)
-;and stores the next frequency value
+;and stores the next frequency value. It doesn't actually matter in which order the frequencies are sent but for safety it
+;is recommended to send the lower(modulated) frequency first followed by higher(carrier) frequency because the signal generation
+;is divided between two handlers one is handled through polling mode the other through interrupt mode (somewhat like multi-threading)
+;since interrupts are assigned highest priority and since a step in low frequency is longer than that in high frequency 
+;exchanging these two might lead to lagging during the generation of the signals.
 		 MOV A,SBUF
 		 CLR RI
 		 MOV @R1,A
