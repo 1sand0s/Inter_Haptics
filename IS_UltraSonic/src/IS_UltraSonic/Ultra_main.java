@@ -241,7 +241,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		System.loadLibrary("blink");
 	}*/
-	static double CAR_FREQ=Carrier.CAR_F2,MOD_FREQ=Modulated.MOD_F8;
+	static float CAR_FREQ=Carrier.CAR_F2,MOD_FREQ=Modulated.MOD_F8;
 	public static native void write(String h);
 	/* native method to send data to C which in turn sends it to arduino*/
     Ultra_virtual()
@@ -426,7 +426,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		 source.setFullBufferUpdates(true);
 		 im = can.createImage(source); //Make 'source' the defining element of Image 'im' 
 	}
-
+	public static void setFrequency(int f)
+	{
+		frequency.setValue(f);
+	}
 	public void mouseDragged(MouseEvent arg0) 
 	{
 		if(loc.size()!=0)
@@ -1928,6 +1931,7 @@ class Carrier extends Frequency
 			setVisible(false);
 			Ultra_virtual.Write_Serial(c.toString());
 			Ultra_virtual.CAR_FREQ=map.get(c.toString());
+			Ultra_virtual.setFrequency(Math.round(Ultra_virtual.CAR_FREQ));
 			System.out.println(Ultra_virtual.CAR_FREQ);
 		}
 		
