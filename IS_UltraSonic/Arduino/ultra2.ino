@@ -2,7 +2,7 @@
 #include <Frequency.h>
 #include <SoftwareSerial.h>
 
-#define _INT_PIN 12
+#define _INT_PIN 12 // Pin to enable serial com with 8051
 #define _8051_CRYSTAL 24 // In MHz
 
 
