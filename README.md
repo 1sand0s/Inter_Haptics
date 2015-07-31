@@ -21,17 +21,17 @@ Usage
 Components Required
 ==========================
 
-1.  AT89C51              - 1
+1.  AT89C51/AT89S51      - 1  http://www.keil.com/dd/docs/datashts/atmel/at89c51_ds.pdf
 2.  24 Mhz Crystal       - 1
 3.  30pF Capacitor       - 2
-4.  IC-74573             - 2
+4.  IC-74573             - 2  http://www.nxp.com/documents/data_sheet/74HC_HCT573.pdf
 5.  10k Resistor         - 16
 6.  20k Resistor         - 16
-7.  2STL1360             - 64 //Depends on the grid size
-8.  MA40S4S              - 64 //Depends on the grid size
+7.  2STL1360             - 64 http://www.st.com/web/en/resource/technical/document/datasheet/CD00072383.pdf 
+8.  MA40S4S              - 64 http://www.farnell.com/datasheets/484560.pdf
 9.  Arduino              - 1
-10. Adafruit PWM driver  - 2  //Depends on the grid size
-11. IC-AD633JN           - 1
+10. PCA9685              - 2  http://www.adafruit.com/datasheets/PCA9685.pdf
+11. IC-AD633JN           - 1  http://www.analog.com/media/en/technical-documentation/data-sheets/AD633.pdf
 
 
 Circuit
