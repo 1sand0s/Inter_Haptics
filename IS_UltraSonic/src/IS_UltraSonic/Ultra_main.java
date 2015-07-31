@@ -218,9 +218,10 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	// To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
 	static ArrayList<Emitter_loc>loc; 
 	/* loc->Holds the x,y on canvas and on screen values of each individual transmitter*/
-	static ArrayList<Double>phase_length,phase_del; 
+	static ArrayList<Double>phase_length,phase_del,del_array; 
 	/* 'phase_length' -> Lx(length from nth transmitter to focal point)
-	 * 'phase_del'    -> Time delay to counteract (R-Lx) */
+	 * 'phase_del'    -> Time delay to counteract (R-Lx) 
+	 * 'del_array'	  -> Time delay for grid arrangement */
 	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
 	static Checkbox stop;
 	/* stop->Stop the simulation */
@@ -265,6 +266,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   stop=new Checkbox("Stop");
 	   phase_length=new ArrayList<Double>();
 	   phase_del=new ArrayList<Double>();
+	   del_array=new ArrayList<Double>();
 	   md=mr=true;
 	   Clear=new JButton("Clear");
 	   DeleteSource=new JButton("Delete Emitters");
@@ -645,15 +647,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			blink(h);
 		}*/
 	}
-	public static void phase_cal_array(MouseEvent e)
+	public void phase_cal_array(MouseEvent e)
 	{
 		double Rs,Rp;
-		int accxs,accys;
 		double sin_theta_array,cos_phi_array;
-		double[] xn,yn,delay_array;
+		int accxs=0,accys=0;
+		double[] xn,yn;
 		xn=new double[loc.size()];
 		yn=new double[loc.size()];
-		delay_array=new double[loc.size()];
 		for(int i=0;i<loc.size();i++)
 		{
 			accxs+=loc.get(i).x;
@@ -677,9 +678,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		for(int j=0;j<loc.size();j++)
 		{
-			delay_array[j]=(Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-(xn[i]/Rs)),2)+Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-(yn[i]/Rs)),2)+1-Math.pow(sin_theta_array,2))))/speed;
+			del_array.add((Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-(xn[j]/Rs)),2)+Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-(yn[j]/Rs)),2)+1-Math.pow(sin_theta_array,2))))/speed);
 		}
-		
+		new Display_Array(del_array,loc);
 	}
 	public void time_millis(double del)
 	{
@@ -2068,5 +2069,16 @@ class Modulated extends Frequency
 			System.out.println(Ultra_virtual.MOD_FREQ);
 		}
 		
+	}
+}
+class Display_Array
+{
+	ArrayList<Double>delay;
+	ArrayList<Ultra_virtual.Emitter_loc>coord;
+	
+	public Display_Array(ArrayList<Double> del_array, ArrayList<Ultra_virtual.Emitter_loc> loc)
+	{
+		delay=del_array;
+		coord=loc;
 	}
 }
