@@ -26,5 +26,5 @@
  }
  int Serial_COM8051::FREQ_TO_HEX(int f)
  {
-      return (int)(256-(1/(freq*24*Serial_COM8051::CALC_MC())));
+      return (int)(256-(1/(f*24*Serial_COM8051::CALC_MC())));
  }
