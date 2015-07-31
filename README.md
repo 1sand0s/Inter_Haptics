@@ -18,6 +18,28 @@ Usage
 5. Run the java file Ultra_main.java
 6. For more details, see my video https://youtu.be/iWZdgHCAuVU
 
+Components Required
+==========================
+
+1.  AT89C51              - 1
+2.  24 Mhz Crystal       - 1
+3.  30pF Capacitor       - 2
+4.  IC-74573             - 2
+5.  10k Resistor         - 16
+6.  20k Resistor         - 16
+7.  2STL1360             - 64 //Depends on the grid size
+8.  MA40S4S              - 64 //Depends on the grid size
+9.  Arduino              - 1
+10. Adafruit PWM driver  - 2  //Depends on the grid size
+11. IC-AD633JN           - 1
+
+
+Circuit
+==========================
+
+1. The link to the PCB layout and schematic on my PCBweb account of the 8051 Signal generator is 
+   http://www.pcbweb.com/projects/tzcshXaWRVyupbADNmpTBtbRMHqndq
+
 Queries
 =========================
 For any questions,bugs and any other doubts mail me at 1sand0sardpi@gmail.com
