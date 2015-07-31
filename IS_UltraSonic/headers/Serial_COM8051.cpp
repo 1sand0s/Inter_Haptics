@@ -12,6 +12,7 @@
  
  #include "8051_Signal.h"
  #include<Arduino.h>
+ #include<cmath>
  
  void Serial_COM8051::ENABLE_SERIALCOM8051(void)
  {
@@ -22,7 +23,7 @@
  }
  double Serial_COM8051::CALC_MC(void)
  {
-      return (12/(_8051_CRYSTAL*10^6));
+      return (12/(_8051_CRYSTAL*pow(10.0,6)));
  }
  int Serial_COM8051::FREQ_TO_HEX(int f)
  {
