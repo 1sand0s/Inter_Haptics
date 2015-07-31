@@ -55,6 +55,10 @@ public class Ultra_main extends JFrame implements WindowListener
 		Ultra_virtual.stop.setState(false);
 		/* If the window is activated, that is if the mouse has been clicked inside the container(Frame)
 		 * Then uncheck 'stop' cehckbox and resume the rendering process*/
+		if(Ultra_virtual.loc.size()>0)
+		{
+			canvas2.stopped();
+		}
 	}
 	public void windowClosed(WindowEvent arg0) 
 	{
@@ -94,6 +98,10 @@ public class Ultra_main extends JFrame implements WindowListener
 		Ultra_virtual.stop.setState(false);
 		/* If the container has been maximized ,then uncheck the 'stop' checkbox and resume
 		 * the rendering process*/
+		if(Ultra_virtual.loc.size()>0)
+		{
+			canvas2.stopped();
+		}
 					
 	}
 
@@ -846,14 +854,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				}
 				c++;
 			}
-			if (arg0.getComponent(i) instanceof JScrollBar)
+			else if (arg0.getComponent(i) instanceof JScrollBar)
 			{
 			    	d.width = barwidth;
 			    	m.setLocation(cw,h+50);
 				m.setSize(d);
 			    	h += d.height;
 			}
-			if (arg0.getComponent(i) instanceof JLabel)
+		   	else if (arg0.getComponent(i) instanceof JLabel)
 			{
 			    	h += d.height/5;
 			    	d.width = barwidth;
@@ -862,7 +870,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 				m.setSize(d);
 				h += d.height;
 			}
-			
+			else
+			{
+				h+=d.height;
+				m.setLocation(cw,h);
+				m.setSize(d);
+			}
 			//Basically set the width,height,location fro different components excluding the canvas
 		 }
 	}
