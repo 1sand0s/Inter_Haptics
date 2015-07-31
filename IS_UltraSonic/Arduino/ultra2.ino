@@ -1,7 +1,7 @@
 #include <comp.h>
 #include <Frequency.h>
 #include <SoftwareSerial.h>
-#include "8051_Signal.h"
+#include "Signal_8051.h"
 
 
 
@@ -13,7 +13,7 @@ Serial_COM8051 com;
 
 void setup()
 {
-  pinMode(_8051_SERIAL_ENABLE,OUTPUT);
+  pinMode(SERIAL_ENABLE_8051,OUTPUT);
   Serial.begin(9600);
 }
 void loop()
@@ -38,7 +38,7 @@ void loop()
       f=init(MODULATED_FREQUENCY,toFreq(q),MOD);
       Serial.println(CHECK_FREQ_VALUE(f));
       mySerial.begin(9600);
-      com.Enable_8051_Serial_COM();
+      com.ENABLE_SERIALCOM8051();
       mySerial.write(CHECK_FREQ_VALUE(f));
      }
     else if(val.startsWith("CAR_F"))
@@ -47,7 +47,7 @@ void loop()
       f=init(CARRIER_FREQUENCY,toFreq(q),CAR);
       Serial.println(CHECK_FREQ_VALUE(f));
       mySerial.begin(9600);
-      com.Enable_8051_Serial_COM();
+      com.ENABLE_SERIALCOM8051();
       mySerial.write(CHECK_FREQ_VALUE(f));
     }
     else if(val.startsWith("CUS_F"))
@@ -56,7 +56,7 @@ void loop()
       int freq=(val1.substring(val1.indexOf(":")+1,val1.length()-1)).toInt();
       int value=com.FREQ_TO_HEX(freq);
       mySerial.begin(9600);
-      com.Enable_8051_Serial_COM();
+      com.ENABLE_SERIALCOM8051();
       mySerial.write(value);
     }
   }
