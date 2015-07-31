@@ -153,10 +153,11 @@ public class Ultra_main extends JFrame implements WindowListener
 */
 class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseListener,ActionListener,AdjustmentListener,ComponentListener,LayoutManager,ItemListener
 {
-	static JScrollBar frequency,Resolution,em_size; 
+	static JScrollBar frequency,Resolution,em_size,Elevation; 
 	/* frequency-> Controls the frequency of the emitted ultrasonic wave
 	 * Resolution-> Controls the relative grid size allowing magnification of the canvas
-	 * em_size-> Controls the diameter of the emitter */
+	 * em_size-> Controls the diameter of the emitter 
+	 * Elevation-> Height above the array */
 	static Ultra_canvas can; 
 	/* For drawing the ultrasonic waves, the canvas is differentiated from the frame to facilitate easy paint job */
 	static int transmitters=-1; 
@@ -265,9 +266,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   JLabel L=new JLabel("Frequency",JLabel.CENTER);
 	   JLabel L1=new JLabel("Resolution",JLabel.CENTER);
 	   JLabel L2=new JLabel("Emitter Size");
+	   JLabel L3=new JLabel("Elevation");
 	   frequency=new JScrollBar(JScrollBar.HORIZONTAL,15,1,1,30);
 	   Resolution=new JScrollBar(JScrollBar.HORIZONTAL,110,5,5,400);
 	   em_size=new JScrollBar(JScrollBar.HORIZONTAL,7,4,7,20);
+	   Elevation =new JScrollBar(JScrollBar.HORIZONTAL,0,1,0,100);
 	   med2=new Color[8];
 	   view_phase_plane=new Checkbox("Phase Plane Plot");
 	   viewreal=new Checkbox("view Real mode");
@@ -296,6 +299,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   Modulated_freq.addActionListener(this);
 	   frequency.addAdjustmentListener(this);
 	   Resolution.addAdjustmentListener(this);
+	   Elevation.addAdjustmentListener(this);
 	   em_size.addAdjustmentListener(this);
 	   setLayout(this);
 	   add(can);
@@ -317,6 +321,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   add(Resolution);
 	   add(L2);
 	   add(em_size);
+	   add(L3);
+	   add(Elevation);
 	   add(text);
 	   can.setBackground(Color.black);
 	   can.setForeground(Color.lightGray);
@@ -630,6 +636,42 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			h=h+phase_del.get(i)+","+loc.get(i).x+"\n";
 			blink(h);
 		}*/
+	}
+	public static void phase_cal_array(MouseEvent e)
+	{
+		double Rs,Rp;
+		int accxs,accys;
+		double sin_theta_array,cos_phi_array;
+		double[] xn,yn,delay_array;
+		xn=new double[loc.size()];
+		yn=new double[loc.size()];
+		delay_array=new double[loc.size()];
+		for(int i=0;i<loc.size();i++)
+		{
+			accxs+=loc.get(i).x;
+			accys+=loc.get(i).y;
+		}
+		accxs=accxs/loc.size();
+		accys=accys/loc.size();
+		/* accxs,accys -> since all the transmitters are equally spaced , this gives the median or mid value
+		   of the transmitter's x-coord,y-coord and therefore points to the mid transmitter*/
+		int u=((((e.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox);
+		int v=((((e.getY()*wh)-(can.getHeight()/2))/can.getHeight())+woy);
+		Rp=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((accys-v),2));
+		Rs=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((aacys-v),2)+Math.pow(Elevation.getValue(),2));
+		sin_theta_array=(Rp/Rs);
+		cos_phi_array=u/Rp;
+		for(int i=0;i<loc.size();i++)
+		{
+			xn[i]=loc.get(i).x-accx;
+			yn[i]=loc.get(i).y-accy;
+			
+		}
+		for(int j=0;j<loc.size();j++)
+		{
+			delay_array[j]=(Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-(xn[i]/Rs)),2)+Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-(yn[i]/Rs)),2)+1-Math.pow(sin_theta_array,2))))/speed;
+		}
+		
 	}
 	public void time_millis(double del)
 	{
