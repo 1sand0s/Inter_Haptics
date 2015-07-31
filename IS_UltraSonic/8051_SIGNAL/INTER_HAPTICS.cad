@@ -1,6 +1,17 @@
 <ElectronicDesign Guid="6d003ed1-4a96-4084-b041-13b5fef75336" Id="1">
   <Prop Val="INTER_HAPTICS" Nm="%%DESIGNNAME" />
   <Prop Val="C:\Users\Computer\Documents\PCBWeb\Backups\dtmf\INTER_HAPTICS.cad" Nm="%%DESIGNFILENAME" />
+  <!-- Copyright (C) 2015 ADITYA T 
+     * ORG: Interactive Spaces
+     * This library is free software; you can redistribute it and/or
+     * modify it under the terms of the GNU Library General Public
+     * License as published by the Free Software Foundation; either
+     * version 2 of the License, or (at your option) any later version.
+     *
+     * This library is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     * Library General Public License for more details. -->
   <UsedPartTypes>
     <PartType Id="1000" Name="CD74HCT573E">
       <Prop Val="Texas Instruments" Nm="VENDOR" />
