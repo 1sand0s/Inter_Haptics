@@ -10,11 +10,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Library General Public License for more details.*/
  
-#ifndef _8051_SIGNAL
-#define _8051_SIGNAL
+#ifndef SIGNAL_8051
+#define SIGNAL_8051
 
-#define _8051_CRYSTAL 24 //In MHz
-#define _8051_SERIAL_ENABLE 12
+#define CRYSTAL_8051 24 //In MHz
+#define SERIAL_ENABLE_8051 12
 
 class Serial_COM8051
 {
