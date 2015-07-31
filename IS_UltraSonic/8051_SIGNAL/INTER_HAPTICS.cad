@@ -6450,6 +6450,7 @@
     <Text Id="10642" String="INT0" Rot="0" TextHeight="400000bu" LineWidth="100000bu" Mirrored="False" Layer="Top" X="-24500000bu" Y="81500000bu" />
     <Text Id="10643" String="VCC" Rot="0" TextHeight="400000bu" LineWidth="100000bu" Mirrored="False" Layer="Top" X="-24500000bu" Y="81000000bu" />
     <Text Id="10644" String="GND" Rot="0" TextHeight="400000bu" LineWidth="100000bu" Mirrored="False" Layer="Top" X="-24500000bu" Y="80500000bu" />
+    <Text Id="2915" String="Copyright ADITYA.T" Rot="0" TextHeight="1000000bu" LineWidth="200000bu" Mirrored="False" Layer="Top" X="-6500000bu" Y="49000000bu" />
     <Net Id="12286" Name="N_1_6128" Width="80000bu" Space="30000bu">
       <Track Id="3416" Start="2847" End="2773">
         <Prop Val="R" Nm="%%SCHREFDESPREFIX" />
