@@ -28,7 +28,9 @@ Components Required
 5.  10k Resistor         - 16
 6.  20k Resistor         - 16
 7.  2STL1360             - 64 http://www.st.com/web/en/resource/technical/document/datasheet/CD00072383.pdf 
+      
       OR
+
     PN2222A              - 64 https://www.fairchildsemi.com/datasheets/PN/PN2222A.pdf
 8.  MA40S4S              - 64 http://www.farnell.com/datasheets/484560.pdf
 9.  Atmega328            - 1  http://www.farnell.com/datasheets/1693866.pdf
