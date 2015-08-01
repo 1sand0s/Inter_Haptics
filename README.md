@@ -27,13 +27,16 @@ Components Required
 4.  IC-74573             - 2  http://www.nxp.com/documents/data_sheet/74HC_HCT573.pdf
 5.  10k Resistor         - 16
 6.  20k Resistor         - 16
-7.  2STL1360/            - 64 http://www.st.com/web/en/resource/technical/document/datasheet/CD00072383.pdf 
-    
+7.  2STL1360             - 64 http://www.st.com/web/en/resource/technical/document/datasheet/CD00072383.pdf 
+      OR
     PN2222A              - 64 https://www.fairchildsemi.com/datasheets/PN/PN2222A.pdf
 8.  MA40S4S              - 64 http://www.farnell.com/datasheets/484560.pdf
-9.  Arduino              - 1
+9.  Atmega328            - 1  http://www.farnell.com/datasheets/1693866.pdf
 10. PCA9685              - 2  http://www.adafruit.com/datasheets/PCA9685.pdf
 11. IC-AD633JN           - 1  http://www.analog.com/media/en/technical-documentation/data-sheets/AD633.pdf
+12. IC 7490              - 2  http://www.ti.com/lit/ds/symlink/sn74ls90.pdf
+13. IC NE565             - 2  http://www.bucek.name/pdf/ne565.pdf
+14. CP2102               - 1  https://www.silabs.com/Support%20Documents/TechnicalDocs/CP2102-9.pdf
 
 
 Circuit
