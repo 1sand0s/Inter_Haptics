@@ -37,7 +37,7 @@ Components Required
 12. IC 7490              - 2  http://www.ti.com/lit/ds/symlink/sn74ls90.pdf
 13. IC NE565             - 2  http://www.bucek.name/pdf/ne565.pdf
 14. CP2102               - 1  https://www.silabs.com/Support%20Documents/TechnicalDocs/CP2102-9.pdf
-
+15. 1k Resistor          - 10 
 
 Circuit
 ==========================
