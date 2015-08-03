@@ -36,3 +36,10 @@ be around 5.3KHz . Therefore this will have to be increased atleast 10 fold for 
 divide by 10 counter to latch the output frequency to 1/10th of the input(source) frequency. 
              The same applies for the low frequency which again is limited to 300Hz therefore requiring another frequency
 division by atleast 10 fold.
+             During the initial loading of the signal values, they are produced under default configuration ,this is done
+ because ,since we are using PLL's to vary the frequency of the signal ,the PLL's have fixed capture range and significantly 
+ large tracking range and so once the input has been captured it can be tracked well beyond the optimum range of input 
+ frequency but since it encompasses a low pass filter ,therefore if the value input varies considerably from the configured
+ value then it may not be captured hence failing to work as a multiplier or divider, for this purpose the carrier initial
+ frequency is set to 40KHz and modulating signal initial frequency is set to 200Hz , these can be varied but only after the
+ device and code performs as expected for these inputs which imply that they have been captured and are being tracked.
