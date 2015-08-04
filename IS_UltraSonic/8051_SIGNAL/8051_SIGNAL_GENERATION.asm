@@ -85,32 +85,54 @@ MAIN:	 	 MOV P3,#0FFH	     ; Make port P3 as the input Port for receiving serial
 	     	 ;------------------------
 		 MOV P2,#0H
 		 MOV P1,#0H
-		 MOV TMOD,#22H
-		 MOV IE,#93H
-		 MOV IP,#11H
-		 MOV SCON,#50H
-		 MOV DPTR,#SINE
-		 MOV R0,#38h
-		 MOV R6,#18h
-		 MOV R1,#03H
+		 ;------------------------
+		 MOV TMOD,#22H	     ; Configure the timers as 8 bit auto-reload ,therefore as soon as TL(Timer lower byte)
+		 		     ; overflows beyond FFH it is restored with the value present in TH(Timer higher byte)
+		 		     ; Therefore in this manner we can avoid manually storing the TL value after each interrupt
+		 ;------------------------
+		 MOV IE,#93H	     ; Enable interrupts for Serial,Hardware and Timer
+		 MOV IP,#11H	     ; Set Priority for the interrupt service handler by alloting harware interrupt(signals the
+		 		     ; intention of arduino to communicate with 8051) highest priority followed by Serial and 
+		 		     ; timer interrupts
+		 ;------------------------
+		 MOV SCON,#50H	     ; Configure serial comm mode as 8-bit data ,1 start and 1 stop bit
+		 MOV DPTR,#SINE	     ; Load Dptr with address of SINE
+		 MOV R0,#38h	    
+		 MOV R6,#18h	     ; Counter to reset DPTR to address of SINE after cycling through all values of SINE
+		 MOV R1,#03H	     ; Points to the address of register R3 where the frequency data is to be stored
 
-LOCK:		 CJNE R1,#05H,LOCK ; Disables wave generation until both frequencies have been fed at which time 60H will contain 05H having stored values at 03H and 04H
-		 
-TRANS:	 	 CLR IE.4
-		 MOV R1,#03H
-		 MOV TL0,R4
-		 MOV TL1,R3
-		 MOV TH0,R4
-		 MOV TH1,R3
-		 SETB TR0
+LOCK:		 CJNE R1,#05H,LOCK   ; Disables wave generation until both frequencies have been fed at which time R1 will contain 05H having stored values at 03H and 04H
+		 ;-------------------------
+TRANS:	 	 CLR IE.4	     ; Clear the serial interrupt to prevent any serial comm since baud rate will not be valid 
+				     ; since TH1 is being used to generate the signals
+		 ;-------------------------
+		 MOV R1,#03H	     ; Reset R1 to point to address of R3 incase new frequency data is to be received
+		 MOV TL0,R4	     ; Store High frequency HEX value in Timer 0
+		 MOV TL1,R3	     ; Store Low frequency HEX value in Timer 1
+		 ;-------------------------
+		 MOV TH0,R4	     ; Here we take advantage of the auto-reload mode configured by TMOD, therefore as soon
+		 MOV TH1,R3	     ; as TL0 or TL1 overflows beyond FFH they are restored with values contained in TH0
+		 		     ; and TH1 respectively to count again thereby making precise delays between step counts
+		 		     ; to generate the signals of required frequency
+		 ;-------------------------
+		 SETB TR0	     ; Set timer start bits to enable counting 
 		 SETB TR1
-PROC1:	 	 JNB TF1,PROC1
-		 CLR TF1
-		 MOV P1,@R0
-		 SETB P3.7
-		 CLR P3.7
-		 INC R0
-		 CJNE R0,#50h,PRC
-		 MOV R0,#38h
-PRC:	 	 JMP PROC1
+		 ;-------------------------
+PROC1:	 	 JNB TF1,PROC1	     ; Probe if TL1 has overflown beyond FFH, if it has then TF1(timer 1 interrupt flag) is set
+				     ; Until TF1 is set the the program will not execute the suceeding lines
+		 ;-------------------------
+		 CLR TF1	     ; Clear TF1 
+		 ;-------------------------
+		 MOV P1,@R0	     ; Move the data at the address pointed to by R0(also points to SINE) to port P1
+		 SETB P3.7	     ; The latch is enabled to pass the values to the R-2R ladder following which it
+		 CLR P3.7            ; it is immidiately disabled to prevent P1 from dropping to 0 while transferring value
+		 		     ; from @R0 to P1
+		 ;-------------------------
+		 INC R0		     ; Point to the address of next suceeding value
+		 ;-------------------------
+		 CJNE R0,#50h,PRC    ; Check if R0 has exceeded the address range of SINE that is if all the values under
+		 MOV R0,#38h	     ; SINE has been cycled through ,if yes then reload R0 to point to the first value under
+		 		     ; under SINE , if no then continue
+		 ;-------------------------
+PRC:	 	 JMP PROC1 	     ; Jump to PROC1 and repeat the process
 END
