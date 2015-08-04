@@ -19,6 +19,8 @@ import java.awt.Canvas;
 import java.awt.Checkbox;
 import java.awt.Font;
 import java.awt.Color;
+import java.util.Map;
+import java.util.HashMap;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -255,6 +257,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		System.loadLibrary("blink");
 	}*/
 	static float CAR_FREQ=Carrier.CAR_F2,MOD_FREQ=Modulated.MOD_F8;
+	static Frequency F;
 	public static native void write(String h);
 	/* native method to send data to C which in turn sends it to arduino*/
     Ultra_virtual()
@@ -367,7 +370,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		
 			
-	   }
+	   
 	 
 	   setResolution(); // Calculate all the Frame parameters and update it 
 	   settings(); // Use the parameters calculated in 'setResolution' and instantiate arrays
@@ -526,12 +529,12 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			break;
 			
 			case CAR_freq:
-			Frequency F=new Carrier();
+			F=new Carrier();
 			F.select();
 			break;
 			
 			case MOD_freq:
-			Frequency F=new Modulated();
+			F=new Modulated();
 			F.select();
 			break;
 		
@@ -657,7 +660,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		int u=((((e.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox);
 		int v=((((e.getY()*wh)-(can.getHeight()/2))/can.getHeight())+woy);
 		Rp=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((accys-v),2));
-		Rs=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((aacys-v),2)+Math.pow(Elevation.getValue(),2));
+		Rs=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((accys-v),2)+Math.pow(Elevation.getValue(),2));
 		sin_theta_array=(Rp/Rs);
 		cos_phi_array=u/Rp;
 		for(int i=0;i<loc.size();i++)
@@ -711,11 +714,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			{
 				if(System.getProperty("os.name").startsWith("Windows"))
 				{
-					System.load(path_to_jar1+"/jSSC-2.8.dll");
+					System.load(path_to_jar+"/jSSC-2.8.dll");
 				}
 				else
 				{
-					System.load(path_to_jar1+"/jSSC-2.8.so");
+					System.load(path_to_jar+"/jSSC-2.8.so");
 				}
 				PApplet=papplet.newInstance();
 				com=(String[])List.invoke(serial);
@@ -1640,7 +1643,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		
 	}
-	class Spatial_Impulse_Response
+	static class Spatial_Impulse_Response
 	{
 		static double rho;
 		static double time_0(double y)
@@ -1657,7 +1660,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		}
 		static double diff_1(double x, double y, double t)
 		{
-			return ((1/(Math.pow(speed*t,2)-Math.pow(y,2)))*((-(Math.pow(speed,2)*t*(Math.pow(speed*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(speed*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(speed*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)))))));
+			return ((1/(Math.pow(speed*t,2)-Math.pow(y,2)))*((-(Math.pow(speed,2)*t*(Math.pow(speed*t,2)-Math.pow(y,2)-Math.pow(x,2)+Math.pow(em_size.getValue(),2))))/(Math.sqrt(2*(Math.pow(speed*t,2)-Math.pow(y,2))*(Math.pow(x,2)+Math.pow(em_size.getValue(),2))-Math.pow((Math.pow(speed*t,2)-Math.pow(y,2)),2)-Math.pow((Math.pow(x,2)-Math.pow(em_size.getValue(),2)),2)))));
 		}
 		static double diff_2(double y, double t)
 		{
@@ -1667,7 +1670,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			if(Math.abs(x-loc.get(0).x)<em_size.getValue())
 			{
-				return -(rho*speed*imp(time_0(y)));
+				return -(rho*speed*func(time_0(y)));
 			}
 			else if(Math.abs(x-loc.get(0).x)>em_size.getValue())
 			{
@@ -1675,7 +1678,11 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			}
 			else if(x-loc.get(0).x==em_size.getValue())
 			{
-				return -(rho*speed*(imp(time_0(y))+(diff_2(y,t)/Math.PI)));
+				return -(rho*speed*(func(time_0(y))+(diff_2(y,t)/Math.PI)));
+			}
+			else
+			{
+				return 0;
 			}
 		}
 		static double func(double t)
