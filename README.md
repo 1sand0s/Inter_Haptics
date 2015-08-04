@@ -18,6 +18,14 @@ Usage
 5. Run the java file Ultra_main.java
 6. For more details, see my video https://youtu.be/iWZdgHCAuVU
 
+                                    From Commandline
+                        
+1. Clone the repository.
+2. Compile the Ultra_main.java present in the folder /root/Inter_Haptics/IS_UltraSonic/src/IS_UltraSonic
+   Using javac -Xlint:unchecked Ultra_main.java
+3. Now step down one directory by cd.., that is your present directory should be /root/Inter_Haptics/IS_UltraSonic/src
+4. run "java -cp :/root/Inter_Haptics/IS_UltraSonic/jars/core.jar:/root/Inter_Haptics/IS_UltraSonic/jars/serial.jar:/root/Inter_Haptics/IS_UltraSonic/jars/jssc.jar IS_UltraSonic.Ultra_main
+
 Components Required
 ==========================
 
