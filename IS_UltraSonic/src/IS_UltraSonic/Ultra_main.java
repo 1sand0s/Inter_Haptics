@@ -1788,7 +1788,7 @@ class canvas2 extends JPanel implements ActionListener,Runnable
     	}	
     	public void configure()
     	{
-		im=new ImageIcon("C:/Users/Public/Pictures/Sample Pictures/Koala.jpg").getImage();
+		im=new ImageIcon(Ultra_virtual.path_to_jar+"/Koala.jpg").getImage();
 		l=new JLabel();
 		l.setIcon(new ImageIcon(im));
 		add(l);
