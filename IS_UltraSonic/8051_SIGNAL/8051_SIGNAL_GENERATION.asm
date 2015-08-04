@@ -26,29 +26,35 @@ ORG 0003H ; Vector Address for Harware Interrupt INT0
 		 RETI			;Return
 		 
 ORG 000BH ; Vector Address for Timer 0 Interrupt
+;This section of the signal generation is probed through interrupt mode and is used for generating the high frequency signal
+;resonant with the crystal frequency of the ultrasonic transducer
 
-		 CLR A 
-		 MOVC A,@A+DPTR
-		 INC DPTR
- 		 MOV P2,A
-		 SETB P3.6
-		 CLR P3.6
-		 DJNZ R6,PROC3
-		 MOV R6,#18h
-		 MOV DPTR,#SINE
+		 CLR A 			;Clear accumulator
+		 MOVC A,@A+DPTR		;Move the pointer to the address "SINE" containing the values of the signal to the accumulator
+		 INC DPTR		;Increment the pointer to point to the address of the next value
+ 		 MOV P2,A		;Move the value to the port
+ 		 ;------------------------------
+		 SETB P3.6		;This block handles the enabling and disabling of the latch to prevent the output of
+		 CLR P3.6		;the port from dropping to 0 during the transfer of values from A to P2.
+		 ;------------------------------
+		 DJNZ R6,PROC3		;This block handles the process of reloading the dptr register with the address of 
+		 MOV R6,#18h		;SINE once all the values under SINE has been cycled through and moved to the port
+		 MOV DPTR,#SINE		;P2.
+		 ;------------------------------
 PROC3:	 	 RETI
 
 ORG 0023H ; Vector Address for Serial Interrupt
-;Stores the frequency values sent through serial into address pointed to by 60H which is 03H(R3) , then increments to 04H(R4)
+;Stores the frequency values sent through serial into address pointed to by R1 which is 03H(R3) , then increments to 04H(R4)
 ;and stores the next frequency value. It doesn't actually matter in which order the frequencies are sent but for safety it
 ;is recommended to send the lower(modulated) frequency first followed by higher(carrier) frequency because the signal generation
 ;is divided between two handlers one is handled through polling mode the other through interrupt mode (somewhat like multi-threading)
 ;since interrupts are assigned highest priority and since a step in low frequency is longer than that in high frequency 
 ;exchanging these two might lead to lagging during the generation of the signals.
-		 MOV A,SBUF
-		 CLR RI
-		 MOV @R1,A
-		 INC R1
+
+		 MOV A,SBUF		;Move data from serial buffer received from arduino to the accumulator
+		 CLR RI			;Clear the serial interrupt flag to enable receiving more data if any
+		 MOV @R1,A		;Move the data received to register R3 whose address (03H) is pointed to by R1
+		 INC R1			;Increment the contents of R1 to 04H therefore pointing to register R4
 		 RETI
 		 
 SINE: 	 	 db 127,160,191,217,237,250,255,250,237,217,191,160,127,94,63,37,17,4,0,4,17,37,63,94,127 ; Define the byte sine values
@@ -70,8 +76,13 @@ STORE:		 CLR A               ; CLear Acc
 
 ORG 0080H
 	
-MAIN:	 	 MOV P3,#0FFH
-	     	 MOV TCON,#1H
+MAIN:	 	 MOV P3,#0FFH	     ; Make port P3 as the input Port for receiving serial data
+		 ;------------------------
+	     	 MOV TCON,#1H	     ; Make the external hardware interrupt which enables serial communication edge triggered
+	     	 		     ; This is more efficeint than low level triggered for which for the interrupt to be 
+	     	 		     ; recognized the signal should be held at low for atleast 4 machine cycels in contrast
+	     	 		     ; with edge triggered where high to low transition immidiately triggers the interrupt
+	     	 ;------------------------
 		 MOV P2,#0H
 		 MOV P1,#0H
 		 MOV TMOD,#22H
