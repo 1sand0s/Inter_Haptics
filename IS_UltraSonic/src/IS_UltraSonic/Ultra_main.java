@@ -223,10 +223,9 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	// To process the grid switching between left right and top bottom to obtain perfectly spherical rendering
 	static ArrayList<Emitter_loc>loc; 
 	/* loc->Holds the x,y on canvas and on screen values of each individual transmitter*/
-	static ArrayList<Double>phase_length,phase_del,del_array; 
+	static ArrayList<Double>phase_length,phase_del;
 	/* 'phase_length' -> Lx(length from nth transmitter to focal point)
-	 * 'phase_del'    -> Time delay to counteract (R-Lx) 
-	 * 'del_array'	  -> Time delay for grid arrangement */
+	 * 'phase_del'    -> Time delay to counteract (R-Lx) */
 	static Checkbox view_phase_plane,viewreal; // Not yet Implemented
 	static Checkbox stop;
 	/* stop->Stop the simulation */
@@ -272,7 +271,6 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   stop=new Checkbox("Stop");
 	   phase_length=new ArrayList<Double>();
 	   phase_del=new ArrayList<Double>();
-	   del_array=new ArrayList<Double>();
 	   md=mr=true;
 	   Clear=new JButton("Clear");
 	   DeleteSource=new JButton("Delete Emitters");
@@ -493,6 +491,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 			/* 'check' -> Clear the focal point and hence clearing all the phase differences
 			    between the transmitters*/
 			set=true;
+			phase_del.clear();
+			phase_length.clear();
 			light=true;
 			canvas2.clear();
 			if(connect)
@@ -644,17 +644,27 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	{
 		double Rs,Rp;
 		double sin_theta_array,cos_phi_array;
-		int accxs=0,accys=0;
 		double[] xn,yn;
 		xn=new double[loc.size()];
 		yn=new double[loc.size()];
+		int accxs=0,accys=0;
+		int x,y,c=0;
+		x=loc.get(0).x;
+		y=loc.get(0).y;
 		for(int i=0;i<loc.size();i++)
 		{
-			accxs+=loc.get(i).x;
-			accys+=loc.get(i).y;
+			if(loc.get(i).y==y)
+			{
+				accxs+=loc.get(i).x;
+				c++;
+			}
+			if(loc.get(i).x==x)
+			{
+				accys+=loc.get(i).y;
+			}
 		}
-		accxs=accxs/loc.size();
-		accys=accys/loc.size();
+		accxs=accxs/c;
+		accys=accys/c;
 		/* accxs,accys -> since all the transmitters are equally spaced , this gives the median or mid value
 		   of the transmitter's x-coord,y-coord and therefore points to the mid transmitter*/
 		int u=((((e.getX()*ww)-(can.getWidth()/2))/can.getWidth())+wox);
@@ -662,18 +672,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		Rp=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((accys-v),2));
 		Rs=Math.sqrt(Math.pow((accxs-u),2)+Math.pow((accys-v),2)+Math.pow(Elevation.getValue(),2));
 		sin_theta_array=(Rp/Rs);
-		cos_phi_array=u/Rp;
+		cos_phi_array=(u-accxs)/Rp;
+		System.out.println(Rp+"  "+Rs+"  "+sin_theta_array+"   "+cos_phi_array+"  "+accxs+"   "+accys);
 		for(int i=0;i<loc.size();i++)
 		{
-			xn[i]=loc.get(i).x-accx;
-			yn[i]=loc.get(i).y-accy;
-			
+			xn[i]=loc.get(i).x-accxs;
+			yn[i]=loc.get(i).y-accys;
+			System.out.println(xn[i]+"  "+yn[i]);
+			System.out.println("hello  "+loc.get(i).x+"  "+loc.get(i).y);
 		}
 		for(int j=0;j<loc.size();j++)
 		{
-			del_array.add((Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-(xn[j]/Rs)),2)+Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-(yn[j]/Rs)),2)+1-Math.pow(sin_theta_array,2))))/speed);
+			phase_del.add((Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-(xn[j]/Rs)),2)+Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-(yn[j]/Rs)),2)+1-Math.pow(sin_theta_array,2))))/speed);
+			System.out.println(phase_del.get(j));
 		}
-		new Display_Array(del_array,loc);
 	}
 	public void time_millis(double del)
 	{
@@ -999,11 +1011,20 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		String f=Static_Pressure_Compute(x,y);
 		String s1="Force : "+f.substring(0,f.indexOf(","));
 		String s2="Pressure : "+f.substring(f.indexOf(",")+1,f.length());
-		g1.setColor(Color.white);
+		String s4="Height above plane: "+Elevation.getValue();
+		g1.setColor(new Color((med2[7].getRed()<<16)|
+			    (med2[7].getGreen()<<8)|
+			    (med2[7].getBlue())| 0xFF000000));
 		g1.setFont(new Font("TimesRoman",Font.PLAIN,12));
 		g1.drawString(s,gy/18,gy/10);
 		g1.drawString(s1,gy/18,(gy/10)+10);
 		g1.drawString(s2,gy/18,(gy/10)+20);
+		g1.drawString(s4,gy/18,(gy/10)+30);
+		if(selemitter!=-1 && !phase_del.isEmpty())
+		{
+			String s3="Delay for transducer: "+phase_del.get(selemitter);
+			g1.drawString(s3, gy/18, (gy/10)+40);
+		}
 		
 	}
 	public String Static_Pressure_Compute(int x, int y) 
