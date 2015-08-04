@@ -340,10 +340,6 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 	   {
 		   med2[i]=Color.decode(med[i]); // Convert the elements held by the string array to color and store
 	   }
-	   if(System.getProperty("os.name").startsWith("Windows"))
-	   {
-		/* If OS is windows , use processing to communicate with serial device 
-		 * Therefore import all required classes and methods*/
 		try
 		{
 			URL url1=getClass().getResource("Ultra_main.class");
@@ -369,16 +365,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		
 			
 	   }
-	   else
-	   {
-		/* If OS is any Linux derivatives,then use JNI and C to 
-		 * interface the serial device, this improves speed
-		 * and efficiency,since most IOT devices are based on
-		 * linux and having low RAM and clock speeds are incapable
-		 * of working with packages like processing
-		 */
-		System.loadLibrary("libcom");
-	   }
+	 
 	   setResolution(); // Calculate all the Frame parameters and update it 
 	   settings(); // Use the parameters calculated in 'setResolution' and instantiate arrays
 	   setSize(800,640); //Set the preferred size
@@ -719,7 +706,14 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 		{
 			try
 			{
-				System.load(path_to_jar+"/jSSC-2.8.dll");
+				if(System.getProperty("os.name").startsWith("Windows"))
+				{
+					System.load(path_to_jar1+"/jSSC-2.8.dll");
+				}
+				else
+				{
+					System.load(path_to_jar1+"/jSSC-2.8.so");
+				}
 				PApplet=papplet.newInstance();
 				com=(String[])List.invoke(serial);
 				connect=JOptionPane.showConfirmDialog(this,"Connecting to arduino on "+com[0])==JOptionPane.YES_OPTION?true:false;
