@@ -804,7 +804,21 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener,MouseL
 					break;
 				
 				case 3:
-					phase_delay_cal(arg0); // Calls phase_delay_cal with the mouseEvent
+					int avg=0;
+					for(int i=0;i<loc.size();i++)
+					{
+						avg+=loc.get(i).y;
+					}
+					if(avg/loc.size()==loc.get(0).y)
+					{
+						phase_delay_cal(arg0);
+						//For linear arrangement 
+					}
+					else
+					{
+						phase_cal_array(arg0); // Calls phase_delay_cal with the mouseEvent
+						//For grid arrangement
+					}
 					add=0;//Same
 					break;
 			}
