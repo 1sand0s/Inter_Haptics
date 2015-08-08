@@ -21,7 +21,7 @@ Usage
                                     From Commandline
                         
 1. Clone the repository.
-2. Modify the path_to_jar1 string field in Ultra_main.java to point to "/root/Inter_Haptics/IS_UltraSonic/jars"
+2. Modify the path_to_jar string field in Ultra_main.java to point to "/root/Inter_Haptics/IS_UltraSonic/jars"
 3. Compile the Ultra_main.java present in the folder /root/Inter_Haptics/IS_UltraSonic/src/IS_UltraSonic
    Using "javac -Xlint:unchecked Ultra_main.java"
 4. Now step down one directory by cd.., that is your present directory should be /root/Inter_Haptics/IS_UltraSonic/src
