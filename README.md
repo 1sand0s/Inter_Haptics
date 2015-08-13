@@ -29,6 +29,22 @@ Usage
 4. Now step down one directory by cd.., that is your present directory should be /root/Inter_Haptics/IS_UltraSonic/src
 5. run "java -cp :/root/Inter_Haptics/IS_UltraSonic/jars/core.jar:/root/Inter_Haptics/IS_UltraSonic/jars/serial.jar:/root/Inter_Haptics/IS_UltraSonic/jars/jssc.jar IS_UltraSonic.Ultra_main"
 
+NOTE
+==========================
+
+Due to the inability of the arduino to switch the signal control transistors at a speed higher than a few milliseconds 
+I resorted to use the Raspberry Pi instead. This adds an extra PNP transistor since GPIO's are 3.3 V operational and not 5V
+therefore added the PNP as a buffer incase anything shoud go wrong which is very unlikely since the source of the signals are
+digital as well.
+         This requires wiringPi by Gordon Henderson to be installed on the Raspberry Pi, a brief reveiw will reveal that 
+GPIO's can switch at speeds between 4.1MHz-4.6MHz when operated with wiringPi C library which clocks in the nanosecond range
+which is perfect for switching the transistors.
+
+Link to wiringPi download and install : http://wiringpi.com/download-and-install/
+Link to benchmarking RPi GPIO speed : http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/
+
+
+
 Components Required
 ==========================
 
