@@ -41,6 +41,7 @@ GPIO's can switch at speeds between 4.1MHz-4.6MHz when operated with wiringPi C 
 which is perfect for switching the transistors.
 
 Link to wiringPi download and install : http://wiringpi.com/download-and-install/
+
 Link to benchmarking RPi GPIO speed : http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/
 
 
