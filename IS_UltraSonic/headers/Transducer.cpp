@@ -36,16 +36,16 @@ Element* SETUP_TRANS(int trans_count,char* del,int arrange)
 {
   while(trans_count!=0)
   {
-	  elem2[count-trans_count]=Transducer::init(row,column,del[count-trans_count]);
+	  Transducer::elem2[Transducer::count-trans_count]=Transducer::init(Transducer::row,Transducer::column,del[Transducer::count-trans_count]);
 	  trans_count--;
-	  column++;
-	  if(arrange%column==0 && column!=1)
+	  Transducer::column++;
+	  if(arrange==Transducer::column)
 	  {
-	    row++;
-	    column=0;
+	    Transducer::row++;
+	    Transducer::column=0;
 	  }
   }
-  elem=&elem2[0];
-  return elem;
+  Transducer::elem=&Transducer::elem2[0];
+  return Transducer::elem;
 }
     
