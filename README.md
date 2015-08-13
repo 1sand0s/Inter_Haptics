@@ -20,6 +20,8 @@ Usage
 
                                     From Commandline
                         
+      /root is where i cloned the repo, if you cloned it elsewhere, then modify accordingly 
+                        
 1. Clone the repository.
 2. Modify the path_to_jar string field in Ultra_main.java to point to "/root/Inter_Haptics/IS_UltraSonic/jars"
 3. Compile the Ultra_main.java present in the folder /root/Inter_Haptics/IS_UltraSonic/src/IS_UltraSonic
