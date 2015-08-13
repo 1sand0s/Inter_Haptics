@@ -15,19 +15,17 @@
  
 #ifndef GRID_MATRIX
 #define GRID_MATRIX
+#include<vector>
 
 // Array Arrangement
-#define CROSS4 0
-#define CROSS5 1
-#define CROSS6 2
-#define CROSS7 3
-#define CROSS8 4
-#define CROSS9 5
-#define CROSS45 6
-#define CROSS56 7
-#define CROSS67 8
-#define CROSS78 9
-#define CROSS89 10
+#define CROSS3 3
+#define CROSS4 4
+#define CROSS5 5
+#define CROSS6 6
+#define CROSS7 7
+#define CROSS8 8
+#define CROSS9 9
+
 
 typedef struct Element
 {
@@ -39,10 +37,15 @@ typedef struct Element
 class Transducer
 {
 	public:
-	Element init(int a,int b, double c);
+	Element static init(int a,int b, double c);
 	int CHECK_ELEM_ROW(Element E);
 	int CHECK_ELEM_COLUMN(Element E);
 	double CHECK_ELEM_DELAY(Element E);
 	Element* SETUP_TRANS(int trans_count,char* del);
+	static Element* elem;
+	static std::vector<Element>elem2;
+	static int count;
+	static int row;
+	static int column;
 };
 #endif
