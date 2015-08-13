@@ -44,6 +44,20 @@ Link to wiringPi download and install : http://wiringpi.com/download-and-install
 
 Link to benchmarking RPi GPIO speed : http://codeandlife.com/2012/07/03/benchmarking-raspberry-pi-gpio-speed/
 
+The pitest file uses 9 Transducers, right now it works only for 9 but with inclusion of Adafruit's PWM i2c driver this can 
+be increased significantly to include as many as 992 transducers.
+
+The pin configs are as follows:
+                       
+                                      (38)(07)(22)                   (28)(07)(06)
+                                      (18)(16)(15)                   (05)(04)(03)
+                                      (13)(12)(11)                   (02)(01)(00)
+                                          SET-A                         SET-B
+                                    
+Where the numbers of SET-A correspond to the physical pins of RPi's GPIOs and numbers of SET-B correspond to the wiringpi
+definition or numbering for those physical pins , either one can be used while coding the C file, but strictly adhere to the
+physical pin mapping (SET-A) when connecting the transducers to the RPI.
+
 
 
 Components Required
