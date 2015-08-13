@@ -36,22 +36,13 @@ typedef struct Element
 	double Delay;
 }
 
-Element init(int a,int b,double c)
+class Transducer
 {
-	Element E={a,b,c};
-	return E;
-}
-int CHECK_ELEM_ROW(Element E)
-{
-	return E.Row;
-}
-int CHECK_ELEM_COLUMN(Element E)
-{
-	return E.Column;
-}
-double CHECK_ELEM_DELAY(Element E)
-{
-	return E.Delay;
-}
-		
+	public:
+	Element init(int a,int b, double c);
+	int CHECK_ELEM_ROW(Element E);
+	int CHECK_ELEM_COLUMN(Element E);
+	double CHECK_ELEM_DELAY(Element E);
+	Element* SETUP_TRANS(int trans_count,char* del);
+};
 #endif
