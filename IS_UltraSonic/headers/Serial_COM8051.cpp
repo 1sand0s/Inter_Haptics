@@ -13,7 +13,7 @@
  * the License.
  */
  
- #include "8051_Signal.h"
+ #include "Signal_8051.h"
  #include<Arduino.h>
  #include<cmath>
  
