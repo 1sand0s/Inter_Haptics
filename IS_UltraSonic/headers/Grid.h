@@ -37,11 +37,11 @@ typedef struct Element
 class Transducer
 {
 	public:
-	Element static init(int a,int b, double c);
-	int CHECK_ELEM_ROW(Element E);
-	int CHECK_ELEM_COLUMN(Element E);
-	double CHECK_ELEM_DELAY(Element E);
-	Element* SETUP_TRANS(int trans_count,char* del);
+	static Element init(int a,int b, double c);
+	static int CHECK_ELEM_ROW(Element E);
+	static int CHECK_ELEM_COLUMN(Element E);
+	static double CHECK_ELEM_DELAY(Element E);
+	static Element* SETUP_TRANS(int trans_count,char* del);
 	static Element* elem;
 	static std::vector<Element>elem2;
 	static int count;
