@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'application'
+
+mainClassName = 'j1sand0sardpi.interactivespaces.ultrasonics.Ultra_main'
+
+dependencies {
+    compile fileTree(dir: 'jars', include: '*.jar') 
+}
+
+repositories {
+    mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
+
+defaultTasks 'install'
