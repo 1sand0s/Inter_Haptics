@@ -4,7 +4,7 @@ This project basically tries to implement a system wherein things that appear in
 Hololens,Occulus etc can be felt . It revolves around adding tactile perception to virtual reality by using 
 Ultrasonic transducers.By manipulating their phase and amplitude it is possible to create a pressure point in
 space which can be felt by human hands and hence the space can be scanned pretty much like a CRT scanning the TV
-screen to simulate texture ,shape etc.
+screen to simulate texture ,shape etc. Please visit 1sand0s.github.io for detailed documentation of the project.
 
 Usage
 ==========================
