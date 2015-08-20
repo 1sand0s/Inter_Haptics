@@ -9,25 +9,27 @@ screen to simulate texture ,shape etc. Please visit 1sand0s.github.io for detail
 Usage
 ==========================
 
-1. Download the zip file.
-2. Import the folder Inter_Haptics-master into Eclipse
-3. A project called 'IS_UltraSonic' should appear in the workspace of Eclipse
-4. Go to build path of this project and under 'external jars' include everything 
-   thats inside a folder called 'jars' which is also included in the folder 
-   'Inter_Haptics-master/IS_UltraSonic'
-5. Run the java file Ultra_main.java
-6. For more details, see my video https://youtu.be/iWZdgHCAuVU
+1.Clone the repository
 
-                                    From Commandline
-                        
-      /root is where i cloned the repo, if you cloned it elsewhere, then modify accordingly 
-                        
-1. Clone the repository.
-2. Modify the path_to_jar string field in Ultra_main.java to point to "/root/Inter_Haptics/IS_UltraSonic/jars"
-3. Compile the Ultra_main.java present in the folder /root/Inter_Haptics/IS_UltraSonic/src/IS_UltraSonic
-   Using "javac -Xlint:unchecked Ultra_main.java"
-4. Now step down one directory by cd.., that is your present directory should be /root/Inter_Haptics/IS_UltraSonic/src
-5. run "java -cp :/root/Inter_Haptics/IS_UltraSonic/jars/core.jar:/root/Inter_Haptics/IS_UltraSonic/jars/serial.jar:/root/Inter_Haptics/IS_UltraSonic/jars/jssc.jar IS_UltraSonic.Ultra_main"
+2.Make sure the system variable "JAVA_HOME" has been set up and pointing to the jdk installation dirctory
+
+3.Navigate to the Inter_Haptics/IS_UltraSonic directory and run
+<pre><code>
+./gradlew cleanEclipse eclipse
+</code></pre>
+The above code will clean the project
+
+4.To build the project ,run
+<pre><code>
+  ./gradlew build
+</code></pre>
+
+5.To run the project , run
+<pre><code>
+./gradlew run
+</code></pre>
+
+6.For more details, see my video https://youtu.be/iWZdgHCAuVU
 
 NOTE
 ==========================
