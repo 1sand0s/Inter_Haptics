@@ -453,7 +453,7 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener, Mouse
     try {
       URL url1 = getClass().getResource("Ultra_main.class");
       path_to_jar = url1.toString();
-      path_to_jar = path_to_jar.replaceAll("/bin/IS_UltraSonic/Ultra_main.class", "/jars");
+      path_to_jar = path_to_jar.replaceAll("/build/classes/main/j1sand0sardpi/interactivespaces/ultrasonics/Ultra_main.class", "/jars");
       path_to_jar = path_to_jar.replaceAll("file:", "");
       URL[] url = { new URL("jar:file:" + path_to_jar + "!/") };
       URLClassLoader c = new URLClassLoader(url);
