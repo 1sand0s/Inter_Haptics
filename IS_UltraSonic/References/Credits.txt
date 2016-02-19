@@ -1,0 +1,5 @@
+Credits to various Authors of Papers ,Algorithms , Code styles I referred to
+
+J.GOODMAN,Tayuki Iwamoto ,Mari Tatezona,Hiroyuki Shinoda,E.A.Filonenko,L.R.Gavrilov,V.A.Khokhlova,J.W.Hand,A.C.Veerman,H.Paul Urbach,J.Rusch,Nasser Malak,Walid Hassan,Ali-Hage Diab,Souheil Hakeem,Robert L Lucke,Paul Falstad,Fabin Shen,Anbo Wang,E.M.Tsirulnikov,Ediguer E Franco,Marco Ab Andrade,Flavio Buiochi,Julio C Adamowski
+
+
