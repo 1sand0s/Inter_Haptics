@@ -356,7 +356,8 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener, Mouse
   /* baudrate-> Set default baud rate to 9600 */
   static String com[];
   /* com-> To hold the list of Ports connected to the PC */
-  static double speed = 330000;
+  static double speed = 33100;
+  /* speed-> Speed of sound in air expressed in centimeters */
   /*
    * static //data to arduino ,code still buggy { System.loadLibrary("blink"); }
    */
@@ -798,28 +799,53 @@ class Ultra_virtual extends JInternalFrame implements MouseMotionListener, Mouse
      */
     int u = ((((e.getX() * ww) - (can.getWidth() / 2)) / can.getWidth()) + wox);
     int v = ((((e.getY() * wh) - (can.getHeight() / 2)) / can.getHeight()) + woy);
-    Rp = Math.sqrt(Math.pow((accxs - u), 2) + Math.pow((accys - v), 2));
-    Rs =
-        Math.sqrt(Math.pow((accxs - u), 2) + Math.pow((accys - v), 2)
-            + Math.pow(Elevation.getValue(), 2));
+    int togx,togy=0;
+    Rp = Math.sqrt(Math.pow((accxs - u)/7.0, 2) + Math.pow((accys - v)/7.0, 2));
+    Rs = Math.sqrt(Math.pow((accxs - u)/7.0, 2) + Math.pow((accys - v)/7.0, 2)+ Math.pow(Elevation.getValue(), 2));
     sin_theta_array = (Rp / Rs);
-    cos_phi_array = (u - accxs) / Rp;
-    System.out.println(Rp + "  " + Rs + "  " + sin_theta_array + "   " + cos_phi_array + "  "
-        + accxs + "   " + accys);
-    for (int i = 0; i < loc.size(); i++) {
+    cos_phi_array = Math.abs((u - accxs)/7.0) / Rp;
+    System.out.println(Rp + "  " + Rs + "  " + sin_theta_array + "   " + cos_phi_array + "  "+ accxs + "   " + accys);
+    for (int i = 0; i < loc.size(); i++) 
+    {
       xn[i] = loc.get(i).x - accxs;
       yn[i] = loc.get(i).y - accys;
       System.out.println(xn[i] + "  " + yn[i]);
       System.out.println("hello  " + loc.get(i).x + "  " + loc.get(i).y);
     }
-    for (int j = 0; j < loc.size(); j++) {
-      phase_del.add((Rs * (1 - Math.sqrt(Math.pow((sin_theta_array * cos_phi_array - (xn[j] / Rs)),
-          2)
-          + Math.pow((sin_theta_array * Math.sqrt(1 - Math.pow(cos_phi_array, 2)) - (yn[j] / Rs)),
-              2) + 1 - Math.pow(sin_theta_array, 2))))
-          / speed);
+    if(u>accxs)
+		{
+			togx=1;
+		}
+		else
+		{
+			togx=-1;
+		}
+		if(v>accys)
+		{
+			togy=1;
+		}
+		else
+		{
+			togy=-1;
+		}
+    for (int j = 0; j < loc.size(); j++) 
+    {
+      phase_del.add((Rs*(1-Math.sqrt(Math.pow((sin_theta_array*cos_phi_array-togx*(xn[j]/Rs)),2)/7.0
+      +Math.pow((sin_theta_array*Math.sqrt(1-Math.pow(cos_phi_array,2))-togy*(yn[j]/Rs)),2)/7.0+1-Math.pow(sin_theta_array,2))))/speed);
       System.out.println(phase_del.get(j));
     }
+    double sm=Collections.min(phase_del);
+		System.out.println(sm);
+		for(int j=0;j<loc.size();j++)
+		{
+			double g=phase_del.get(j);
+			phase_del.remove(j);
+			phase_del.add(j,g-sm);
+			//text.append("Position = "+loc.get(j).x+"  "+loc.get(j).y+" is ="+phase_del.get(j)+"\n");
+			System.out.println(phase_del.get(j)+"   "+loc.get(j).x+"   "+loc.get(j).y);
+			loc.get(j).delay=phase_del.get(j);
+			check=true;
+		}
   }
 
   public void time_millis(double del) {
